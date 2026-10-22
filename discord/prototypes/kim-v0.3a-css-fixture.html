@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KIM v0.3a staging fixture — no Discord data</title>
+<link rel="stylesheet" href="../staging/kim-v0.3.theme.css">
+<style>
+/* Fixture deliberately mimics Discord class patterns, not real user content. */
+body { margin:0; padding:40px; background:#627969; font-family:"Liberation Sans",sans-serif; }
+.testing { color:#f9f6eb;font:13px monospace; margin:0 0 18px; }
+#app-mount { display:grid; grid-template-columns:68px 260px minmax(460px,1fr);
+  max-width:1120px; min-height:700px; margin:auto; border:3px ridge #a3aea3;
+  background:#e8e2d2; }
+.guilds_909 { display:flex; flex-direction:column; gap:14px; padding:20px 12px; }
+.guilds_909 .icon_101 { width:40px;height:40px; background:#6c8076;
+ border-radius:100%; display:grid;place-items:center;color:#fff;font-weight:bold; }
+.guilds_909 svg {width:42px;height:42px;}
+.privateChannels_123 {padding:20px 10px;background:#cfc7b4;}
+.privateChannels_123 .channel_123 {display:flex;align-items:center;gap:9px;
+ padding:8px;border-bottom:1px solid #a89f8c;margin:4px 0;}
+.avatar_123 img {width:38px;height:38px;border-radius:100%;object-fit:cover;display:block}
+.username_321,.name_123 {font-size:14px;font-weight:700;color:#fff;opacity:.35}
+.subText_345,.timestamp_345 {font-size:12px;color:#eee;opacity:.45}
+.chatContent_123 {padding:22px;}
+header.title_123 {font-size:18px;padding:12px;border-bottom:2px solid #a89f8c;color:white}
+.message_123 {margin:20px 0;}
+.markup_321 {font-size:15px;line-height:1.5;color:#fff;}
+.profile {margin-top:30px;padding:18px;border:2px inset #a89f8c;}
+.info {font-size:12px;line-height:1.6;color:#322;}
+.legend {font-size:11px;line-height:1.6;color:#3b4c3d;}
+</style>
+<h1 class="testing">KIM v0.3a · TYPOGRAPHY + AVATAR SANITY CHECK · FICTIONAL CONTENT</h1>
+<div id="app-mount" class="theme-dark visual-refresh">
+  <aside class="guilds_909" aria-label="Example server bar">
+    <div class="icon_101">K</div>
+    <svg viewBox="0 0 44 44" aria-hidden="true"><defs><mask id="circle"><circle cx="22" cy="22" r="18" fill="white"/></mask></defs>
+     <foreignObject x="2" y="2" width="40" height="40" mask="url(#circle)"><div xmlns="http://www.w3.org/1999/xhtml" style="width:40px;height:40px;background:#b07947;display:grid;place-items:center;font:bold 18px monospace;color:white">99</div></foreignObject></svg>
+    <div class="icon_101">★</div>
+  </aside>
+  <aside class="privateChannels_123">
+    <h3 class="title_123">CONTACT DIRECTORY</h3>
+    <div class="channel_123">
+      <span class="avatar_123"><img alt="A fictional square pixel-art avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%237d907c'/%3E%3Cpath d='M3 4h10v7H3z' fill='%23d6b891'/%3E%3Crect x='5' y='6' width='2' height='2' fill='%232d2820'/%3E%3Crect x='10' y='6' width='2' height='2' fill='%232d2820'/%3E%3C/svg%3E"></span>
+      <span><div class="name_123">Aster</div><div class="subText_345">Online · Fabricator</div></span>
+    </div>
+    <div class="channel_123">
+      <span class="avatar_123"><img alt="Second fictional avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect width='16' height='16' fill='%23736476'/%3E%3Crect x='4' y='4' width='8' height='8' fill='%23d0bd9d'/%3E%3C/svg%3E"></span>
+      <span><div class="name_123">Ordis</div><div class="subText_345">Connected · Systems</div></span>
+    </div>
+  </aside>
+  <main class="chatContent_123">
+    <header class="title_123">KIM — TRANSMISSION: ASTER</header>
+    <div class="message_123"><div class="username_321">Aster</div><div class="timestamp_345">Today at 15:43</div><div class="markup_321">Operator, this keyboard looks like it survived thirty years in an office supply cabinet.</div></div>
+    <div class="message_123"><div class="username_321">You</div><div class="timestamp_345">Today at 15:44</div><div class="markup_321">That's called character.</div></div>
+    <section class="profile"><div class="username_321">PROTOTYPE STATUS: ACTIVE</div><p class="info">This page tests dark ink on cream, muted timestamps, and square icon framing. It does not connect to Discord.</p></section>
+    <p class="legend">Note: a simulated 8-bit effect is intentionally subtle. Native Discord artwork remains unmodified.</p>
+  </main>
+</div>
+</html>
