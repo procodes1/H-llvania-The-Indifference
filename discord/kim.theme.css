@@ -1,0 +1,78 @@
+/**
+ * HÖLLVANIA // KIM
+ * Experimental Vencord / Vesktop stylesheet.
+ *
+ * Design direction: retro communications terminal.
+ * Does NOT change Discord functionality or access messages.
+ * No official Warframe assets or fonts are included.
+ * Discord's CSS class names can change without warning.
+ */
+
+:root,
+.theme-dark {
+  --kim-bg: #121a17;
+  --kim-surface: #1b2923;
+  --kim-panel: #26372d;
+  --kim-text: #d9dec1;
+  --kim-muted: #91a48b;
+  --kim-green: #a4ce96;
+  --kim-amber: #e0b979;
+  --kim-border: #637e63;
+
+  --background-primary: var(--kim-bg);
+  --background-secondary: var(--kim-surface);
+  --background-secondary-alt: var(--kim-panel);
+  --background-tertiary: #101813;
+  --background-floating: var(--kim-panel);
+  --channeltextarea-background: var(--kim-panel);
+  --text-normal: var(--kim-text);
+  --text-muted: var(--kim-muted);
+  --header-primary: var(--kim-text);
+  --header-secondary: var(--kim-green);
+  --interactive-normal: var(--kim-muted);
+  --interactive-hover: var(--kim-text);
+  --interactive-active: var(--kim-green);
+  --brand-experiment: var(--kim-green);
+  --brand-500: var(--kim-green);
+  --scrollbar-thin-thumb: var(--kim-border);
+  --scrollbar-auto-thumb: var(--kim-border);
+  --scrollbar-auto-track: var(--kim-bg);
+}
+
+.theme-dark {
+  font-family: "Liberation Mono", "DejaVu Sans Mono", monospace;
+}
+
+/* Squared 1999-era UI, without touching Discord's interaction logic. */
+[class*="sidebar_"],
+[class*="chat_"],
+[class*="membersWrap_"],
+[class*="panels_"],
+[class*="channelTextArea_"] {
+  border-radius: 0 !important;
+}
+
+[class*="sidebar_"] {
+  border-right: 1px solid var(--kim-border);
+}
+
+[class*="chat_"] {
+  background: var(--kim-bg);
+}
+
+[class*="channelTextArea_"] {
+  border: 1px solid var(--kim-border);
+  box-shadow: inset 0 0 0 1px rgba(164, 206, 150, 0.07);
+}
+
+[class*="message_"]:hover {
+  background-color: rgba(164, 206, 150, 0.055) !important;
+}
+
+::selection {
+  color: var(--kim-bg);
+  background: var(--kim-amber);
+}
+
+/* TODO: inspect live Discord DOM before adding structural layout rules. */
+/* TODO: responsive layouts, accessibility/contrast, voice UI and contacts. */
