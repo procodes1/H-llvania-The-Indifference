@@ -1,0 +1,222 @@
+/**
+ * @name Höllvania KIM — v0.3 STAGING
+ * @author Höllvania / The Indifference
+ * @version 0.3.0-preview
+ * @description Cream plastic + dark-ink KIM-inspired interface. NOT APPROVED FOR LIVE USE.
+ *
+ * WARNING:
+ *   This is a staged Vesktop/Vencord adaptation. It has not been tested in the
+ *   user's authenticated Discord UI and MUST NOT be auto-installed or enabled.
+ *   Review the HTML prototype at discord/prototypes/kim-v0.3.html first.
+ *
+ *   It contains no downloaded assets, fonts, scripts, or network access.
+ *   It cannot split Discord into separate OS windows; this is a CSS approximation.
+ */
+:root {
+  --kim-plastic:#ddd8c8;
+  --kim-paper:#e8e2d2;
+  --kim-white:#f9f6eb;
+  --kim-beige:#cfc7b4;
+  --kim-trim:#a89f8c;
+  --kim-ink:#2b2a26;
+  --kim-muted:#5b574e;
+  --kim-teal:#4f7a73;
+  --kim-deep:#355c57;
+  --kim-selection:#b7cfba;
+  --kim-frame:#77847a;
+  --kim-line:#8f9384;
+  --kim-warm-hover:#e2dac7;
+}
+
+/* Modern Discord visual refresh uses its --background-base-* / --text-* tokens.
+   All text pairs were selected for contrast, rather than relying on pale colors. */
+:is(.theme-dark, .theme-darker, .theme-midnight, .theme-light, .visual-refresh),
+#app-mount {
+  color-scheme:light;
+  --background-base-lowest:var(--kim-frame) !important;
+  --background-base-lower:var(--kim-plastic) !important;
+  --background-base-low:var(--kim-paper) !important;
+  --background-surface-high:var(--kim-paper) !important;
+  --background-surface-higher:var(--kim-white) !important;
+  --background-surface-highest:var(--kim-white) !important;
+  --bg-base-primary:var(--kim-paper) !important;
+  --bg-base-secondary:var(--kim-plastic) !important;
+  --bg-base-tertiary:var(--kim-beige) !important;
+  --bg-surface-raised:var(--kim-white) !important;
+  --bg-surface-overlay:var(--kim-white) !important;
+  --app-frame-background:var(--kim-frame) !important;
+  --__header-bar-background:var(--kim-plastic) !important;
+
+  /* Compatibility with older Discord screens. */
+  --background-primary:var(--kim-paper) !important;
+  --background-secondary:var(--kim-plastic) !important;
+  --background-secondary-alt:var(--kim-beige) !important;
+  --background-tertiary:var(--kim-frame) !important;
+  --background-floating:var(--kim-white) !important;
+  --background-nested-floating:var(--kim-white) !important;
+  --chat-background-default:var(--kim-paper) !important;
+  --home-background:var(--kim-paper) !important;
+  --channel-background-default:var(--kim-paper) !important;
+  --channeltextarea-background:var(--kim-white) !important;
+  --custom-channel-members-bg:var(--kim-plastic) !important;
+  --input-background:var(--kim-white) !important;
+  --input-background-default:var(--kim-white) !important;
+  --modal-background:var(--kim-plastic) !important;
+  --modal-footer-background:var(--kim-plastic) !important;
+  --card-background-default:var(--kim-white) !important;
+  --card-primary-bg:var(--kim-white) !important;
+  --embed-background:var(--kim-white) !important;
+  --background-code:var(--kim-beige) !important;
+
+  /* Intentional ink on cream/beige. IMPORTANT for 2026 Discord refresh. */
+  --text-primary:var(--kim-ink) !important;
+  --text-secondary:#4f5046 !important;
+  --text-tertiary:var(--kim-muted) !important;
+  --text-muted:var(--kim-muted) !important;
+  --text-normal:var(--kim-ink) !important;
+  --text-default:var(--kim-ink) !important;
+  --text-low-contrast:var(--kim-muted) !important;
+  --text-feedback-muted:var(--kim-muted) !important;
+  --header-primary:var(--kim-ink) !important;
+  --header-secondary:var(--kim-muted) !important;
+  --channels-default:var(--kim-ink) !important;
+  --interactive-normal:var(--kim-ink) !important;
+  --interactive-hover:var(--kim-deep) !important;
+  --interactive-active:var(--kim-deep) !important;
+  --interactive-muted:var(--kim-muted) !important;
+  --icon-primary:var(--kim-ink) !important;
+  --icon-secondary:var(--kim-muted) !important;
+  --text-link:#245a6a !important;
+
+  --background-modifier-hover:var(--kim-warm-hover) !important;
+  --background-modifier-active:var(--kim-selection) !important;
+  --background-modifier-selected:var(--kim-selection) !important;
+  --background-mod-subtle:var(--kim-warm-hover) !important;
+  --background-mod-normal:var(--kim-selection) !important;
+  --background-message-hover:var(--kim-warm-hover) !important;
+  --message-background-hover:var(--kim-warm-hover) !important;
+
+  --border-faint:var(--kim-trim) !important;
+  --border-subtle:var(--kim-trim) !important;
+  --border-muted:var(--kim-frame) !important;
+  --border-normal:var(--kim-frame) !important;
+  --input-border:var(--kim-frame) !important;
+  --app-frame-border:var(--kim-frame) !important;
+  --scrollbar-thin-thumb:var(--kim-frame) !important;
+  --scrollbar-auto-thumb:var(--kim-frame) !important;
+  --scrollbar-auto-track:var(--kim-plastic) !important;
+
+  --radius-xs:1px !important;
+  --radius-sm:1px !important;
+  --radius-md:2px !important;
+  --radius-lg:2px !important;
+  --radius-xl:2px !important;
+}
+
+/* Period workstation font for chrome; keep normal chat copy readable. */
+#app-mount {
+  color:var(--kim-ink);
+  font-family:Tahoma,"Liberation Sans",Arial,sans-serif !important;
+}
+#app-mount input,
+#app-mount textarea {
+  color:var(--kim-ink) !important;
+  caret-color:var(--kim-deep);
+  font-family:Tahoma,"Liberation Sans",Arial,sans-serif;
+}
+
+/* Three layers: dark framing, darker beige navigation, cream transcript.
+   Only decorative surfaces, not app display/flex behavior. */
+#app-mount [class*="guilds_"] {
+  background:var(--kim-frame) !important;
+  border-right:1px solid #4c6355;
+}
+#app-mount [class*="sidebar_"],
+#app-mount [class*="privateChannels_"] {
+  background:var(--kim-beige) !important;
+  border-right:2px solid var(--kim-frame);
+}
+#app-mount [class*="peopleColumn_"],
+#app-mount [class*="chatContent_"],
+#app-mount [class*="messagesWrapper_"] {
+  background:var(--kim-paper) !important;
+}
+#app-mount [class*="channelTextArea_"],
+#app-mount [class*="scrollableContainer_"] {
+  background:var(--kim-white) !important;
+  border:1px solid var(--kim-frame) !important;
+  border-radius:1px !important;
+  box-shadow:inset 1px 1px 0 var(--kim-trim),inset -1px -1px 0 #fffdf5;
+}
+#app-mount [class*="panels_"] {
+  background:var(--kim-plastic) !important;
+  border:1px solid var(--kim-frame);
+  box-shadow:inset 1px 1px #fffdf5,inset -1px -1px var(--kim-trim);
+}
+
+/* Compact address-book visual language. Safe: no hide/show or reparenting. */
+#app-mount [class*="peopleListItem_"] {
+  background:var(--kim-white) !important;
+  border:1px solid var(--kim-frame) !important;
+  border-radius:0 !important;
+  margin:2px 6px !important;
+  box-shadow:inset 1px 1px #fffdf5,inset -1px -1px var(--kim-trim);
+}
+#app-mount [class*="peopleListItem_"]:hover,
+#app-mount [class*="interactiveSelected_"] {
+  background:var(--kim-selection) !important;
+}
+#app-mount [class*="nowPlayingColumn_"] {
+  background:var(--kim-plastic) !important;
+  border-left:2px solid var(--kim-frame);
+}
+#app-mount [class*="itemCard_"] {
+  background:var(--kim-white) !important;
+  border:1px solid var(--kim-frame) !important;
+  border-radius:1px !important;
+}
+#app-mount [class*="membersWrap_"] {
+  background:var(--kim-plastic) !important;
+  border-left:1px solid var(--kim-frame);
+}
+
+/* Dividers and headings create the window-within-a-window look. */
+#app-mount [class*="container_"][class*="themed_"],
+#app-mount [class*="titleBar_"] {
+  background:var(--kim-plastic) !important;
+  border-bottom:1px solid var(--kim-frame);
+}
+#app-mount [class*="message_"]:hover {
+  background:var(--kim-warm-hover) !important;
+}
+#app-mount [class*="divider_"] {
+  border-color:var(--kim-frame) !important;
+}
+
+/* Modal and popout chrome; only background and edges. */
+#app-mount [role="dialog"],
+#app-mount [role="menu"] {
+  color:var(--kim-ink) !important;
+  background:var(--kim-plastic) !important;
+  border:2px solid var(--kim-frame);
+  border-radius:1px !important;
+}
+#app-mount button:focus-visible,
+#app-mount [role="button"]:focus-visible,
+#app-mount input:focus-visible,
+#app-mount textarea:focus-visible {
+  outline:2px solid var(--kim-deep) !important;
+  outline-offset:1px;
+}
+#app-mount ::selection {
+  color:var(--kim-white);
+  background:var(--kim-deep);
+}
+
+/* STAGING TODO:
+ * - Inspect actual Vesktop 1.6.7 DOM and generated class names.
+ * - Verify foreground colors of top-bar icons, buttons, badges and timestamps.
+ * - Prototype teal KIM titlebar without breaking header controls.
+ * - Verify friends, DM, server, voice and video, profile, modal, search.
+ * - Add original decorative iconography only after screenshot approval.
+ */
