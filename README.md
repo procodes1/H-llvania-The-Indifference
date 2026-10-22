@@ -11,7 +11,13 @@ Fan-made project, not affiliated with Digital Extremes or Discord.
 
 Both profiles will ultimately share the same functional Hyprland core, while swapping visual components.
 
-## Current milestone: KIM v0.4b — approved visual baseline
+## Current milestone: Classic approved + Vitruvian dark variant in testing
+
+**KIM Classic v0.4b remains the approved visual baseline.** A separate experimental dark-mode **KIM // Vitruvian** has now been installed locally but remains **disabled** until tested on live Discord. The user's Vitruvian reference art is used only for color/style direction, not redistributed.
+
+Instructions and palette: [KIM // Vitruvian v0.1](docs/kim-vitruvian-v0.1.md).
+
+## KIM Classic archive
 
 **KIM v0.4b is the user-approved visual baseline, installed as the locally enabled Vesktop preview theme.** The older experimental v0.4 block inserted runaway titlebars into guild navigation, nested chat content, and toolbar buttons. v0.4b replaces that block entirely with selectors targeting only three actual pane roots and the composer; the original v0.3f CSS is preserved separately.
 
@@ -41,6 +47,10 @@ The prototype includes People / Groups / Radio directory tabs, contact switching
 | `discord/prototypes/kim-v0.3.html` | Standalone preview, tested at desktop and narrow sizes |
 | `discord/prototypes/kim-v0.3.tokens.css` | Reusable palette tokens |
 | `scripts/test-kim-prototype.py` | Offline checks including color contrast and JS syntax |
+| `discord/staging/kim-vitruvian-v0.1.theme.css` | Independent full Vitruvian dark stylesheet — installed locally, currently disabled |
+| `discord/prototypes/kim-vitruvian-v0.1-regression.html` | Offline dark palette/containment visual test |
+| `discord/prototypes/kim-vitruvian-v0.1-settings-regression.html` | Offline profile, menu and settings visual test |
+| `docs/kim-vitruvian-v0.1.md` | How to toggle and test the dark Vitruvian variant |
 | `discord/releases/kim-v0.4b-known-good.theme.css` | **Frozen, user-approved CSS**: restore point for later theme experiments |
 | `docs/kim-v0.4b-approved-baseline.md` | Visual acceptance, rollback instructions and future 4-bit/8-bit avatar / cream-paper texture ideas |
 | `discord/staging/kim-v0.4b.theme.css` | **Currently deployed** in `~/.config/vesktop/themes/kim-v0.3-preview.theme.css`; full functional test coverage still pending |
