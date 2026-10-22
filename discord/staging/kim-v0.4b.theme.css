@@ -1,0 +1,1600 @@
+/**
+ * @name Höllvania KIM — v0.4b SHELL REPAIR
+ * @author Höllvania / The Indifference
+ * @version 0.4.1-preview
+ * @description Höllvania 1999: one header per pane, compact framed contact list, inset transmission log, and intact server rail.
+ *
+ * WARNING:
+ *   This is a staged Vesktop/Vencord adaptation. It has not been fully tested in the
+ *   user's Discord UI. Keep a backup and test on Friends, DMs, voice, and settings.
+ *   Review the HTML prototype at discord/prototypes/kim-v0.3.html first.
+ *
+ *   It contains no downloaded assets, fonts, scripts, or network access.
+ *   It cannot split Discord into separate OS windows; this is a CSS approximation.
+ */
+:root {
+  --kim-plastic:#ddd8c8;
+  --kim-paper:#e8e2d2;
+  --kim-white:#f9f6eb;
+  --kim-beige:#cfc7b4;
+  --kim-trim:#a89f8c;
+  --kim-ink:#1f1d19;
+  --kim-muted:#403c35; /* Secondary labels still clearly readable on beige */
+  --kim-teal:#4f7a73;
+  --kim-deep:#355c57;
+  --kim-selection:#b7cfba;
+  --kim-frame:#77847a;
+  --kim-line:#8f9384;
+  --kim-warm-hover:#e2dac7;
+}
+
+/* Modern Discord visual refresh uses its --background-base-* / --text-* tokens.
+   All text pairs were selected for contrast, rather than relying on pale colors. */
+:is(.theme-dark, .theme-darker, .theme-midnight, .theme-light, .visual-refresh),
+#app-mount {
+  color-scheme:light;
+  --background-base-lowest:var(--kim-frame) !important;
+  --background-base-lower:var(--kim-plastic) !important;
+  --background-base-low:var(--kim-paper) !important;
+  --background-surface-high:var(--kim-paper) !important;
+  --background-surface-higher:var(--kim-white) !important;
+  --background-surface-highest:var(--kim-white) !important;
+  --bg-base-primary:var(--kim-paper) !important;
+  --bg-base-secondary:var(--kim-plastic) !important;
+  --bg-base-tertiary:var(--kim-beige) !important;
+  --bg-surface-raised:var(--kim-white) !important;
+  --bg-surface-overlay:var(--kim-white) !important;
+  --app-frame-background:var(--kim-frame) !important;
+  --__header-bar-background:var(--kim-plastic) !important;
+
+  /* Compatibility with older Discord screens. */
+  --background-primary:var(--kim-paper) !important;
+  --background-secondary:var(--kim-plastic) !important;
+  --background-secondary-alt:var(--kim-beige) !important;
+  --background-tertiary:var(--kim-frame) !important;
+  --background-floating:var(--kim-white) !important;
+  --background-nested-floating:var(--kim-white) !important;
+  --chat-background-default:var(--kim-paper) !important;
+  --home-background:var(--kim-paper) !important;
+  --channel-background-default:var(--kim-paper) !important;
+  --channeltextarea-background:var(--kim-white) !important;
+  --custom-channel-members-bg:var(--kim-plastic) !important;
+  --input-background:var(--kim-white) !important;
+  --input-background-default:var(--kim-white) !important;
+  --modal-background:var(--kim-plastic) !important;
+  --modal-footer-background:var(--kim-plastic) !important;
+  --card-background-default:var(--kim-white) !important;
+  --card-primary-bg:var(--kim-white) !important;
+  --embed-background:var(--kim-white) !important;
+  --background-code:var(--kim-beige) !important;
+
+  /* Intentional ink on cream/beige. IMPORTANT for 2026 Discord refresh. */
+  --text-primary:var(--kim-ink) !important;
+  --text-secondary:#35312b !important;
+  --text-tertiary:var(--kim-muted) !important;
+  --text-muted:var(--kim-muted) !important;
+  --text-normal:var(--kim-ink) !important;
+  --text-default:var(--kim-ink) !important;
+  --text-low-contrast:var(--kim-muted) !important;
+  --text-feedback-muted:var(--kim-muted) !important;
+  --header-primary:var(--kim-ink) !important;
+  --header-secondary:var(--kim-muted) !important;
+  --channels-default:var(--kim-ink) !important;
+  --interactive-normal:var(--kim-ink) !important;
+  --interactive-hover:var(--kim-deep) !important;
+  --interactive-active:var(--kim-deep) !important;
+  --interactive-muted:var(--kim-muted) !important;
+  --icon-primary:var(--kim-ink) !important;
+  --icon-secondary:var(--kim-muted) !important;
+  --text-link:#214e59 !important;
+
+  --background-modifier-hover:var(--kim-warm-hover) !important;
+  --background-modifier-active:var(--kim-selection) !important;
+  --background-modifier-selected:var(--kim-selection) !important;
+  --background-mod-subtle:var(--kim-warm-hover) !important;
+  --background-mod-normal:var(--kim-selection) !important;
+  --background-message-hover:var(--kim-warm-hover) !important;
+  --message-background-hover:var(--kim-warm-hover) !important;
+
+  --border-faint:var(--kim-trim) !important;
+  --border-subtle:var(--kim-trim) !important;
+  --border-muted:var(--kim-frame) !important;
+  --border-normal:var(--kim-frame) !important;
+  --input-border:var(--kim-frame) !important;
+  --app-frame-border:var(--kim-frame) !important;
+  --scrollbar-thin-thumb:var(--kim-frame) !important;
+  --scrollbar-auto-thumb:var(--kim-frame) !important;
+  --scrollbar-auto-track:var(--kim-plastic) !important;
+
+  --radius-xs:1px !important;
+  --radius-sm:1px !important;
+  --radius-md:2px !important;
+  --radius-lg:2px !important;
+  --radius-xl:2px !important;
+}
+
+/* Period workstation font for chrome; keep normal chat copy readable. */
+#app-mount {
+  color:var(--kim-ink);
+  font-family:"Liberation Sans",Arial,sans-serif !important;
+}
+#app-mount input,
+#app-mount textarea {
+  color:var(--kim-ink) !important;
+  caret-color:var(--kim-deep);
+  font-family:"Liberation Sans",Arial,sans-serif;
+}
+
+/* Three layers: dark framing, darker beige navigation, cream transcript.
+   Only decorative surfaces, not app display/flex behavior. */
+#app-mount [class*="guilds_"] {
+  background:var(--kim-frame) !important;
+  border-right:1px solid #4c6355;
+}
+#app-mount [class*="sidebar_"],
+#app-mount [class*="privateChannels_"] {
+  background:var(--kim-beige) !important;
+  border-right:2px solid var(--kim-frame);
+}
+#app-mount [class*="peopleColumn_"],
+#app-mount [class*="chatContent_"],
+#app-mount [class*="messagesWrapper_"] {
+  background:var(--kim-paper) !important;
+}
+#app-mount [class*="channelTextArea_"],
+#app-mount [class*="scrollableContainer_"] {
+  background:var(--kim-white) !important;
+  border:1px solid var(--kim-frame) !important;
+  border-radius:1px !important;
+  box-shadow:inset 1px 1px 0 var(--kim-trim),inset -1px -1px 0 #fffdf5;
+}
+#app-mount [class*="panels_"] {
+  background:var(--kim-plastic) !important;
+  border:1px solid var(--kim-frame);
+  box-shadow:inset 1px 1px #fffdf5,inset -1px -1px var(--kim-trim);
+}
+
+/* Compact address-book visual language. Safe: no hide/show or reparenting. */
+#app-mount [class*="peopleListItem_"] {
+  background:var(--kim-white) !important;
+  border:1px solid var(--kim-frame) !important;
+  border-radius:0 !important;
+  margin:2px 6px !important;
+  box-shadow:inset 1px 1px #fffdf5,inset -1px -1px var(--kim-trim);
+}
+#app-mount [class*="peopleListItem_"]:hover,
+#app-mount [class*="interactiveSelected_"] {
+  background:var(--kim-selection) !important;
+}
+#app-mount [class*="nowPlayingColumn_"] {
+  background:var(--kim-plastic) !important;
+  border-left:2px solid var(--kim-frame);
+}
+#app-mount [class*="itemCard_"] {
+  background:var(--kim-white) !important;
+  border:1px solid var(--kim-frame) !important;
+  border-radius:1px !important;
+}
+#app-mount [class*="membersWrap_"] {
+  background:var(--kim-plastic) !important;
+  border-left:1px solid var(--kim-frame);
+}
+
+/* Dividers and headings create the window-within-a-window look. */
+#app-mount [class*="container_"][class*="themed_"],
+#app-mount [class*="titleBar_"] {
+  background:var(--kim-plastic) !important;
+  border-bottom:1px solid var(--kim-frame);
+}
+#app-mount [class*="message_"]:hover {
+  background:var(--kim-warm-hover) !important;
+}
+#app-mount [class*="divider_"] {
+  border-color:var(--kim-frame) !important;
+}
+
+/* Modal and popout chrome; only background and edges. */
+#app-mount [role="dialog"],
+#app-mount [role="menu"] {
+  color:var(--kim-ink) !important;
+  background:var(--kim-plastic) !important;
+  border:2px solid var(--kim-frame);
+  border-radius:1px !important;
+}
+#app-mount button:focus-visible,
+#app-mount [role="button"]:focus-visible,
+#app-mount input:focus-visible,
+#app-mount textarea:focus-visible {
+  outline:2px solid var(--kim-deep) !important;
+  outline-offset:1px;
+}
+#app-mount ::selection {
+  color:var(--kim-white);
+  background:var(--kim-deep);
+}
+
+/* STAGING TODO:
+ * - Inspect actual Vesktop 1.6.7 DOM and generated class names.
+ * - Verify foreground colors of top-bar icons, buttons, badges and timestamps.
+ * - Prototype teal KIM titlebar without breaking header controls.
+ * - Verify friends, DM, server, voice and video, profile, modal, search.
+ * - Add original decorative iconography only after screenshot approval.
+ */
+
+
+/* ===============================================================
+   KIM v0.3a / TEXT RECOVERY
+   Discord sometimes paints names, headings, and timestamps using
+   class-level colors/opacity rather than the usual theme tokens.
+   Our v0.3 visual audit found pale-white text on cream surfaces.
+   Keep any explicit override inside #app-mount, not globally.
+   =============================================================== */
+
+/* Consistent period-era UI typography with a font actually present
+   on CachyOS. Never shrink body text to fake a CRT. */
+#app-mount :is(
+  [class*="peopleColumn_"],
+  [class*="privateChannels_"],
+  [class*="chatContent_"],
+  [class*="memberList_"],
+  [class*="membersWrap_"],
+  [class*="panels_"]
+) {
+  font-family: "Liberation Sans", Arial, sans-serif !important;
+}
+
+/* High-priority readable account names, contact names, display names,
+   chat usernames, channel titles, and normal messages. We deliberately
+   do not force all text universally: that would spoil colored badges,
+   mentions, buttons, and SVG status icons. */
+#app-mount :is(
+  [class*="username_"],
+  [class*="displayName_"],
+  [class*="nameAndDecorators_"],
+  [class*="overflow_"],
+  [class*="name_"],
+  [class*="channelName_"],
+  [class*="headerText_"],
+  [class*="topic_"],
+  [class*="title_"],
+  [class*="markup_"],
+  [class*="messageContent_"]
+) {
+  color: var(--kim-ink) !important;
+  opacity: 1 !important;
+}
+
+/* More precision for nav entries and friend list where plain inherited
+   theme tokens were still yielding grey/white names in the screenshot. */
+#app-mount [class*="privateChannels_"] :is(
+  [class*="name_"],
+  [class*="link_"],
+  [class*="channelName_"],
+  [class*="overflow_"]
+),
+#app-mount [class*="peopleColumn_"] :is(
+  [class*="username_"],
+  [class*="name_"]
+),
+#app-mount [class*="panels_"] :is(
+  [class*="nameTag_"],
+  [class*="username_"],
+  [class*="title_"]
+),
+#app-mount [class*="chatContent_"] :is(
+  [class*="username_"],
+  [class*="markup_"]
+) {
+  color: var(--kim-ink) !important;
+  opacity: 1 !important;
+}
+
+/* Supplementary metadata stays dark brown rather than vanishing. */
+#app-mount :is(
+  [class*="timestamp_"],
+  [class*="subText_"],
+  [class*="subtext_"],
+  [class*="activityText_"],
+  [class*="description_"],
+  [class*="discriminator_"],
+  [class*="membersGroup_"],
+  [class*="text-xs_"],
+  [class*="text-sm_"]
+) {
+  color: var(--kim-muted) !important;
+  opacity: 1 !important;
+}
+
+/* Search, composer and related placeholder/empty-state text. */
+#app-mount :is(input, textarea)::placeholder {
+  color: #575147 !important;
+  opacity: 1 !important;
+}
+#app-mount [role="textbox"] {
+  color: var(--kim-ink) !important;
+  caret-color: var(--kim-deep);
+}
+
+/* IMPORTANT: preserve light foreground text on the dark teal title bars
+   we may add in a future version; and don't break colored control labels.
+   This patch intentionally does not style global buttons or SVG fills. */
+
+
+/* ===============================================================
+   KIM v0.3a / SQUARED ICONOGRAPHY
+   Discord masks many avatar images with circular SVG foreignObjects.
+   Removing that mask is what allows a visibly square crop;
+   border-radius on the image alone was not enough.
+   =============================================================== */
+
+/* Guild/server icons and home entry — classic square launcher tiles. */
+#app-mount [class*="guilds_"] :is(
+  [class*="icon_"],
+  [class*="childWrapper_"],
+  [class*="acronym_"],
+  [class*="wrapper_"] > [class*="icon_"]
+) {
+  border-radius: 2px !important;
+}
+#app-mount [class*="guilds_"] svg foreignObject {
+  mask: none !important;
+  -webkit-mask: none !important;
+  overflow: hidden !important;
+  border-radius: 2px !important;
+}
+
+/* Contact and member portraits: squared tile, narrow border. */
+#app-mount :is(
+  [class*="avatar_"] img,
+  img[class*="avatar_"],
+  [class*="avatar_"] [class*="image_"]
+) {
+  border-radius: 2px !important;
+  outline: 1px solid var(--kim-frame);
+  outline-offset: -1px;
+}
+#app-mount [class*="avatar_"] svg foreignObject {
+  mask: none !important;
+  -webkit-mask: none !important;
+  overflow: hidden !important;
+  border-radius: 2px !important;
+}
+
+/* SVG status indicators are separate from the photos and remain visible.
+   A gentle *simulated* low-color/old-monitor crunch; no destructive
+   8-bit conversion of real Discord images, no image downloads.
+   image-rendering only has an effect if an image is upscaled. */
+#app-mount :is(
+  [class*="avatar_"] img,
+  img[class*="avatar_"],
+  [class*="guilds_"] [class*="icon_"] img
+) {
+  image-rendering: pixelated;
+  filter: contrast(1.14) saturate(0.82);
+}
+
+/* Framing on avatar shells, avoiding borders on chat attachments. */
+#app-mount :is(
+  [class*="peopleListItem_"] [class*="avatar_"],
+  [class*="privateChannels_"] [class*="avatar_"],
+  [class*="membersWrap_"] [class*="avatar_"]
+) {
+  border-radius: 2px !important;
+}
+
+/* Accessibility: do not apply the filter to user-uploaded chat images,
+   GIFs, videos, emojis, embeds, or game screenshots. */
+
+
+
+/* =============================================================
+   KIM v0.3b // PROFILE SHELL RECOVERY
+   Account custom profile colors can be defined inline. These
+   profile-only variables override decorative user color palettes,
+   without editing anyone's real profile or bio.
+   ============================================================= */
+
+/* Use existing Discord profile containers / V2 modal markers.
+   Deliberately avoid recoloring ALL dialogs, attachments, or game cards. */
+#app-mount :is(
+  .user-profile-modal-v2,
+  [class*="userProfileModal"],
+  [class*="userProfileOuter"],
+  [class*="userPopoutOuter"],
+  [class*="userPanelOuter"],
+  [class*="profileColors"],
+  [class*="profileCustomization"],
+  [class*="customizationSection"]
+) {
+  --profile-gradient-primary-color: var(--kim-plastic) !important;
+  --profile-gradient-secondary-color: var(--kim-paper) !important;
+  --profile-gradient-overlay-color: var(--kim-paper) !important;
+  --profile-gradient-modal-background-color: var(--kim-plastic) !important;
+  --profile-body-background-color: var(--kim-paper) !important;
+  --profile-body-background-hover: var(--kim-warm-hover) !important;
+  --profile-avatar-border-color: transparent !important;
+  --profile-gradient-button-color: var(--kim-deep) !important;
+  --profile-gradient-button-text-color: var(--kim-white) !important;
+  --user-profile-overlay-background: var(--kim-paper) !important;
+  --user-profile-overlay-background-hover: var(--kim-warm-hover) !important;
+  --user-profile-border: var(--kim-frame) !important;
+  --user-profile-toolbar-background: var(--kim-plastic) !important;
+  --user-profile-toolbar-border: var(--kim-frame) !important;
+  --text-default: var(--kim-ink) !important;
+  --text-primary: var(--kim-ink) !important;
+  --text-secondary: var(--kim-muted) !important;
+  --text-muted: var(--kim-muted) !important;
+  --text-strong: var(--kim-ink) !important;
+  --header-primary: var(--kim-ink) !important;
+  --header-secondary: var(--kim-muted) !important;
+}
+
+/* Separate the outer profile window from the app: sharp 1999-era
+   frame instead of a floating cream slab. */
+#app-mount :is(
+  .user-profile-modal-v2,
+  [class*="userProfileOuter"],
+  [class*="userPopoutOuter"]
+) {
+  border: 2px solid var(--kim-frame) !important;
+  border-radius: 2px !important;
+  box-shadow:
+    inset 1px 1px 0 var(--kim-white),
+    inset -1px -1px 0 var(--kim-trim),
+    3px 3px 0 rgba(36,47,39,.35) !important;
+  background-color: var(--kim-plastic) !important;
+}
+
+/* Discord fills content sections using the user's personal profile
+   colors. Force the content surfaces to the workstation palette. */
+#app-mount :is(
+  .user-profile-modal-v2,
+  [class*="userProfileOuter"],
+  [class*="userPopoutOuter"]
+) :is(
+  [class*="profileBody"],
+  [class*="profileInner"],
+  [class*="profileHeader"],
+  [class*="overlayBackground"],
+  [class*="overlay_"],
+  [class*="bodyContainer"]
+) {
+  background-color: var(--kim-paper) !important;
+  border-color: var(--kim-frame) !important;
+  border-radius: 1px !important;
+}
+
+/* This also covers the modern V2 full-profile pane visible when
+   editing your own profile. Don't hide profile editor controls. */
+#app-mount .user-profile-modal-v2 :is(
+  [class*="profileBody"],
+  [class*="profileHeader"],
+  [class*="profile_"]
+) {
+  border: 1px solid var(--kim-frame) !important;
+}
+
+/* High contrast for biographies, friend names and About sections,
+   including themed profiles with unusual accent choices. */
+#app-mount :is(
+  .user-profile-modal-v2,
+  [class*="userProfileOuter"],
+  [class*="userPopoutOuter"]
+) :is(
+  [class*="username"],
+  [class*="displayName"],
+  [class*="nameTag"],
+  [class*="pronouns"],
+  [class*="bio"],
+  [class*="aboutMe"],
+  [class*="sectionTitle"],
+  [class*="memberSince"],
+  [class*="profileText"],
+  [class*="userTag"]
+) {
+  color: var(--kim-ink) !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: var(--kim-ink) !important;
+}
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"])
+  :is([class*="subText"],[class*="subtext"],[class*="mutual"],[class*="timestamp"]) {
+  color: var(--kim-muted) !important;
+  opacity: 1 !important;
+}
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"])
+  [class*="ColorGradient"] {
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  -webkit-text-fill-color: var(--kim-ink) !important;
+  color: var(--kim-ink) !important;
+  filter: none !important;
+}
+
+/* =============================================================
+   KIM v0.3b // TRUE SQUARE PROFILE AVATARS
+   v0.3a squared the bitmap, but Discord's larger profile wrapper
+   left a circular border/hole behind. Make both layers square.
+   ============================================================= */
+#app-mount :is(
+  .user-profile-modal-v2,
+  [class*="userProfileOuter"],
+  [class*="userPopoutOuter"],
+  [class*="profileCustomization"],
+  [class*="customizationSection"]
+) :is(
+  [class*="avatarWrapper"],
+  [class*="avatarContainer"],
+  [class*="avatar_"],
+  [class*="avatarHint"],
+  [class*="avatarInner"]
+) {
+  border-radius: 2px !important;
+  clip-path: none !important;
+  --profile-avatar-border-color: transparent !important;
+}
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"],
+  [class*="profileCustomization"],[class*="customizationSection"])
+  :is([class*="avatarWrapper"],[class*="avatarContainer"],[class*="avatar_"])
+  :is(img,svg,svg foreignObject) {
+  border-radius: 2px !important;
+  clip-path: none !important;
+}
+/* Large profile image gets a tactile IBM-style frame; ignore emoji,
+   attachments, badges and regular activity/game artwork. */
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"],
+  [class*="profileCustomization"],[class*="customizationSection"])
+  :is([class*="avatarWrapper"],[class*="avatarContainer"],[class*="avatar_"]) img {
+  outline: 2px solid var(--kim-frame) !important;
+  outline-offset: 1px;
+  box-shadow: 2px 2px 0 var(--kim-trim) !important;
+}
+
+/* Remove classic Discord round avatar cutout / ring backgrounds.
+   Don't remove online-status circles or SVG icons indiscriminately. */
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"])
+  :is([class*="avatarWrapper"],[class*="avatarContainer"]) svg > circle[fill="black"],
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"])
+  :is([class*="avatarWrapper"],[class*="avatarContainer"]) svg > rect[fill="black"] {
+  fill: transparent !important;
+  stroke: none !important;
+}
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"])
+  :is([class*="avatarDecoration"],[class*="profileFrameContainer"],[class*="profileEffects"]) {
+  display: none !important; /* decorative layers only; avatar + status remain */
+}
+
+/* =============================================================
+   KIM v0.3b // DE-CLUTTER PROFILE ACTIVITIES
+   Hide game/recent-activity cards on full profiles only.
+   Does not change sharing preferences or delete activity history.
+   ============================================================= */
+#app-mount :is(
+  .user-profile-modal-v2,
+  [class*="userProfileOuter"],
+  [class*="userPopoutOuter"]
+) :is(
+  [class*="activityCards"],
+  [class*="activityCard"],
+  [class*="activityPanel"],
+  [class*="activitySection"],
+  [class*="gamesCollection"],
+  [class*="gameCollection"],
+  [class*="gameCard"],
+  [class*="favoriteGames"],
+  [class*="gameWidgets"]
+) {
+  display: none !important;
+}
+
+/* Use one cohesive 1999 framing style for remaining full-profile
+   cards/sections; never hide message, friend, voice or search buttons. */
+#app-mount .user-profile-modal-v2 :is(
+  [class*="profileBody"],
+  [class*="profileHeader"],
+  [class*="profileCard"],
+  [class*="section_"]
+) {
+  border-color: var(--kim-frame) !important;
+  border-radius: 1px !important;
+}
+
+/* Notes:
+   - Additional Discord experimental Activity/Wishlist structures may
+     use other class names; only confirmed selectors should be extended.
+   - Turning this theme off instantly restores hidden visual sections.
+   - Cosmetic hiding is NOT a privacy control for activity sharing.
+ */
+
+
+
+/* =============================================================
+   KIM v0.3b.1 // PROFILE NOTCH AND ACTIVITY LAYOUT FOLLOW-UP
+   The profile's circular backing cut-out is not the avatar bitmap.
+   When present it comes from a banner/header decoration or mask.
+   ============================================================= */
+#app-mount .user-profile-modal-v2 [class*="profileHeaderBannerContainer"] {
+  background-color: var(--kim-deep) !important;
+  border-bottom: 2px solid #253f39 !important;
+  border-radius: 0 !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  clip-path: none !important;
+}
+/* Suppress the round cut-out backing on the large avatar, leaving the
+   user's image and online badge intact. Do not target :after controls. */
+#app-mount .user-profile-modal-v2 [class*="profileHeaderBannerContainer"]::before {
+  content: none !important;
+}
+#app-mount .user-profile-modal-v2 [class*="avatarWrapper"] {
+  background-color: transparent !important;
+  border: 0 !important;
+}
+#app-mount .user-profile-modal-v2 [class*="avatarWrapper"] > svg > circle[fill="black"] {
+  fill: transparent !important;
+}
+
+/* Prefer a single uninterrupted panel if this Discord version
+   exposes an explicit right activity column. Avoid affecting DMs. */
+#app-mount .user-profile-modal-v2 :is(
+  [class*="rightColumn"],
+  [class*="activityColumn"],
+  [class*="activityPane"]
+) {
+  display: none !important;
+}
+#app-mount .user-profile-modal-v2:has(> [class*="rightColumn"]),
+#app-mount .user-profile-modal-v2:has(> [class*="activityColumn"]),
+#app-mount .user-profile-modal-v2:has(> [class*="activityPane"]) {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+/* Profiles which keep the Activity tab outside an explicit column
+   may still show its tab label; hide only the Activity tab itself,
+   never the entire navigation set. */
+#app-mount .user-profile-modal-v2 :is(
+  [role="tab"][aria-label="Activity"],
+  [role="tab"][aria-label="Activities"]
+) {
+  display: none !important;
+}
+
+
+/* DM contact profile sidebar: the 1999 terminal uses an actual frame,
+   not an unbounded area the same color as the chat background. */
+#app-mount [class*="userPanelOuter"] {
+  background-color: var(--kim-paper) !important;
+  border-left: 2px solid var(--kim-frame) !important;
+  box-shadow: inset 1px 0 0 var(--kim-white);
+}
+#app-mount [class*="userPanelOuter"] :is(
+  [class*="userPanelInner"],
+  [class*="profileBody"],
+  [class*="profileInner"],
+  [class*="overlayBackground"]
+) {
+  background-color: var(--kim-paper) !important;
+  border-color: var(--kim-frame) !important;
+}
+
+
+/* ============================================================
+   KIM v0.3c — ACCOUNT POPOUT AND DM PROFILE CHROME
+   Separate from the full-profile modal CSS above.
+   ============================================================ */
+
+/* Profile colors are sometimes inline values from other users. */
+#app-mount :is([class*="userPopoutOuter"],[class*="userPopoutInner"],
+               [class*="userPanelOuter"],[class*="userPanelInner"]) {
+  --profile-gradient-primary-color:var(--kim-paper) !important;
+  --profile-gradient-secondary-color:var(--kim-plastic) !important;
+  --profile-gradient-modal-background-color:var(--kim-plastic) !important;
+  --profile-gradient-overlay-color:var(--kim-paper) !important;
+  --profile-body-background-color:var(--kim-paper) !important;
+  --user-profile-overlay-background:var(--kim-paper) !important;
+  --background-surface-high:var(--kim-paper) !important;
+  --background-surface-higher:var(--kim-white) !important;
+  --background-surface-highest:var(--kim-white) !important;
+  --text-primary:var(--kim-ink) !important;
+  --text-secondary:var(--kim-muted) !important;
+  --text-muted:var(--kim-muted) !important;
+  color:var(--kim-ink) !important;
+}
+
+/* Dark teal is reserved for decorative header/banner panels. Banner
+   artwork is suppressed visually, not deleted from anyone's profile. */
+#app-mount :is([class*="userPopoutOuter"],[class*="userPanelOuter"],
+              [class*="userProfileOuter"],.user-profile-modal-v2)
+:is([class*="bannerSVGWrapper"],[class*="bannerWrapper"],
+    [class*="bannerContainer"],[class*="profileBanner"],
+    [class*="userBanner"],[class*="profileHeaderBanner"]) {
+  background:var(--kim-deep) !important;
+  background-image:none !important;
+  border-radius:0 !important;
+}
+#app-mount :is([class*="userPopoutOuter"],[class*="userPanelOuter"])
+:is([class*="bannerSVGWrapper"],[class*="bannerContainer"])
+:is(img,video) {
+  visibility:hidden !important;
+}
+
+/* The round notch belongs to the avatar BACKING, not the avatar image.
+   Preserve small online indicators and user profile content. */
+#app-mount :is([class*="userPopoutOuter"],[class*="userPanelOuter"],
+              [class*="userProfileOuter"],.user-profile-modal-v2)
+:is([class*="avatarPosition"],[class*="avatarWrapper"],[class*="avatarContainer"]) {
+  background:transparent !important;
+  border-radius:2px !important;
+  clip-path:none !important;
+  mask:none !important;
+  -webkit-mask:none !important;
+}
+#app-mount :is([class*="userPopoutOuter"],[class*="userPanelOuter"],
+              [class*="userProfileOuter"],.user-profile-modal-v2)
+:is([class*="avatarPosition"],[class*="avatarWrapper"],[class*="avatarContainer"])::before {
+  content:none !important;
+}
+#app-mount :is([class*="userPopoutOuter"],[class*="userPanelOuter"],
+              [class*="userProfileOuter"],.user-profile-modal-v2)
+:is([class*="avatarPosition"],[class*="avatarWrapper"],[class*="avatarContainer"])
+:is(img,svg foreignObject) {
+  border-radius:2px !important;
+  mask:none !important;
+  -webkit-mask:none !important;
+}
+
+/* User account action menus have their own dark surfaces and may not
+   inherit all custom theme tokens. Override their backgrounds explicitly. */
+#app-mount :is([class*="userPopoutOuter"],[class*="userPopoutInner"])
+:is([class*="menu_"],[class*="menuContent_"],[class*="actionGroup_"]) {
+  background:var(--kim-plastic) !important;
+  color:var(--kim-ink) !important;
+  border:1px solid var(--kim-frame) !important;
+}
+#app-mount :is([class*="userPopoutOuter"],[class*="userPopoutInner"])
+:is([role="menuitem"],[class*="menuItem_"],[class*="actionButton_"]) {
+  background:var(--kim-paper) !important;
+  color:var(--kim-ink) !important;
+  border:1px solid var(--kim-trim) !important;
+  border-radius:1px !important;
+}
+#app-mount :is([class*="userPopoutOuter"],[class*="userPopoutInner"])
+:is([role="menuitem"],[class*="menuItem_"],[class*="actionButton_"]):hover {
+  background:var(--kim-selection) !important;
+}
+#app-mount :is([class*="userPopoutOuter"],[class*="userPopoutInner"])
+:is([class*="menuItem_"],[class*="actionButton_"])
+:is([class*="label_"],[class*="name_"],[class*="text_"]) {
+  color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+#app-mount [role="menu"] {
+  background:var(--kim-plastic) !important;
+  color:var(--kim-ink) !important;
+}
+#app-mount [role="menu"] [role="menuitem"]:not([class*="colorDanger"]) {
+  background:var(--kim-paper) !important;
+  color:var(--kim-ink) !important;
+}
+#app-mount [role="menu"] [role="menuitem"]:not([class*="colorDanger"]):hover {
+  background:var(--kim-selection) !important;
+}
+
+/* The visible DM sidebar must read as a framed terminal panel. */
+#app-mount [class*="userPanelOuter"] {
+  background:var(--kim-paper) !important;
+  border-left:2px solid var(--kim-frame) !important;
+}
+#app-mount [class*="userPanelOuter"]
+:is([class*="sectionTitle"],[class*="memberSince"],[class*="mutual"],[class*="bio"]) {
+  color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+/* This is cosmetic only: disabling the theme restores original banners,
+   colored profiles, menus, and decorations. */
+
+/* Circular "avatar notch" can also be an ::after on the banner
+   rather than an ::before on the avatar wrapper. This removes
+   decoration only; the actual portrait and presence indicator remain. */
+#app-mount :is(
+  [class*="userPopoutOuter"],
+  [class*="userPanelOuter"],
+  [class*="userProfileOuter"],
+  .user-profile-modal-v2
+) :is(
+  [class*="bannerContainer"],
+  [class*="bannerSVGWrapper"],
+  [class*="profileHeaderBanner"]
+)::after {
+  content: none !important;
+}
+
+
+/* ======================================================================
+   KIM v0.3d — CURRENT ACCOUNT POPOUT + SETTINGS RECOVERY
+   Unlike previous guesses matching ONLY "userPopoutOuter", contemporary
+   Discord also uses accountProfilePopout and user-profile-popout.
+   Restore readability without changing account data or message images.
+   ====================================================================== */
+
+/* Own account popout, a DIFFERENT component from the full profile modal. */
+#app-mount :is(
+  [class*="accountProfilePopout"],
+  .user-profile-popout,
+  [class*="userPopoutOuter"],
+  [class*="userPopoutInner"]
+) {
+  --profile-gradient-primary-color:var(--kim-paper) !important;
+  --profile-gradient-secondary-color:var(--kim-plastic) !important;
+  --profile-gradient-modal-background-color:var(--kim-plastic) !important;
+  --profile-gradient-overlay-color:var(--kim-paper) !important;
+  --profile-body-background-color:var(--kim-paper) !important;
+  --user-profile-overlay-background:var(--kim-paper) !important;
+  --text-primary:var(--kim-ink) !important;
+  --text-secondary:var(--kim-muted) !important;
+  --text-normal:var(--kim-ink) !important;
+  --header-primary:var(--kim-ink) !important;
+  --header-secondary:var(--kim-muted) !important;
+  --interactive-normal:var(--kim-ink) !important;
+  color:var(--kim-ink) !important;
+  background-color:var(--kim-plastic) !important;
+  border-color:var(--kim-frame) !important;
+}
+
+/* The menu in the supplied screenshot was a set of almost-black
+   action GROUPS, not necessarily role=menu. Recolor both layers. */
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout)
+:is(
+  [class*="menu"],[class*="menuContent"],[class*="menuItems"],
+  [class*="actionGroup"],[class*="accountMenu"],[class*="group_"],
+  [class*="section_"],[class*="scroller_"]
+) {
+  background-color:var(--kim-plastic) !important;
+  border-color:var(--kim-frame) !important;
+  color:var(--kim-ink) !important;
+}
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout)
+:is([role="menuitem"],[class*="menuItem"],[class*="item_"],[class*="actionButton"]) {
+  color:var(--kim-ink) !important;
+  background-color:var(--kim-paper) !important;
+  border-color:var(--kim-trim) !important;
+  border-radius:1px !important;
+}
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout)
+:is([role="menuitem"],[class*="menuItem"],[class*="item_"],[class*="actionButton"]):hover {
+  background-color:var(--kim-selection) !important;
+}
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout)
+:is([class*="label"],[class*="username"],[class*="name"],[class*="description"],
+    [class*="text"],[class*="subtitle"]) {
+  color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout)
+:is([class*="headerBanner"],[class*="profileBanner"],[class*="banner_"],
+    [class*="bannerContainer"],[class*="bannerSVGWrapper"]) {
+  background:var(--kim-deep) !important;
+  border-radius:0 !important;
+}
+
+/* Profile/DM panels in the latest Discord use different container
+   names from the older userPanelOuter selector. Match just side-profile
+   roots; do NOT override arbitrary nested chat or media elements. */
+#app-mount :is(
+  [class*="user-profile-sidebar"],
+  [class*="userProfileSidebar"],
+  [class*="userPanelOuter"],
+  [class*="userPanelInner"],
+  [class*="profilePanel"]
+) {
+  --profile-gradient-primary-color:var(--kim-paper) !important;
+  --profile-gradient-secondary-color:var(--kim-plastic) !important;
+  --profile-gradient-overlay-color:var(--kim-paper) !important;
+  --profile-gradient-modal-background-color:var(--kim-plastic) !important;
+  --profile-body-background-color:var(--kim-paper) !important;
+  --text-primary:var(--kim-ink) !important;
+  --text-muted:var(--kim-muted) !important;
+  background-color:var(--kim-paper) !important;
+  color:var(--kim-ink) !important;
+}
+#app-mount :is([class*="user-profile-sidebar"],[class*="userProfileSidebar"],
+              [class*="userPanelOuter"],[class*="profilePanel"])
+:is([class*="banner_"],[class*="bannerContainer"],[class*="profileBanner"],
+    [class*="bannerSVGWrapper"]) {
+  background:var(--kim-deep) !important;
+  background-image:none !important;
+}
+
+/* Profile avatar frames: remove the old circular backing decoration.
+   Only targeted profile roots: SVG status badges and message attachments
+   are intentionally left alone. */
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout,
+              [class*="user-profile-sidebar"],[class*="userProfileSidebar"])
+:is([class*="avatarWrapper"],[class*="avatarPosition"],[class*="avatarContainer"]) {
+  border-radius:2px !important;
+  background-color:transparent !important;
+  clip-path:none !important;
+  mask-image:none !important;
+  -webkit-mask-image:none !important;
+}
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout,
+              [class*="user-profile-sidebar"],[class*="userProfileSidebar"])
+:is([class*="avatarWrapper"],[class*="avatarPosition"],[class*="avatarContainer"])
+:is(img,svg foreignObject) {
+  border-radius:2px !important;
+}
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout,
+              [class*="user-profile-sidebar"],[class*="userProfileSidebar"])
+:is([class*="avatarWrapper"],[class*="avatarPosition"],[class*="avatarContainer"])::before {
+  content:none !important;
+}
+
+/* ================================================================
+   DISCORD / VENCORD SETTINGS — readable ink on warm cream
+   The screenshots exposed pale headers and labels from the dark
+   native theme, even though backgrounds had already been recolored.
+   ================================================================ */
+#app-mount :is(
+  [class*="standardSidebarView"],[class*="sidebarRegion"],
+  [class*="contentRegion"],[class*="contentColumn"],
+  [class*="contentRegionScroller"]
+) {
+  --header-primary:var(--kim-ink) !important;
+  --header-secondary:var(--kim-muted) !important;
+  --text-primary:var(--kim-ink) !important;
+  --text-secondary:var(--kim-muted) !important;
+  --text-tertiary:var(--kim-muted) !important;
+  --text-normal:var(--kim-ink) !important;
+  --text-muted:var(--kim-muted) !important;
+  --interactive-normal:var(--kim-ink) !important;
+  --interactive-hover:var(--kim-deep) !important;
+  --interactive-active:var(--kim-ink) !important;
+  --channels-default:var(--kim-ink) !important;
+  --text-positive:#285f38 !important;
+  --text-warning:#81501f !important;
+  --text-danger:#983a32 !important;
+  color:var(--kim-ink) !important;
+}
+#app-mount :is([class*="contentRegion"],[class*="contentColumn"]) :is(
+  h1,h2,h3,h4,h5,
+  [class*="title"],[class*="heading"],[class*="header"],
+  [class*="fieldTitle"],[class*="fieldLabel"],
+  [class*="label"],[class*="colorHeaderPrimary"],
+  [class*="colorHeaderSecondary"],[data-text-variant]
+):not(button):not([role="button"]) {
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+#app-mount :is([class*="contentRegion"],[class*="contentColumn"]) :is(
+  [class*="description"],[class*="subText"],[class*="colorMuted"],
+  [class*="text-muted"],[class*="hint"]
+):not(button):not([role="button"]) {
+  color:var(--kim-muted) !important;
+  -webkit-text-fill-color:var(--kim-muted) !important;
+  opacity:1 !important;
+}
+/* Row labels and inner text widgets can have their own inherited
+   dark-mode foreground color; protect captions outside buttons. */
+#app-mount :is([class*="contentRegion"],[class*="contentColumn"])
+:is([class*="formItem"],[class*="field"],[class*="accountInfo"])
+:is([class*="text"],[class*="label"],span:not([class])):not(button) {
+  color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+#app-mount [class*="sidebarRegion"] {
+  border-right:2px solid var(--kim-frame) !important;
+}
+#app-mount [class*="sidebarRegion"] :is([role="tab"],[class*="item_"]) {
+  color:var(--kim-ink) !important;
+}
+#app-mount :is([class*="contentRegion"],[class*="contentColumn"])
+:is(input,textarea)::placeholder {
+  color:var(--kim-muted) !important;
+  opacity:1 !important;
+}
+
+/* Remaining known limitations:
+   - Discord CSS classes can change, so real screenshots are the release gate.
+   - Restyling does not delete/hide account data from other users.
+   - Message attachment images and emoji are deliberately not filtered.
+ */
+
+
+/* KIM v0.3d regression fixes from the offline modern-wrapper fixture.
+   Recent accountProfilePopout/user-profile-sidebar elements did not match
+   the v0.3c circular-cutout selectors scoped to userPopoutOuter. */
+#app-mount :is(
+  [class*="accountProfilePopout"],
+  .user-profile-popout,
+  [class*="user-profile-sidebar"],
+  [class*="userProfileSidebar"]
+) :is(
+  [class*="bannerContainer"],[class*="bannerWrapper"],
+  [class*="bannerSVGWrapper"],[class*="profileBanner"]
+)::after,
+#app-mount :is(
+  [class*="accountProfilePopout"],
+  .user-profile-popout,
+  [class*="user-profile-sidebar"],
+  [class*="userProfileSidebar"]
+) :is(
+  [class*="bannerContainer"],[class*="bannerWrapper"],
+  [class*="bannerSVGWrapper"],[class*="profileBanner"]
+)::before {
+  content:none !important;
+}
+
+/* Fix profile biographies, About text and mutual/member date metadata.
+   The screen still showed low-opacity pale copy after panel recoloring. */
+#app-mount :is(
+  [class*="accountProfilePopout"],
+  .user-profile-popout,
+  [class*="user-profile-sidebar"],
+  [class*="userProfileSidebar"]
+) :is(
+  [class*="bio"],[class*="aboutMe"],[class*="profileText"],
+  [class*="sectionTitle"],[class*="memberSince"],
+  [class*="mutual"],[class*="description"],
+  [class*="subText"],[class*="subtext"]
+) {
+  color:var(--kim-ink) !important;
+  opacity:1 !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+}
+
+/* ====================================================================
+ * KIM v0.3e / CREAM PROFILE HEADERS + SETTINGS READABILITY RECOVERY
+ * Screenshot reference: October 22 2026 settings and DM profile.
+ * User requested cream instead of dark teal banner, black settings text.
+ * ==================================================================== */
+
+/* 1. BANNERS: use the aged IBM cream as actual window chrome.
+ * These rules are placed LAST to override v0.3b/c/d's teal patches. */
+#app-mount :is(
+  .user-profile-modal-v2,
+  .user-profile-popout,
+  [class*="accountProfilePopout"],
+  [class*="userPopoutOuter"],
+  [class*="userProfileOuter"],
+  [class*="userPanelOuter"],
+  [class*="user-profile-sidebar"],
+  [class*="userProfileSidebar"],
+  [class*="profilePanel"]
+) :is(
+  [class*="banner"],
+  [class*="Banner"],
+  [class*="profileHeader"]
+) {
+  background-color: var(--kim-plastic) !important;
+  background-image: none !important;
+  border-radius: 0 !important;
+  border-bottom-color: var(--kim-frame) !important;
+  --profile-gradient-primary-color: var(--kim-plastic) !important;
+  --profile-gradient-secondary-color: var(--kim-paper) !important;
+  --profile-avatar-border-color: transparent !important;
+}
+/* Explicit selectors for known banner classes, even if a profile DOM
+ * nests them differently from our earlier assumptions. */
+#app-mount :is(
+  [class*="bannerSVGWrapper"],
+  [class*="profileHeaderBannerContainer"],
+  [class*="bannerContainer"]
+) {
+  --profile-gradient-primary-color: var(--kim-plastic);
+}
+
+/* Titlebar control icons on cream should be graphite, not white. */
+#app-mount :is(
+  .user-profile-modal-v2,
+  .user-profile-popout,
+  [class*="accountProfilePopout"],
+  [class*="userPanelOuter"],
+  [class*="user-profile-sidebar"]
+) :is([class*="banner"],[class*="Banner"]) :is(button,[role="button"],svg) {
+  color: var(--kim-ink) !important;
+}
+
+/* 2. SETTINGS: Previous patches only covered specific OLD generated
+ * class names. Apply a readable ink baseline to modern/old Settings
+ * content containers including their text child nodes. Only the
+ * Settings pane is targeted — never chat messages or user uploads. */
+#app-mount :is(
+  [class*="standardSidebarView"],
+  [class*="contentRegion"],
+  [class*="contentColumn"],
+  [class*="settingsContent"],
+  [class*="settingsPage"],
+  [class*="accountSettings"],
+  [class*="accountProfileCard"],
+  [class*="customColumn"],
+  [class*="settingsPageContent"]
+) {
+  --header-primary: var(--kim-ink) !important;
+  --header-secondary: var(--kim-muted) !important;
+  --text-primary: var(--kim-ink) !important;
+  --text-secondary: var(--kim-muted) !important;
+  --text-tertiary: var(--kim-muted) !important;
+  --text-normal: var(--kim-ink) !important;
+  --text-default: var(--kim-ink) !important;
+  --text-muted: var(--kim-muted) !important;
+  --interactive-normal: var(--kim-ink) !important;
+  --interactive-active: var(--kim-ink) !important;
+  --text-link: #20576a !important;
+  --text-brand: #20576a !important;
+  --text-positive: #246336 !important;
+  --text-warning: #80501b !important;
+  --text-danger: #983b30 !important;
+  --text-subtle: var(--kim-muted) !important;
+  --text-feedback-muted: var(--kim-muted) !important;
+  color: var(--kim-ink) !important;
+}
+
+/* A decisive fix for pale headings/labels from Discord's Dark
+ * appearance: explicit foreground on *text-bearing nodes*. We don't
+ * touch SVG/path or image pixels. Exclude warning/danger-specific
+ * text and links (restored below).
+ */
+#app-mount :is(
+  [class*="standardSidebarView"],
+  [class*="contentRegion"],
+  [class*="settingsContent"],
+  [class*="settingsPage"],
+  [class*="accountSettings"]
+) :is(
+  h1,h2,h3,h4,h5,h6,p,span,small,label,strong,
+  dt,dd,legend,[role="heading"],[data-text-variant],
+  [class*="heading"],[class*="title"],[class*="field"],
+  [class*="description"],[class*="label"],[class*="subText"],
+  [class*="text_"],[class*="colorHeader"],[class*="colorStandard"]
+):not([class*="colorDanger"]):not([class*="colorSuccess"]) {
+  color: var(--kim-ink) !important;
+  -webkit-text-fill-color: var(--kim-ink) !important;
+  opacity: 1 !important;
+}
+
+/* Extra-strong fallback: section headings and field labels sometimes
+ * live in plain divs without descriptive classnames. Apply ink to
+ * these settings divs, not global Discord divs. */
+#app-mount :is(
+  [class*="contentRegion"],[class*="settingsContent"],
+  [class*="settingsPage"],[class*="accountSettings"]
+) :is(
+  div[class*="heading"],div[class*="sectionTitle"],
+  div[class*="field"],div[class*="accountInfo"],
+  div[class*="formItem"],div[data-text-variant]
+) {
+  color: var(--kim-ink) !important;
+  -webkit-text-fill-color: var(--kim-ink) !important;
+  opacity: 1 !important;
+}
+
+/* Restore differentiated muted copy and links AFTER the dark baseline. */
+#app-mount :is(
+  [class*="standardSidebarView"],[class*="contentRegion"],
+  [class*="settingsContent"],[class*="settingsPage"]
+) :is(
+  [class*="description"],[class*="hint"],[class*="note"],
+  [class*="subText"],[class*="colorMuted"],[class*="text-muted"]
+) {
+  color: var(--kim-muted) !important;
+  -webkit-text-fill-color: var(--kim-muted) !important;
+}
+#app-mount :is(
+  [class*="standardSidebarView"],[class*="contentRegion"],
+  [class*="settingsContent"],[class*="settingsPage"]
+) :is(a,[role="link"]) {
+  color: #20576a !important;
+  -webkit-text-fill-color: #20576a !important;
+}
+/* Keep selected dark-teal button text white; otherwise cream 'Edit'
+ * buttons may use the new black text and remain perfectly legible. */
+#app-mount :is(
+  [class*="contentRegion"],[class*="settingsContent"],
+  [class*="settingsPage"]
+) :is(button,[role="button"])[class*="colorBrand"] {
+  color: var(--kim-white) !important;
+  -webkit-text-fill-color: var(--kim-white) !important;
+}
+/* Highlighted settings sidebar rows must not contain pale text. */
+#app-mount :is([class*="sidebarRegion"],[class*="settingsSidebar"])
+:is([role="tab"],[class*="item_"],[class*="selected"]) {
+  color: var(--kim-ink) !important;
+  -webkit-text-fill-color: var(--kim-ink) !important;
+}
+#app-mount :is([class*="sidebarRegion"],[class*="settingsSidebar"])
+:is([role="tab"],[class*="item_"],[class*="selected"]) :is(span,[class*="text_"]) {
+  color: var(--kim-ink) !important;
+  -webkit-text-fill-color: var(--kim-ink) !important;
+  opacity: 1 !important;
+}
+
+/* Settings text inputs on cream backgrounds. */
+#app-mount :is(
+  [class*="standardSidebarView"],[class*="contentRegion"],
+  [class*="settingsContent"],[class*="settingsPage"]
+) :is(input,textarea,[role="textbox"]) {
+  color: var(--kim-ink) !important;
+  caret-color: var(--kim-deep) !important;
+}
+/* This is purely cosmetic. No Discord user data or settings were altered. */
+
+
+/* ================================================================
+   KIM v0.3f / LIVE-SCREEN RECOVERY PASS
+   User screenshots show:
+   - settings headings are still white on cream
+   - status menu items have light-on-cream names and narrow highlight
+   - profile banner's lower edge has an unwanted horizontal rule
+
+   Strategy: style the TEXT ELEMENTS directly even when Discord renamed
+   the settings container. This avoids another failing parent selector.
+   ================================================================ */
+
+/* Main headings and form labels throughout the light KIM interface.
+   Previous scoped [class*="contentRegion"] rules missed the current
+   Account screen. These selectors do not depend on a settings ancestor.
+   Restore intentionally colored links and dangerous controls below. */
+#app-mount :is(
+  h1,h2,h3,h4,h5,h6,label,legend,
+  [role="heading"],
+  [class*="heading_"],
+  [class*="heading-"],
+  [class*="sectionTitle"],
+  [class*="fieldTitle"],
+  [class*="fieldLabel"],
+  [class*="colorHeaderPrimary"],
+  [class*="colorHeaderSecondary"],
+  [class*="textStrong"],
+  [class*="title_"]
+) {
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+/* Explicit Account/Settings text styles are often nested directly in
+   paragraphs/spans using hashed utility classes. Don't require
+   #app-mount [class*="contentRegion"] to be an ancestor. */
+#app-mount :is(
+  [class*="formItem"],[class*="accountInfo"],
+  [class*="accountDetails"],[class*="accountSetting"],
+  [class*="field_"],[class*="field-"],
+  [class*="securitySetting"],[class*="settingsSection"],
+  [class*="settingCard"]
+) :is(
+  span,small,p,label,strong,
+  [class*="text"],[class*="name"],
+  [class*="description"],[class*="label"]
+) {
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+/* Disabled Edit buttons should remain readable, not invisible. We
+   preserve disabled interaction, just remove low-contrast typography. */
+#app-mount button:disabled:not([class*="colorBrand"]):not([class*="colorDanger"]),
+#app-mount [role="button"][aria-disabled="true"] {
+  color:var(--kim-muted) !important;
+  -webkit-text-fill-color:var(--kim-muted) !important;
+}
+#app-mount a,#app-mount [role="link"] {
+  color:#20576a !important;
+  -webkit-text-fill-color:#20576a !important;
+}
+
+/* STATUS MENU — popovers may be mounted outside #app-mount.
+   Give the WHOLE row a hover/selected background, not a little
+   pale rectangle just behind the word "Online". */
+body :is([role="menu"],[role="listbox"]) :is(
+  [role="menuitem"],[role="menuitemradio"],[role="option"]
+) {
+  display:flex !important;
+  width:100% !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+  align-items:center;
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  border-radius:1px !important;
+}
+body :is([role="menu"],[role="listbox"]) :is(
+  [role="menuitem"],[role="menuitemradio"],[role="option"]
+) :is(span,div,small) {
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+body :is([role="menu"],[role="listbox"]) :is(
+  [role="menuitem"],[role="menuitemradio"],[role="option"]
+):is(:hover,:focus-visible,[aria-selected="true"],[data-highlighted]) {
+  background:var(--kim-selection) !important;
+  color:var(--kim-ink) !important;
+}
+/* Neutralize Discord's inner white selection strip without hiding
+   status dots or SVG badges. */
+body :is([role="menu"],[role="listbox"]) :is(
+  [role="menuitem"],[role="menuitemradio"],[role="option"]
+):is(:hover,:focus-visible,[aria-selected="true"],[data-highlighted]) :is(
+  [class*="label"],[class*="name"],[class*="text"]
+) {
+  background-color:transparent !important;
+}
+
+/* PROFILE BANNER — cream plastic throughout, without a dark
+   divider through the avatar (the rest of the border stays). */
+#app-mount :is(
+  .user-profile-popout,.user-profile-modal-v2,
+  [class*="accountProfilePopout"],[class*="userPopoutOuter"],
+  [class*="userPanelOuter"],[class*="userProfileOuter"],
+  [class*="user-profile-sidebar"],[class*="userProfileSidebar"]
+) :is(
+  [class*="banner"],[class*="Banner"],
+  [class*="profileHeader"]
+) {
+  background-color:var(--kim-plastic) !important;
+  background-image:none !important;
+  border-bottom:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+}
+
+
+/* KIM v0.3f.1 / MODERN DISCORD TEXT COMPONENT FALLBACK
+   New Discord Text components are often plain div/span with a
+   data-text-variant attribute, not h2 or a recognizable settings class.
+   Our earlier container-scoped rules missed them. In the KIM palette,
+   text-bearing components on aged cream should use dark graphite. */
+#app-mount [data-text-variant]:not(a):not([role="link"]):not([class*="colorDanger"]):not([class*="colorSuccess"]) {
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+/* Keep important affirmative/negative messages semantically colored,
+   and text on filled brand buttons legible. */
+#app-mount [class*="colorDanger"] [data-text-variant] {
+  color:#91352e !important;
+  -webkit-text-fill-color:#91352e !important;
+}
+#app-mount [class*="colorSuccess"] [data-text-variant] {
+  color:#246336 !important;
+  -webkit-text-fill-color:#246336 !important;
+}
+#app-mount button[class*="colorBrand"] [data-text-variant],
+#app-mount [role="button"][class*="colorBrand"] [data-text-variant] {
+  color:var(--kim-white) !important;
+  -webkit-text-fill-color:var(--kim-white) !important;
+}
+
+
+/* KIM v0.3f.2 — precedence fix for the FULL selected status row.
+   Use #app-mount ID specificity to supersede the earlier
+   #app-mount accountProfilePopout menuItem background-color rule.
+   The low-specificity "body [role=menu]" style was not winning. */
+#app-mount :is([role="menu"],[role="listbox"]) :is(
+  [role="menuitem"],[role="menuitemradio"],[role="option"]
+):is(
+  :hover,:focus-visible,[aria-selected="true"],[data-highlighted]
+) {
+  background:var(--kim-selection) !important;
+  background-color:var(--kim-selection) !important;
+  color:var(--kim-ink) !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  border-radius:1px !important;
+}
+#app-mount :is([role="menu"],[role="listbox"]) :is(
+  [role="menuitem"],[role="menuitemradio"],[role="option"]
+):is(:hover,:focus-visible,[aria-selected="true"],[data-highlighted])
+:is([class*="label"],[class*="name"],[class*="text"],span,small) {
+  background:transparent !important;
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+
+
+/* =======================================================================
+   HÖLLVANIA KIM v0.4b — RESTRAINED SHELL LAYOUT
+   Fixes the v0.4 regression caused by unscoped selectors like
+   [class*="chat"]::before, [class*="sidebar"]::before, and form styling.
+   
+   Safety contract:
+     * Never inject titlebars into guilds, toolbar buttons or scroll lists.
+     * No reparenting/absolute placement of app chrome.
+     * No universal border-radius or global button/form overrides.
+     * Keep virtualized message heights, scroll positions and attachments.
+     * Use CSS only; no account/client internals or network calls.
+   ======================================================================= */
+
+:root {
+  --kim-shell-title:#355c57;
+  --kim-shell-title-top:#577f74;
+  --kim-shell-paper:#e8e2d2;
+  --kim-shell-plastic:#ddd8c8;
+  --kim-shell-trim:#86968a;
+  --kim-shell-border:#536a60;
+  --kim-shell-selection:#b7cfba;
+  --kim-shell-shadow:inset 1px 1px 0 #f9f6eb,inset -1px -1px 0 #9b9c8f;
+  --kim-shell-titlefont:"Liberation Sans Narrow","Liberation Sans",Tahoma,sans-serif;
+}
+
+/* 1. SERVER RAIL stays its own narrow navigation strip.
+      It gets NO fake titlebar. */
+#app-mount [class*="guilds_"] {
+  border-right:1px solid var(--kim-shell-border) !important;
+  background:var(--kim-frame) !important;
+}
+#app-mount [class*="guilds_"]::before {
+  content:none !important;
+}
+
+/* 2. CONTACT DIRECTORY: only the actual privateChannels root gets
+      one titlebar. Explicitly avoid sidebar_ wrappers and nav menus. */
+#app-mount [class*="privateChannels_"] {
+  background:var(--kim-beige) !important;
+  border:1px solid var(--kim-shell-border) !important;
+  min-width:0;
+}
+#app-mount [class*="privateChannels_"]::before {
+  content:"KIM  —  ADDRESS BOOK";
+  display:flex;
+  align-items:center;
+  flex:none;
+  box-sizing:border-box;
+  height:29px;
+  padding:0 10px;
+  background:linear-gradient(to bottom,var(--kim-shell-title-top),var(--kim-shell-title)) !important;
+  border-bottom:1px solid #263f3a;
+  color:var(--kim-white) !important;
+  font:700 11px/1 var(--kim-shell-titlefont);
+  letter-spacing:.105em;
+  white-space:nowrap;
+  pointer-events:none;
+}
+#app-mount [class*="privateChannels_"] [class*="searchBar_"] {
+  background:var(--kim-shell-plastic) !important;
+  border-bottom:1px solid var(--kim-shell-trim);
+}
+#app-mount [class*="privateChannels_"] [class*="channel_"] {
+  background:rgba(249,246,235,.48);
+  border:1px solid rgba(83,106,96,.52);
+  border-radius:1px !important;
+  box-shadow:inset 1px 1px rgba(255,255,255,.28);
+  box-sizing:border-box;
+}
+#app-mount [class*="privateChannels_"] [class*="channel_"]:hover {
+  background:var(--kim-warm-hover) !important;
+}
+#app-mount [class*="privateChannels_"] :is(
+  [class*="selected_"],[class*="interactiveSelected_"],[aria-selected="true"]
+) {
+  background:var(--kim-shell-selection) !important;
+}
+#app-mount [class*="privateChannels_"] :is(
+  [class*="username_"],[class*="name_"],[class*="channelName_"]
+) {
+  color:var(--kim-ink) !important;
+}
+
+/* 3. TRANSMISSION PANE: match only a CHAT ROOT that directly owns
+      the native title header and contains chatContent. This avoids
+      creating headers inside the transcript or toolbar buttons.
+      If Discord changes its DOM, the new header simply won't show. */
+#app-mount [class^="chat_"]:has(> [class*="title_"]):has([class*="chatContent_"]) {
+  border:1px solid var(--kim-shell-border) !important;
+  min-height:0;
+  min-width:0;
+}
+#app-mount [class^="chat_"]:has(> [class*="title_"]):has([class*="chatContent_"])::before {
+  content:"KIM  —  TRANSMISSION";
+  display:flex;
+  align-items:center;
+  flex:none;
+  order:-1;
+  box-sizing:border-box;
+  height:29px;
+  padding:0 10px;
+  background:linear-gradient(to bottom,var(--kim-shell-title-top),var(--kim-shell-title)) !important;
+  border-bottom:1px solid #263f3a;
+  color:var(--kim-white) !important;
+  font:700 11px/1 var(--kim-shell-titlefont);
+  letter-spacing:.105em;
+  white-space:nowrap;
+  pointer-events:none;
+}
+/* Put a hairline under the REAL header; do not create another bar. */
+#app-mount [class^="chat_"]:has([class*="chatContent_"]) > [class*="title_"] {
+  background:var(--kim-shell-plastic) !important;
+  border-bottom:1px solid var(--kim-shell-trim);
+}
+/* Chat transcript must remain scrollable. Do not change message
+   list item margin, padding, height, or position. */
+#app-mount [class*="chatContent_"] {
+  background:var(--kim-shell-paper) !important;
+  min-height:0;
+}
+#app-mount [class*="messageListItem_"] {
+  border-bottom:1px solid rgba(83,106,96,.10);
+}
+#app-mount [class*="timestamp_"] {
+  color:var(--kim-muted) !important;
+  font-size:11px;
+}
+#app-mount [class*="divider_"] [class*="content_"] {
+  background:var(--kim-shell-paper) !important;
+  color:var(--kim-muted) !important;
+}
+
+/* 4. COMPOSER. The heading is ONLY on channelTextArea, not form,
+      chat, buttons_ or scroll containers. This won't label emojis. */
+#app-mount [class*="channelTextArea_"] {
+  position:relative;
+  background:var(--kim-shell-plastic) !important;
+  border:1px solid var(--kim-shell-border) !important;
+  box-shadow:var(--kim-shell-shadow);
+  border-radius:1px !important;
+  padding-top:20px;
+}
+#app-mount [class*="channelTextArea_"]::before {
+  content:"OUTGOING TRANSMISSION";
+  position:absolute;
+  top:5px;
+  left:9px;
+  color:var(--kim-deep) !important;
+  font:700 10px/1 var(--kim-shell-titlefont);
+  letter-spacing:.09em;
+  pointer-events:none;
+}
+#app-mount [class*="channelTextArea_"] [class*="scrollableContainer_"] {
+  background:var(--kim-white) !important;
+  border:1px solid #9a9a8a;
+  box-shadow:inset 1px 1px var(--kim-shell-trim);
+  min-width:0;
+}
+
+/* 5. PROFILE PANEL: one dedicated header in the DM side profile,
+      NOT a second address-book header. Keep profile actions usable. */
+#app-mount :is([class*="userPanelOuter_"],[class*="user-profile-sidebar"]) {
+  background:var(--kim-shell-plastic) !important;
+  border:1px solid var(--kim-shell-border) !important;
+  min-width:0;
+}
+#app-mount :is([class*="userPanelOuter_"],[class*="user-profile-sidebar"])::before {
+  content:"KIM  —  PROFILE";
+  display:flex;
+  align-items:center;
+  flex:none;
+  box-sizing:border-box;
+  height:29px;
+  padding:0 10px;
+  background:linear-gradient(to bottom,var(--kim-shell-title-top),var(--kim-shell-title)) !important;
+  color:var(--kim-white) !important;
+  font:700 11px/1 var(--kim-shell-titlefont);
+  letter-spacing:.105em;
+  border-bottom:1px solid #263f3a;
+  pointer-events:none;
+}
+/* Modest spacing and tactile framing around known dossier elements. */
+#app-mount :is([class*="userPanelOuter_"],[class*="user-profile-sidebar"])
+  :is([class*="profileBody_"],[class*="overlayBackground_"]) {
+  color:var(--kim-ink) !important;
+  background:var(--kim-shell-plastic) !important;
+  border-color:var(--kim-shell-border);
+}
+#app-mount :is([class*="userPanelOuter_"],[class*="user-profile-sidebar"])
+  :is([class*="avatarWrapper_"],[class*="avatarContainer_"]) img {
+  border:1px solid var(--kim-shell-border);
+  border-radius:1px !important;
+}
+
+/* 6. RETRO CONTROLS only where they belong.
+      No blanket #app-mount button rule — Discord's calls, reaction
+      picker and toolbar icons must retain native click targets. */
+#app-mount :is(
+  [class*="privateChannels_"] [class*="searchBarComponent_"],
+  [class*="channelTextArea_"] [role="textbox"],
+  [class*="channelTextArea_"] textarea
+) {
+  background:var(--kim-white) !important;
+  border-radius:1px !important;
+  color:var(--kim-ink) !important;
+}
