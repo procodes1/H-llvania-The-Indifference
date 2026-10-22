@@ -791,3 +791,19 @@
 }
 /* This is cosmetic only: disabling the theme restores original banners,
    colored profiles, menus, and decorations. */
+
+/* Circular "avatar notch" can also be an ::after on the banner
+   rather than an ::before on the avatar wrapper. This removes
+   decoration only; the actual portrait and presence indicator remain. */
+#app-mount :is(
+  [class*="userPopoutOuter"],
+  [class*="userPanelOuter"],
+  [class*="userProfileOuter"],
+  .user-profile-modal-v2
+) :is(
+  [class*="bannerContainer"],
+  [class*="bannerSVGWrapper"],
+  [class*="profileHeaderBanner"]
+)::after {
+  content: none !important;
+}
