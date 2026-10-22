@@ -1336,3 +1336,30 @@ body :is([role="menu"],[role="listbox"]) :is(
   box-shadow:none !important;
   outline:0 !important;
 }
+
+
+/* KIM v0.3f.1 / MODERN DISCORD TEXT COMPONENT FALLBACK
+   New Discord Text components are often plain div/span with a
+   data-text-variant attribute, not h2 or a recognizable settings class.
+   Our earlier container-scoped rules missed them. In the KIM palette,
+   text-bearing components on aged cream should use dark graphite. */
+#app-mount [data-text-variant]:not(a):not([role="link"]):not([class*="colorDanger"]):not([class*="colorSuccess"]) {
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+/* Keep important affirmative/negative messages semantically colored,
+   and text on filled brand buttons legible. */
+#app-mount [class*="colorDanger"] [data-text-variant] {
+  color:#91352e !important;
+  -webkit-text-fill-color:#91352e !important;
+}
+#app-mount [class*="colorSuccess"] [data-text-variant] {
+  color:#246336 !important;
+  -webkit-text-fill-color:#246336 !important;
+}
+#app-mount button[class*="colorBrand"] [data-text-variant],
+#app-mount [role="button"][class*="colorBrand"] [data-text-variant] {
+  color:var(--kim-white) !important;
+  -webkit-text-fill-color:var(--kim-white) !important;
+}
