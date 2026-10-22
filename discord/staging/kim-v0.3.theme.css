@@ -657,3 +657,21 @@
 ) {
   display: none !important;
 }
+
+
+/* DM contact profile sidebar: the 1999 terminal uses an actual frame,
+   not an unbounded area the same color as the chat background. */
+#app-mount [class*="userPanelOuter"] {
+  background-color: var(--kim-paper) !important;
+  border-left: 2px solid var(--kim-frame) !important;
+  box-shadow: inset 1px 0 0 var(--kim-white);
+}
+#app-mount [class*="userPanelOuter"] :is(
+  [class*="userPanelInner"],
+  [class*="profileBody"],
+  [class*="profileInner"],
+  [class*="overlayBackground"]
+) {
+  background-color: var(--kim-paper) !important;
+  border-color: var(--kim-frame) !important;
+}
