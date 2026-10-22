@@ -1,7 +1,7 @@
 /**
- * @name Höllvania KIM — v0.3e CREAM + READABILITY
+ * @name Höllvania KIM — v0.3f UI RECOVERY
  * @author Höllvania / The Indifference
- * @version 0.3.5-preview
+ * @version 0.3.6-preview
  * @description Aged IBM / KIM with readable profiles, squared portraits, toned-down personal colors and fewer activity cards.
  *
  * WARNING:
@@ -1217,3 +1217,122 @@
   caret-color: var(--kim-deep) !important;
 }
 /* This is purely cosmetic. No Discord user data or settings were altered. */
+
+
+/* ================================================================
+   KIM v0.3f / LIVE-SCREEN RECOVERY PASS
+   User screenshots show:
+   - settings headings are still white on cream
+   - status menu items have light-on-cream names and narrow highlight
+   - profile banner's lower edge has an unwanted horizontal rule
+
+   Strategy: style the TEXT ELEMENTS directly even when Discord renamed
+   the settings container. This avoids another failing parent selector.
+   ================================================================ */
+
+/* Main headings and form labels throughout the light KIM interface.
+   Previous scoped [class*="contentRegion"] rules missed the current
+   Account screen. These selectors do not depend on a settings ancestor.
+   Restore intentionally colored links and dangerous controls below. */
+#app-mount :is(
+  h1,h2,h3,h4,h5,h6,label,legend,
+  [role="heading"],
+  [class*="heading_"],
+  [class*="heading-"],
+  [class*="sectionTitle"],
+  [class*="fieldTitle"],
+  [class*="fieldLabel"],
+  [class*="colorHeaderPrimary"],
+  [class*="colorHeaderSecondary"],
+  [class*="textStrong"],
+  [class*="title_"]
+) {
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+/* Explicit Account/Settings text styles are often nested directly in
+   paragraphs/spans using hashed utility classes. Don't require
+   #app-mount [class*="contentRegion"] to be an ancestor. */
+#app-mount :is(
+  [class*="formItem"],[class*="accountInfo"],
+  [class*="accountDetails"],[class*="accountSetting"],
+  [class*="field_"],[class*="field-"],
+  [class*="securitySetting"],[class*="settingsSection"],
+  [class*="settingCard"]
+) :is(
+  span,small,p,label,strong,
+  [class*="text"],[class*="name"],
+  [class*="description"],[class*="label"]
+) {
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+/* Disabled Edit buttons should remain readable, not invisible. We
+   preserve disabled interaction, just remove low-contrast typography. */
+#app-mount button:disabled:not([class*="colorBrand"]):not([class*="colorDanger"]),
+#app-mount [role="button"][aria-disabled="true"] {
+  color:var(--kim-muted) !important;
+  -webkit-text-fill-color:var(--kim-muted) !important;
+}
+#app-mount a,#app-mount [role="link"] {
+  color:#20576a !important;
+  -webkit-text-fill-color:#20576a !important;
+}
+
+/* STATUS MENU — popovers may be mounted outside #app-mount.
+   Give the WHOLE row a hover/selected background, not a little
+   pale rectangle just behind the word "Online". */
+body :is([role="menu"],[role="listbox"]) :is(
+  [role="menuitem"],[role="menuitemradio"],[role="option"]
+) {
+  display:flex !important;
+  width:100% !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+  align-items:center;
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  border-radius:1px !important;
+}
+body :is([role="menu"],[role="listbox"]) :is(
+  [role="menuitem"],[role="menuitemradio"],[role="option"]
+) :is(span,div,small) {
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+body :is([role="menu"],[role="listbox"]) :is(
+  [role="menuitem"],[role="menuitemradio"],[role="option"]
+):is(:hover,:focus-visible,[aria-selected="true"],[data-highlighted]) {
+  background:var(--kim-selection) !important;
+  color:var(--kim-ink) !important;
+}
+/* Neutralize Discord's inner white selection strip without hiding
+   status dots or SVG badges. */
+body :is([role="menu"],[role="listbox"]) :is(
+  [role="menuitem"],[role="menuitemradio"],[role="option"]
+):is(:hover,:focus-visible,[aria-selected="true"],[data-highlighted]) :is(
+  [class*="label"],[class*="name"],[class*="text"]
+) {
+  background-color:transparent !important;
+}
+
+/* PROFILE BANNER — cream plastic throughout, without a dark
+   divider through the avatar (the rest of the border stays). */
+#app-mount :is(
+  .user-profile-popout,.user-profile-modal-v2,
+  [class*="accountProfilePopout"],[class*="userPopoutOuter"],
+  [class*="userPanelOuter"],[class*="userProfileOuter"],
+  [class*="user-profile-sidebar"],[class*="userProfileSidebar"]
+) :is(
+  [class*="banner"],[class*="Banner"],
+  [class*="profileHeader"]
+) {
+  background-color:var(--kim-plastic) !important;
+  background-image:none !important;
+  border-bottom:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+}
