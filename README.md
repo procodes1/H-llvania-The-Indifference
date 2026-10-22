@@ -11,9 +11,11 @@ Fan-made project, not affiliated with Digital Extremes or Discord.
 
 Both profiles will ultimately share the same functional Hyprland core, while swapping visual components.
 
-## Current milestone: KIM v0.3
+## Current milestone: KIM v0.4b (shell containment repair)
 
-**The standalone interactive concept is ready to preview, but the new Discord stylesheet is NOT enabled on the user's machine.**
+**KIM v0.4b is currently installed as the user's locally enabled Vesktop preview theme.** The older experimental v0.4 block inserted runaway titlebars into guild navigation, nested chat content, and toolbar buttons. v0.4b replaces that block entirely with selectors targeting only three actual pane roots and the composer; the original v0.3f CSS is preserved separately.
+
+The standalone KIM v0.3 HTML concept remains the approved visual reference. The live CSS implementation is a work in progress, not yet equivalent to the HTML prototype.
 
 Open `discord/prototypes/kim-v0.3.html` in a browser. It runs completely offline and uses **fictional demo messages**; it does not connect to Discord or read personal messages.
 
@@ -39,10 +41,14 @@ The prototype includes People / Groups / Radio directory tabs, contact switching
 | `discord/prototypes/kim-v0.3.html` | Standalone preview, tested at desktop and narrow sizes |
 | `discord/prototypes/kim-v0.3.tokens.css` | Reusable palette tokens |
 | `scripts/test-kim-prototype.py` | Offline checks including color contrast and JS syntax |
-| `discord/staging/kim-v0.3.theme.css` | **Unapproved** Vencord/Vesktop CSS adaptation, not loaded |
-| `discord/kim.theme.css` | Previous experimental live theme source; NOT v0.3 |
+| `discord/staging/kim-v0.4b.theme.css` | **Currently deployed** in `~/.config/vesktop/themes/kim-v0.3-preview.theme.css`; still needs real-world screenshot verification |
+| `discord/staging/kim-v0.3.theme.css` | Last clean v0.3f base and fallback source |
+| `discord/prototypes/kim-v0.4b-shell-regression.html` | Offline visual fixture: verifies labels only on intended panes, not servers/toolbar |
+| `discord/kim.theme.css` | Older experimental source; not the active preview |
 
-**Never automatically replace or symlink `~/.config/vesktop/themes/kim.theme.css` with the staging theme.** First review the prototype visually, then test CSS in a separate removable theme with rollback.
+**Rollback:** the previous user-edited v0.4 stylesheet is at `~/.local/share/hollvania/backups/kim-v0.4-manual.pre-v0.4b.css`. The currently enabled file is `~/.config/vesktop/themes/kim-v0.3-preview.theme.css`. To revert the v0.4b patch, copy the backup onto that preview file and reload Vesktop; to return to the earlier green theme, disable the preview and enable `kim.theme.css` instead.
+
+**Never replace or symlink the older `kim.theme.css` as part of experimental theme updates.** Keep work reversible and test account settings, popouts, DMs, servers, and calls before declaring a release.
 
 ## Future milestones
 
