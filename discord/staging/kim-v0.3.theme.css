@@ -998,3 +998,46 @@
    - Restyling does not delete/hide account data from other users.
    - Message attachment images and emoji are deliberately not filtered.
  */
+
+
+/* KIM v0.3d regression fixes from the offline modern-wrapper fixture.
+   Recent accountProfilePopout/user-profile-sidebar elements did not match
+   the v0.3c circular-cutout selectors scoped to userPopoutOuter. */
+#app-mount :is(
+  [class*="accountProfilePopout"],
+  .user-profile-popout,
+  [class*="user-profile-sidebar"],
+  [class*="userProfileSidebar"]
+) :is(
+  [class*="bannerContainer"],[class*="bannerWrapper"],
+  [class*="bannerSVGWrapper"],[class*="profileBanner"]
+)::after,
+#app-mount :is(
+  [class*="accountProfilePopout"],
+  .user-profile-popout,
+  [class*="user-profile-sidebar"],
+  [class*="userProfileSidebar"]
+) :is(
+  [class*="bannerContainer"],[class*="bannerWrapper"],
+  [class*="bannerSVGWrapper"],[class*="profileBanner"]
+)::before {
+  content:none !important;
+}
+
+/* Fix profile biographies, About text and mutual/member date metadata.
+   The screen still showed low-opacity pale copy after panel recoloring. */
+#app-mount :is(
+  [class*="accountProfilePopout"],
+  .user-profile-popout,
+  [class*="user-profile-sidebar"],
+  [class*="userProfileSidebar"]
+) :is(
+  [class*="bio"],[class*="aboutMe"],[class*="profileText"],
+  [class*="sectionTitle"],[class*="memberSince"],
+  [class*="mutual"],[class*="description"],
+  [class*="subText"],[class*="subtext"]
+) {
+  color:var(--kim-ink) !important;
+  opacity:1 !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+}
