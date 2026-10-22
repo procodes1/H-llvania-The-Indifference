@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KIM v0.3b profile regression fixture</title>
+<link rel="stylesheet" href="../staging/kim-v0.3.theme.css">
+<style>
+body{background:#647c6d;color:#e9eee2;margin:0;padding:24px;font:13px "Liberation Sans",sans-serif;}
+.safety{font:12px monospace;letter-spacing:.06em;margin:0 0 15px;}
+#app-mount{max-width:1170px;margin:auto;display:flex;gap:12px;align-items:start;min-height:620px;}
+.privateChannels_x{width:220px;flex:none;padding:15px 10px;background:#cfc7b4;color:#1f1d19;}
+.privateChannels_x h2{font-size:13px;margin:0 0 18px}
+.privateChannels_x p{font-size:12px;margin:8px 0}
+.user-profile-modal-v2{flex:1;min-width:0;background:#dfcfda;display:grid;grid-template-columns:minmax(360px,1fr) minmax(300px,.75fr);gap:12px;padding:16px;min-height:620px;}
+.profile__9c3be{min-width:0;background:var(--profile-gradient-modal-background-color);padding:0 10px 15px;}
+.profileHeaderBannerContainer__9c3be{position:relative;margin:0 -10px;height:152px;background:#3b4651;overflow:visible;}
+.profileHeaderBannerContainer__9c3be::before{content:"";position:absolute;left:32px;top:65px;width:178px;height:178px;border-radius:50%;background:var(--profile-gradient-modal-background-color);z-index:1;}
+.avatarWrapper__9c3be{position:relative;z-index:2;display:block;top:85px;left:45px;width:125px;height:125px;border-radius:100%;background:var(--profile-gradient-modal-background-color);}
+.avatarWrapper__9c3be svg{width:125px;height:125px;overflow:visible;}
+.avatarWrapper__9c3be img{width:125px;height:125px;border-radius:100%;display:block;object-fit:cover;}
+.profileBody__9c3be{padding:76px 16px 15px;background:var(--profile-gradient-primary-color);min-height:410px;}
+.profileBody__9c3be h1{font-size:24px;line-height:1.2;margin:0 0 3px;}
+.profileBody__9c3be .bio_ab12{color:#eeeeee;margin-top:30px;line-height:1.55;}
+.profileBody__9c3be .subtext_abc{color:#eeeeee;}
+.profileBody__9c3be .section_abc{margin-top:15px;border:1px solid transparent;padding:11px;}
+.rightColumn_88{min-width:0;background:#ebe0d8;padding:16px;}
+.rightColumn_88 h2{font-size:14px;}
+.activityCards_abc{padding:15px;background:#3e3e41;color:white;}
+.activityCard_abc{background:#262626;color:white;margin:10px 0;padding:15px;}
+.activityCard_abc strong{display:block;font-size:17px;margin-bottom:7px;}
+.gameCollection_abc{padding:15px;color:white;background:#373437;}
+.notice{padding:10px;border:1px solid #5e6e5e;background:#eee6d7;color:#2b2a26;line-height:1.55}
+.badge{display:inline-block;background:#3b7043;color:white;padding:3px 5px;border-radius:50%;position:absolute;bottom:0;right:0;z-index:3;}
+@media(max-width:900px){#app-mount{display:block}.privateChannels_x{display:none}.user-profile-modal-v2{grid-template-columns:1fr}.rightColumn_88{display:none}}
+</style>
+</head>
+<body>
+<p class="safety">KIM v0.3b / PROFILE REGRESSION VIEW / STATIC DEMO DATA / NO NETWORK</p>
+<div id="app-mount" class="theme-dark visual-refresh">
+<aside class="privateChannels_x"><h2>1999 CONTACTS</h2><p>✓ Aster</p><p>✓ Ordis</p><p>✓ Rook</p><p>CONTACT LIST</p></aside>
+<section class="user-profile-modal-v2 profileColors_a123" style="--profile-gradient-primary-color:#cf8d9d;--profile-gradient-secondary-color:#c97193;--profile-gradient-modal-background-color:#d99bb0;--profile-avatar-border-color:#ffe0ec;" aria-label="Mock full Discord profile">
+ <section class="profile__9c3be profileHeader_abc">
+  <div class="profileHeaderBannerContainer__9c3be">
+   <div class="avatarWrapper__9c3be"><svg viewBox="0 0 125 125" aria-label="Square sample portrait"><circle cx="62" cy="62" r="61" fill="black"/><foreignObject x="0" y="0" width="125" height="125"><img xmlns="http://www.w3.org/1999/xhtml" alt="Fictional avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' fill='%2381917f'/%3E%3Crect x='6' y='7' width='20' height='22' fill='%23c3a984'/%3E%3Crect x='11' y='14' width='5' height='5' fill='%232f2721'/%3E%3C/svg%3E" width="125" height="125"></foreignObject></svg><span class="badge" aria-label="Online">●</span></div>
+  </div>
+  <div class="profileBody__9c3be">
+   <h1 class="username_abc">Aster</h1>
+   <div class="subtext_abc">Operator / Technician</div>
+   <div class="section_abc"><h2 class="sectionTitle_abc">ABOUT ME</h2><p class="bio_ab12">Repairing old terminals since 1999. Every missing screw is a design opportunity.</p></div>
+   <div class="section_abc"><h2 class="sectionTitle_abc">MEMBER SINCE</h2><p class="subtext_abc">June 1999</p></div>
+   <div class="notice">All colors are mocked; this demonstrates precedence over inline profile theme colors. Activity items should be hidden but not deleted.</div>
+  </div>
+ </section>
+ <aside class="rightColumn_88" aria-label="Mock activity card sidepanel">
+   <h2>Activities / Wishlist</h2>
+   <div class="activityCards_abc"><div class="activityCard_abc"><strong>Favorite games</strong>Demo game art card</div><div class="activityCard_abc"><strong>Recent activity</strong>Demo game card</div></div>
+   <div class="gameCollection_abc">Example game collection card</div>
+ </aside>
+</section>
+</div>
+</body>
+</html>
