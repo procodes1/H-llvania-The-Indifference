@@ -29,9 +29,27 @@ A deliberately restrained palette: panels stay navy, **gold is for hierarchy**, 
 
 The Matugen setup on this installation still resolves to a **leftover ML4W configuration**, so the regular wallpaper color-generation script should not be used as the first choice for this fixed theme. The custom palette deliberately bypasses that pipeline.
 
+## Orokin Ivory Palace wallpaper v0.2 (current)
+
+The user requested that the **wallpaper be visibly Orokin architecture**, while the **desktop chrome stays Vitruvian**. The first dark "Vitruvian Void" geometry wallpaper was retained as an alternative rather than overwritten.
+
+- `wallpapers/orokin-ivory-palace-v0.2.svg` — editable original 4K vector concept: ivory marble, flowing gilded arches, ceremonial stairs, light-blue Void highlights, and a reflective floor. No baked-in bars, icons, clock, launcher or screenshots.
+- `scripts/end4-orokin-wallpaper.py` — renders the 3840×2160 WebP and updates only `background.wallpaperPath` in end-4's config (no Matugen).
+- Installed as `~/.local/share/hollvania/wallpapers/orokin-ivory-palace-v0.2.webp`. The earlier `vitruvian-void-v0.1.webp` remains on disk.
+- Restore marker `~/.local/state/hollvania/end4-orokin-wallpaper-v0.2.json` records the **immediately prior wallpaper**, which was `vitruvian-void-v0.1.webp`.
+
+To switch back to the earlier darker wallpaper:
+```bash
+cd ~/Projects/Hollvania-The-Indifference
+python3 scripts/end4-orokin-wallpaper.py restore
+qs -c ii kill; qs -c ii -d
+```
+
+You can reapply the white-gold wallpaper later with `python3 scripts/end4-orokin-wallpaper.py apply`. Quickshell was restarted successfully and the keyboard/monitor configuration was verified after applying v0.2.
+
 ## Wallpaper: Vitruvian Void v0.1
 
-The first clean 4K Orokin-style wallpaper is installed and active in both end-4 backgrounds.
+The first clean 4K dark Vitruvian-style wallpaper remains installed as a restore option; the current background is the brighter Orokin Ivory Palace v0.2 above.
 
 - Source: `wallpapers/vitruvian-void-v0.1.svg` (editable original SVG vector art, 3840×2160; geometric portal, gilded filigree, Void lighting, temple arches, reflective floor).
 - Rendered locally using `rsvg-convert` and ImageMagick to `~/.local/share/hollvania/wallpapers/vitruvian-void-v0.1.webp`.
