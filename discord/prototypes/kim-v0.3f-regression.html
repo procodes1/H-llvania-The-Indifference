@@ -1,0 +1,47 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KIM v0.3f Settings, menu and banner regression</title><link rel="stylesheet" href="../staging/kim-v0.3.theme.css"><style>
+body{margin:0;background:#607b6d;font:13px "Liberation Sans",sans-serif;color:#f5f1e4;padding:22px}
+h1{font:12px monospace;font-weight:500;letter-spacing:.06em}
+#app-mount{display:grid;grid-template-columns:325px 1fr 300px;gap:18px;margin-top:12px;max-width:1250px;min-height:685px;color:#1f1d19}
+.accountProfilePopout_7ee01,.user-profile-sidebar{background:#d99bab;--profile-gradient-primary-color:#dea1ba;--profile-gradient-secondary-color:#bd8b99;--profile-gradient-modal-background-color:#d99bab;padding:6px;min-height:570px;position:relative;box-shadow:4px 5px 0 #314b3e}
+.accountProfilePopoutInner_7ee01,.userPanelInner_24efa{background:var(--profile-gradient-modal-background-color);height:100%;padding:0 8px;}
+.bannerContainer_abc{height:142px;background:#37373e;position:relative;margin:0 -8px;}
+.bannerContainer_abc::after{content:"";position:absolute;left:11px;bottom:-39px;width:115px;height:115px;border-radius:50%;background:#ddd8c8}
+.avatarPosition_aaa{position:absolute;z-index:2;left:23px;top:90px;width:90px;height:90px;background:#ddd8c8;border-radius:50%;padding:5px;}
+.avatarPosition_aaa::before{content:"";position:absolute;inset:-3px;border:5px solid #ddd8c8;border-radius:50%;pointer-events:none}
+.avatarWrapper_abc{width:80px;height:80px;border-radius:50%;overflow:hidden}
+.avatarWrapper_abc img{width:80px;height:80px;object-fit:cover;border-radius:50%;display:block}
+.name_abc{font-size:20px;margin-top:53px;color:#f6f2e4;}
+.subText_abc{font-size:12px;color:#fafafa;opacity:.5;margin-bottom:20px}
+.bio_abc{font-size:12px;color:#fff;opacity:.3;margin-top:12px}
+.menu_abc{background:#14151b;padding:6px;margin-top:18px;border:1px solid #353842}
+.menuItem_abc{border:0;border-bottom:1px solid #32353b;background:#101116;color:#666;padding:13px 10px;width:100%;text-align:left;font:12px "Liberation Sans"}
+.menuItem_abc .label_abc{color:#65616b}
+.menuItem_abc:hover{background:#353a40}
+.center{padding:16px;background:#e8e2d2}
+.center h2{font:20px "Liberation Sans";padding-bottom:10px;border-bottom:2px solid #687c6f}
+.center .note{padding:12px;border:1px solid #899583;background:#f9f6eb;line-height:1.6}
+.right .bannerContainer_abc{background:#d1a3aa;}
+.right .avatarPosition_aaa{width:80px;height:80px}.right .avatarWrapper_abc{width:70px;height:70px}.right .avatarWrapper_abc img{width:70px;height:70px}
+.right .name_abc{margin-top:47px}
+@media(max-width:900px){#app-mount{display:block}.accountProfilePopout_7ee01,.user-profile-sidebar{margin-bottom:18px}}
+</style></head><body>
+<h1>HÖLLVANIA KIM // ACCOUNT POPOUT + SETTINGS CONTRAST CHECK // FICTIONAL DATA ONLY</h1>
+<div id="app-mount" class="theme-dark visual-refresh">
+<section class="accountProfilePopout_7ee01" aria-label="Account popout mockup">
+  <div class="accountProfilePopoutInner_7ee01"><div class="bannerContainer_abc"></div>
+    <div class="avatarPosition_aaa"><div class="avatarWrapper_abc"><img alt="Pixel portrait" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' fill='%238a9c8a'/%3E%3Crect x='6' y='5' width='12' height='14' fill='%23c9ab85'/%3E%3Crect x='9' y='10' width='4' height='4' fill='%23413a2d'/%3E%3C/svg%3E"></div></div>
+    <div class="name_abc">Operator</div><div class="subText_abc">Connected • Communications</div>
+    <div class="bio_abc">A fictional account with old, unreadable colors.</div>
+    <div class="menu_abc" role="menu" aria-label="Demo account actions">
+      <button class="menuItem_abc" role="menuitem"><span class="label_abc">Edit Profile</span></button>
+      <button class="menuItem_abc" role="menuitem" aria-selected="true"><span class="label_abc">Online — selected full row</span></button>
+      <button class="menuItem_abc" role="menuitem"><span class="label_abc">Switch Accounts</span></button>
+    </div>
+  </div>
+</section>
+<section class="center"><h2>KIM // SETTINGS CONTRAST</h2><div data-text-variant="heading-lg/bold" style="color:#fafaf7;font-size:20px;margin:10px 0">Unscoped settings title (must be black)</div><p class="note">This mockup isolates the avatar circle, profile banner and dark menu from the screenshot. It should produce a cream menu, cream banner, and a square portrait.</p><div class="standardSidebarView_abc"><div class="contentRegion_abc"><div class="contentColumn_abc"><h2 class="heading_abc" style="color:#f2eee4">Account Info</h2><p class="fieldTitle_abc" style="color:#f2eee4">Username</p><p class="description_abc" style="color:#f5f1ec">Change your display name in account settings.</p><div data-text-variant="text-sm/medium" style="color:#ffffff">Email address</div><h3 class="title_abc" style="color:#f8f7f1">Password &amp; Security</h3><p class="description_abc" style="color:#fff9f1">A muted security description.</p><p class="fieldLabel_abc" style="color:#fff8f1">Multi-Factor Authentication</p><p><a href="#fixture-link" style="color:#4589b0">Reveal (link)</a></p><p class="fieldLabel_abc" style="color:#faf5ee">Phone number</p></div></div></div><p>Real Discord still requires screenshot verification after the update.</p></section>
+<section class="user-profile-sidebar right" aria-label="DM profile mockup"><div class="userPanelInner_24efa"><div class="bannerContainer_abc"></div>
+  <div class="avatarPosition_aaa"><div class="avatarWrapper_abc"><img alt="DM portrait" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' fill='%239c8e7e'/%3E%3Crect x='5' y='5' width='14' height='14' fill='%23cfba9a'/%3E%3C/svg%3E"></div></div>
+  <div class="name_abc">Aster</div><div class="subText_abc">Member since 1999</div>
+  <p class="bio_abc">The radio signal has been checked.</p>
+</div></section></div></body></html>
