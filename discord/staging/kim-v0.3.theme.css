@@ -1,7 +1,7 @@
 /**
- * @name Höllvania KIM — v0.3b PROFILE REFINEMENT
+ * @name Höllvania KIM — v0.3c ACCOUNT REFINEMENT
  * @author Höllvania / The Indifference
- * @version 0.3.2.1-preview
+ * @version 0.3.3-preview
  * @description Aged IBM / KIM with readable profiles, squared portraits, toned-down personal colors and fewer activity cards.
  *
  * WARNING:
@@ -675,3 +675,119 @@
   background-color: var(--kim-paper) !important;
   border-color: var(--kim-frame) !important;
 }
+
+
+/* ============================================================
+   KIM v0.3c — ACCOUNT POPOUT AND DM PROFILE CHROME
+   Separate from the full-profile modal CSS above.
+   ============================================================ */
+
+/* Profile colors are sometimes inline values from other users. */
+#app-mount :is([class*="userPopoutOuter"],[class*="userPopoutInner"],
+               [class*="userPanelOuter"],[class*="userPanelInner"]) {
+  --profile-gradient-primary-color:var(--kim-paper) !important;
+  --profile-gradient-secondary-color:var(--kim-plastic) !important;
+  --profile-gradient-modal-background-color:var(--kim-plastic) !important;
+  --profile-gradient-overlay-color:var(--kim-paper) !important;
+  --profile-body-background-color:var(--kim-paper) !important;
+  --user-profile-overlay-background:var(--kim-paper) !important;
+  --background-surface-high:var(--kim-paper) !important;
+  --background-surface-higher:var(--kim-white) !important;
+  --background-surface-highest:var(--kim-white) !important;
+  --text-primary:var(--kim-ink) !important;
+  --text-secondary:var(--kim-muted) !important;
+  --text-muted:var(--kim-muted) !important;
+  color:var(--kim-ink) !important;
+}
+
+/* Dark teal is reserved for decorative header/banner panels. Banner
+   artwork is suppressed visually, not deleted from anyone's profile. */
+#app-mount :is([class*="userPopoutOuter"],[class*="userPanelOuter"],
+              [class*="userProfileOuter"],.user-profile-modal-v2)
+:is([class*="bannerSVGWrapper"],[class*="bannerWrapper"],
+    [class*="bannerContainer"],[class*="profileBanner"],
+    [class*="userBanner"],[class*="profileHeaderBanner"]) {
+  background:var(--kim-deep) !important;
+  background-image:none !important;
+  border-radius:0 !important;
+}
+#app-mount :is([class*="userPopoutOuter"],[class*="userPanelOuter"])
+:is([class*="bannerSVGWrapper"],[class*="bannerContainer"])
+:is(img,video) {
+  visibility:hidden !important;
+}
+
+/* The round notch belongs to the avatar BACKING, not the avatar image.
+   Preserve small online indicators and user profile content. */
+#app-mount :is([class*="userPopoutOuter"],[class*="userPanelOuter"],
+              [class*="userProfileOuter"],.user-profile-modal-v2)
+:is([class*="avatarPosition"],[class*="avatarWrapper"],[class*="avatarContainer"]) {
+  background:transparent !important;
+  border-radius:2px !important;
+  clip-path:none !important;
+  mask:none !important;
+  -webkit-mask:none !important;
+}
+#app-mount :is([class*="userPopoutOuter"],[class*="userPanelOuter"],
+              [class*="userProfileOuter"],.user-profile-modal-v2)
+:is([class*="avatarPosition"],[class*="avatarWrapper"],[class*="avatarContainer"])::before {
+  content:none !important;
+}
+#app-mount :is([class*="userPopoutOuter"],[class*="userPanelOuter"],
+              [class*="userProfileOuter"],.user-profile-modal-v2)
+:is([class*="avatarPosition"],[class*="avatarWrapper"],[class*="avatarContainer"])
+:is(img,svg foreignObject) {
+  border-radius:2px !important;
+  mask:none !important;
+  -webkit-mask:none !important;
+}
+
+/* User account action menus have their own dark surfaces and may not
+   inherit all custom theme tokens. Override their backgrounds explicitly. */
+#app-mount :is([class*="userPopoutOuter"],[class*="userPopoutInner"])
+:is([class*="menu_"],[class*="menuContent_"],[class*="actionGroup_"]) {
+  background:var(--kim-plastic) !important;
+  color:var(--kim-ink) !important;
+  border:1px solid var(--kim-frame) !important;
+}
+#app-mount :is([class*="userPopoutOuter"],[class*="userPopoutInner"])
+:is([role="menuitem"],[class*="menuItem_"],[class*="actionButton_"]) {
+  background:var(--kim-paper) !important;
+  color:var(--kim-ink) !important;
+  border:1px solid var(--kim-trim) !important;
+  border-radius:1px !important;
+}
+#app-mount :is([class*="userPopoutOuter"],[class*="userPopoutInner"])
+:is([role="menuitem"],[class*="menuItem_"],[class*="actionButton_"]):hover {
+  background:var(--kim-selection) !important;
+}
+#app-mount :is([class*="userPopoutOuter"],[class*="userPopoutInner"])
+:is([class*="menuItem_"],[class*="actionButton_"])
+:is([class*="label_"],[class*="name_"],[class*="text_"]) {
+  color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+#app-mount [role="menu"] {
+  background:var(--kim-plastic) !important;
+  color:var(--kim-ink) !important;
+}
+#app-mount [role="menu"] [role="menuitem"]:not([class*="colorDanger"]) {
+  background:var(--kim-paper) !important;
+  color:var(--kim-ink) !important;
+}
+#app-mount [role="menu"] [role="menuitem"]:not([class*="colorDanger"]):hover {
+  background:var(--kim-selection) !important;
+}
+
+/* The visible DM sidebar must read as a framed terminal panel. */
+#app-mount [class*="userPanelOuter"] {
+  background:var(--kim-paper) !important;
+  border-left:2px solid var(--kim-frame) !important;
+}
+#app-mount [class*="userPanelOuter"]
+:is([class*="sectionTitle"],[class*="memberSince"],[class*="mutual"],[class*="bio"]) {
+  color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+/* This is cosmetic only: disabling the theme restores original banners,
+   colored profiles, menus, and decorations. */
