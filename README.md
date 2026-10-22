@@ -15,7 +15,7 @@ The current desktop foundation is **end-4's illogical-impulse dotfiles** on Hypr
 
 **KIM Classic v0.4b remains the approved fallback.** Vitruvian v0.1 was tested in live Vesktop; the new **Vitruvian v0.2** is now enabled as an experimental refinement, awaiting a fresh screenshot. It uses a unified navy sidebar, gilded trim, a compact native chat heading, and subtle profile ornamentation. The user's reference art is used for color/style direction only, not redistributed.
 
-**Desktop:** [End-4 Orokin v0.1 deployment and rollback](docs/end4-orokin-v0.1.md). The 53-token Material palette is installed in the end-4 Quickshell theme, with gilded window borders. User hardware preferences are preserved (Swedish keyboard, AOC left 144Hz, Lenovo OLED right 239.97Hz). Original Discord palette notes: [KIM // Vitruvian v0.1](docs/kim-vitruvian-v0.1.md). The older [ML4W scratchpad/Warframe troubleshooting guide](docs/hyprland-warframe-workspaces.md) is retained as historical context, **not** as the current end-4 configuration.
+**Desktop:** [End-4 Orokin v0.1 deployment and rollback](docs/end4-orokin-v0.1.md). The 53-token Material palette and 4K Vitruvian Void wallpaper are installed in the end-4 Quickshell theme, with gilded window borders. User hardware preferences are preserved (Swedish keyboard, AOC left 144Hz, Lenovo OLED right 239.97Hz). Original Discord palette notes: [KIM // Vitruvian v0.1](docs/kim-vitruvian-v0.1.md). The older [ML4W scratchpad/Warframe troubleshooting guide](docs/hyprland-warframe-workspaces.md) is retained as historical context, **not** as the current end-4 configuration.
 
 ## KIM Classic archive
 
@@ -43,6 +43,8 @@ The prototype includes People / Groups / Radio directory tabs, contact switching
 
 | Component | Status |
 |---|---|
+| `wallpapers/vitruvian-void-v0.1.svg` | **Active 4K Orokin-inspired original wallpaper artwork** (clean, no fake UI) |
+| `scripts/end4-wallpaper.py` | Render, install, and restore end-4's wallpaper without triggering Matugen |
 | `profiles/end4-vitruvian/colors.json` | **Active end-4 Orokin Material palette** (midnight/navy, ivory, gold, Void-blue) |
 | `scripts/end4-orokin.py` | Reversible theme installation, palette validation and gold Hyprland chrome |
 | `docs/end4-orokin-v0.1.md` | Installed scope, color tokens, reapply and restore commands |
