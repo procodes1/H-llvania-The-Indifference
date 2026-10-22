@@ -11,15 +11,15 @@ Fan-made project, not affiliated with Digital Extremes or Discord.
 
 Both profiles will ultimately share the same functional Hyprland core, while swapping visual components.
 
-## Current milestone: Classic approved + Vitruvian dark variant in testing
+## Current milestone: Vitruvian v0.2 live; Classic safely frozen
 
-**KIM Classic v0.4b remains the approved visual baseline.** A separate experimental dark-mode **KIM // Vitruvian** has now been installed locally but remains **disabled** until tested on live Discord. The user's Vitruvian reference art is used only for color/style direction, not redistributed.
+**KIM Classic v0.4b remains the approved fallback.** Vitruvian v0.1 was tested in live Vesktop; the new **Vitruvian v0.2** is now enabled as an experimental refinement, awaiting a fresh screenshot. It uses a unified navy sidebar, gilded trim, a compact native chat heading, and subtle profile ornamentation. The user's reference art is used for color/style direction only, not redistributed.
 
-Instructions and palette: [KIM // Vitruvian v0.1](docs/kim-vitruvian-v0.1.md).
+Original palette/installation notes: [KIM // Vitruvian v0.1](docs/kim-vitruvian-v0.1.md). Workspace/game-window diagnosis: [Hyprland workspace and Warframe setup](docs/hyprland-warframe-workspaces.md).
 
 ## KIM Classic archive
 
-**KIM v0.4b is the user-approved visual baseline, installed as the locally enabled Vesktop preview theme.** The older experimental v0.4 block inserted runaway titlebars into guild navigation, nested chat content, and toolbar buttons. v0.4b replaces that block entirely with selectors targeting only three actual pane roots and the composer; the original v0.3f CSS is preserved separately.
+**KIM v0.4b is the user-approved Classic baseline, preserved as a separate disabled Vesktop theme and local backup.** The older experimental v0.4 block inserted runaway titlebars into guild navigation, nested chat content, and toolbar buttons. v0.4b replaces that block entirely with selectors targeting only three actual pane roots and the composer; the original v0.3f CSS is preserved separately.
 
 The standalone KIM v0.3 HTML concept remains the approved visual reference. The live CSS implementation is a work in progress, not yet equivalent to the HTML prototype.
 
@@ -47,7 +47,12 @@ The prototype includes People / Groups / Radio directory tabs, contact switching
 | `discord/prototypes/kim-v0.3.html` | Standalone preview, tested at desktop and narrow sizes |
 | `discord/prototypes/kim-v0.3.tokens.css` | Reusable palette tokens |
 | `scripts/test-kim-prototype.py` | Offline checks including color contrast and JS syntax |
-| `discord/staging/kim-vitruvian-v0.1.theme.css` | Independent full Vitruvian dark stylesheet — installed locally, currently disabled |
+| `discord/staging/kim-vitruvian-v0.1.theme.css` | Retained standalone v0.1 dark baseline and local rollback copy |
+| `discord/staging/kim-vitruvian-v0.2.theme.css` | **Current active** v0.2 dark source copied to `~/.config/vesktop/themes/kim-vitruvian.theme.css` |
+| `discord/prototypes/kim-vitruvian-v0.2-regression.html` | Offline pane/toolbar layout fixture for v0.2 |
+| `discord/prototypes/kim-vitruvian-v0.2-settings-regression.html` | Offline profile/settings text fixture for v0.2 |
+| `profiles/hyprland/warframe-workspace.lua` | ML4W custom.lua override routing Warframe to DP-2 / normal workspace 5 |
+| `docs/hyprland-warframe-workspaces.md` | Hyprland 0.56 Lua workspace commands, scratchpad gotcha and rollback |
 | `discord/prototypes/kim-vitruvian-v0.1-regression.html` | Offline dark palette/containment visual test |
 | `discord/prototypes/kim-vitruvian-v0.1-settings-regression.html` | Offline profile, menu and settings visual test |
 | `docs/kim-vitruvian-v0.1.md` | How to toggle and test the dark Vitruvian variant |
