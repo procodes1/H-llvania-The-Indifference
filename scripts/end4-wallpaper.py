@@ -59,7 +59,15 @@ def apply():
         subprocess.run(["rsvg-convert","-w","3840","-h","2160",str(ART),"-o",str(png)], check=True)
         subprocess.run(["magick",str(png),"-strip","-quality","93",str(webp)], check=True)
         assert webp.exists() and webp.stat().st_size > 20000, "Wallpaper render failed"
-        os.replace(webp, OUTPUT)
+        # /tmp may be a different filesystem from /home (EXDEV).
+        # Copy into the destination directory, then atomically replace.
+        with tempfile.NamedTemporaryFile(dir=OUTPUT.parent, suffix=".webp", delete=False) as f:
+            staged = Path(f.name)
+        try:
+            shutil.copyfile(webp, staged)
+            os.replace(staged, OUTPUT)
+        finally:
+            staged.unlink(missing_ok=True)
 
     obj["background"]["wallpaperPath"] = str(OUTPUT)
     write_atomic(CONFIG, json.dumps(obj, indent=4, ensure_ascii=False) + "\n")
