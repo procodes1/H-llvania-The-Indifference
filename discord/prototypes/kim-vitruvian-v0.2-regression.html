@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KIM // VITRUVIAN v0.2 — containment regression</title>
+<link rel="stylesheet" href="../staging/kim-vitruvian-v0.2.theme.css">
+<style>
+body{margin:0;background:#0b1120;padding:12px;font:13px "Liberation Sans",sans-serif}
+#report{margin:0 0 12px;background:#263144;border:2px solid #ac8950;padding:8px;color:#eee5d3;font:12px monospace}
+#app-mount{display:flex;width:min(1250px,100%);height:770px;gap:8px;margin:auto;background:#131a2a;padding:6px}
+.guilds_fake{display:flex;gap:12px;flex-direction:column;flex:none;width:58px;background:#75603f;padding:8px;box-sizing:border-box}
+.guilds_fake .server{width:39px;height:39px;border:1px solid #ad8c58;color:white;display:grid;place-items:center;font-weight:700;background:#1c273b}
+.sidebar_fake{width:236px;flex:none;display:flex}
+.privateChannels_fake{display:flex;flex-direction:column;flex:1;min-width:0;background:#1c2434}
+.searchBar_fake{padding:8px}
+.searchBarComponent_fake{background:#263144;padding:8px;border:1px solid #92774a}
+.channel_fake{padding:12px;margin:3px 8px}
+.privateChannelsHeaderContainer_fake{padding:11px;font-weight:bold;font-size:11px}
+.chat_fake{display:flex;flex-direction:column;flex:1;min-width:0;min-height:0;background:#131a2a}
+.title_fake{flex:0 0 45px;padding:14px;background:#131a2a;font-weight:700}
+.chatContent_fake{flex:1;overflow:auto;min-height:0;padding:8px 16px;}
+.messageListItem_fake{padding:12px 0}
+.username_fake{font-weight:700;color:#eee5d3}
+.timestamp_fake{margin-left:15px;color:#bdb59f;font-size:11px}
+.imageWrapper_fake{width:70%;height:130px;background:#293a55;margin:12px 0;display:flex;align-items:center;justify-content:center}
+.channelTextArea_fake{margin:6px;display:flex;flex-direction:column;flex:none;min-height:78px;box-sizing:border-box}
+.scrollableContainer_fake{display:flex;gap:8px;padding:4px;min-height:38px}
+.scrollableContainer_fake [role=textbox]{flex:1;padding:8px}
+.buttons_fake{display:flex;gap:4px}
+.buttons_fake button{border:1px solid #92774a;background:#263144;min-width:35px;color:#eee5d3}
+.userPanelOuter_fake{width:220px;flex:none;display:flex;flex-direction:column;min-width:0;background:#131a2a}
+.profileBody_fake{padding:16px;display:grid;gap:12px;align-content:start}
+.avatarContainer_fake{width:64px;height:64px;background:#33445b;display:grid;place-items:center;border:2px solid #ab8e55;color:white;font:700 18px Georgia}
+.foot{margin-top:auto;font:10px monospace;padding:10px}
+</style></head>
+<body>
+<div id="report" role="status">Checking pseudo-element containment…</div>
+<div id="app-mount" class="theme-dark visual-refresh">
+ <div class="guilds_fake" id="guilds">
+   <div class="server">DC</div><div class="server">A</div><div class="server">B</div><div class="server">C</div><div class="server">D</div>
+ </div>
+ <aside class="sidebar_fake">
+  <nav class="privateChannels_fake" id="address-book">
+   <div class="searchBar_fake"><div class="searchBarComponent_fake">Find or start a conversation</div></div>
+   <div class="channel_fake">Friends</div><div class="channel_fake">Nitro</div>
+   <div class="privateChannelsHeaderContainer_fake">DIRECT MESSAGES</div>
+   <div class="channel_fake">Aster · connected</div>
+   <div class="channel_fake">Ordis · monitoring</div>
+   <div class="channel_fake">Rook · idle</div>
+  </nav>
+ </aside>
+ <main class="chat_fake" id="transmission">
+  <header class="title_fake container_fake" id="native-chat-header">✉ Aster   ·   Connected <span class="toolbar_fake" style="float:right">☏　⚙</span></header>
+  <div class="chatContent_fake" id="chat-content">
+    <div class="chat_inner_demo" id="chat-inner"><div class="messageListItem_fake"><span class="username_fake">Aster</span><span class="timestamp_fake">16:42</span><p>Does this computer have enough cream-colored plastic?</p></div></div>
+    <div class="messageListItem_fake"><span class="username_fake">YOU</span><span class="timestamp_fake">16:43</span><p>Not until the icons stop invading the taskbar.</p></div>
+    <div class="imageWrapper_fake">[ Image attachment stays in the conversation ]</div>
+    <div class="messageListItem_fake"><span class="username_fake">Aster</span><span class="timestamp_fake">16:45</span><p>Please do not turn my screenshot into a title bar.</p></div>
+  </div>
+  <div class="channelTextArea_fake" id="composer"><div class="scrollableContainer_fake">
+   <span role="textbox" contenteditable="true">Message @Aster</span>
+   <div class="buttons_fake" id="composer-buttons"><button type="button" id="emoji">☺</button><button type="button" id="upload">+</button></div>
+  </div></div>
+ </main>
+ <aside class="userPanelOuter_fake" id="profile"><div class="profileBody_fake">
+  <div class="avatarContainer_fake">AS</div>
+  <div><b>Aster</b><p>Member since 1999</p></div>
+  <div style="border:1px solid #75603f;padding:8px">CONNECTION<br><b>ONLINE</b></div>
+  <div class="foot">© Fictional profile only</div>
+ </div></aside>
+</div>
+<script>
+window.addEventListener("load",()=>{
+ const ids=["guilds","address-book","transmission","chat-inner","chat-content","native-chat-header","composer","composer-buttons","emoji","profile"];
+ const expected={"address-book":"ADDRESS BOOK","transmission":"TRANSMISSION","profile":"PROFILE","composer":"OUTGOING TRANSMISSION"};
+ const results=ids.map(id=>{
+   const actual=getComputedStyle(document.getElementById(id),"::before").content||"none";
+   return{id,actual,ok:expected[id]?actual.includes(expected[id]):(actual==="none"||actual==="normal")};
+ });
+ const passed=results.filter(r=>r.ok).length;
+ const title=getComputedStyle(document.getElementById("address-book"),"::before");
+ const bg=getComputedStyle(document.getElementById("chat-content")).backgroundColor;
+ const fg=getComputedStyle(document.getElementById("chat-content")).color;
+ const appearanceOk=title.color!=="rgb(0, 0, 0)" && fg!=="rgb(0, 0, 0)";
+ const report=document.getElementById("report");
+ report.textContent=(passed===ids.length && appearanceOk?"PASS":"FAIL")+
+   " — pseudo headers: "+results.filter(r=>r.actual!=="none"&&r.actual!=="normal").map(r=>r.id).join(", ")+
+   " | Guards "+passed+"/"+ids.length+" | title="+title.color+" | fg="+fg+" | bg="+bg+" | "+results.filter(r=>!r.ok).map(r=>r.id+"="+r.actual).join("; ");
+ report.style.borderColor=passed===ids.length?"#ac8950":"#963f35";
+});
+</script></body></html>
