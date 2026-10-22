@@ -1,12 +1,12 @@
 /**
- * @name Höllvania KIM — v0.3 STAGING
+ * @name Höllvania KIM — v0.3a CONTRAST + ICONS
  * @author Höllvania / The Indifference
- * @version 0.3.0-preview
- * @description Cream plastic + dark-ink KIM-inspired interface. NOT APPROVED FOR LIVE USE.
+ * @version 0.3.1-preview
+ * @description Cream IBM messenger with ink-black text and squared retro avatars. Experimental preview.
  *
  * WARNING:
- *   This is a staged Vesktop/Vencord adaptation. It has not been tested in the
- *   user's authenticated Discord UI and MUST NOT be auto-installed or enabled.
+ *   This is a staged Vesktop/Vencord adaptation. It has not been fully tested in the
+ *   user's Discord UI. Keep a backup and test on Friends, DMs, voice, and settings.
  *   Review the HTML prototype at discord/prototypes/kim-v0.3.html first.
  *
  *   It contains no downloaded assets, fonts, scripts, or network access.
@@ -18,8 +18,8 @@
   --kim-white:#f9f6eb;
   --kim-beige:#cfc7b4;
   --kim-trim:#a89f8c;
-  --kim-ink:#2b2a26;
-  --kim-muted:#504b42; /* Extra contrast on beige navigation panels. */
+  --kim-ink:#1f1d19;
+  --kim-muted:#403c35; /* Secondary labels still clearly readable on beige */
   --kim-teal:#4f7a73;
   --kim-deep:#355c57;
   --kim-selection:#b7cfba;
@@ -70,7 +70,7 @@
 
   /* Intentional ink on cream/beige. IMPORTANT for 2026 Discord refresh. */
   --text-primary:var(--kim-ink) !important;
-  --text-secondary:#4f5046 !important;
+  --text-secondary:#35312b !important;
   --text-tertiary:var(--kim-muted) !important;
   --text-muted:var(--kim-muted) !important;
   --text-normal:var(--kim-ink) !important;
@@ -86,7 +86,7 @@
   --interactive-muted:var(--kim-muted) !important;
   --icon-primary:var(--kim-ink) !important;
   --icon-secondary:var(--kim-muted) !important;
-  --text-link:#245a6a !important;
+  --text-link:#214e59 !important;
 
   --background-modifier-hover:var(--kim-warm-hover) !important;
   --background-modifier-active:var(--kim-selection) !important;
@@ -116,13 +116,13 @@
 /* Period workstation font for chrome; keep normal chat copy readable. */
 #app-mount {
   color:var(--kim-ink);
-  font-family:Tahoma,"Liberation Sans",Arial,sans-serif !important;
+  font-family:"Liberation Sans",Arial,sans-serif !important;
 }
 #app-mount input,
 #app-mount textarea {
   color:var(--kim-ink) !important;
   caret-color:var(--kim-deep);
-  font-family:Tahoma,"Liberation Sans",Arial,sans-serif;
+  font-family:"Liberation Sans",Arial,sans-serif;
 }
 
 /* Three layers: dark framing, darker beige navigation, cream transcript.
@@ -220,3 +220,168 @@
  * - Verify friends, DM, server, voice and video, profile, modal, search.
  * - Add original decorative iconography only after screenshot approval.
  */
+
+
+/* ===============================================================
+   KIM v0.3a / TEXT RECOVERY
+   Discord sometimes paints names, headings, and timestamps using
+   class-level colors/opacity rather than the usual theme tokens.
+   Our v0.3 visual audit found pale-white text on cream surfaces.
+   Keep any explicit override inside #app-mount, not globally.
+   =============================================================== */
+
+/* Consistent period-era UI typography with a font actually present
+   on CachyOS. Never shrink body text to fake a CRT. */
+#app-mount :is(
+  [class*="peopleColumn_"],
+  [class*="privateChannels_"],
+  [class*="chatContent_"],
+  [class*="memberList_"],
+  [class*="membersWrap_"],
+  [class*="panels_"]
+) {
+  font-family: "Liberation Sans", Arial, sans-serif !important;
+}
+
+/* High-priority readable account names, contact names, display names,
+   chat usernames, channel titles, and normal messages. We deliberately
+   do not force all text universally: that would spoil colored badges,
+   mentions, buttons, and SVG status icons. */
+#app-mount :is(
+  [class*="username_"],
+  [class*="displayName_"],
+  [class*="nameAndDecorators_"],
+  [class*="overflow_"],
+  [class*="name_"],
+  [class*="channelName_"],
+  [class*="headerText_"],
+  [class*="topic_"],
+  [class*="title_"],
+  [class*="markup_"],
+  [class*="messageContent_"]
+) {
+  color: var(--kim-ink) !important;
+  opacity: 1 !important;
+}
+
+/* More precision for nav entries and friend list where plain inherited
+   theme tokens were still yielding grey/white names in the screenshot. */
+#app-mount [class*="privateChannels_"] :is(
+  [class*="name_"],
+  [class*="link_"],
+  [class*="channelName_"],
+  [class*="overflow_"]
+),
+#app-mount [class*="peopleColumn_"] :is(
+  [class*="username_"],
+  [class*="name_"]
+),
+#app-mount [class*="panels_"] :is(
+  [class*="nameTag_"],
+  [class*="username_"],
+  [class*="title_"]
+),
+#app-mount [class*="chatContent_"] :is(
+  [class*="username_"],
+  [class*="markup_"]
+) {
+  color: var(--kim-ink) !important;
+  opacity: 1 !important;
+}
+
+/* Supplementary metadata stays dark brown rather than vanishing. */
+#app-mount :is(
+  [class*="timestamp_"],
+  [class*="subText_"],
+  [class*="subtext_"],
+  [class*="activityText_"],
+  [class*="description_"],
+  [class*="discriminator_"],
+  [class*="membersGroup_"],
+  [class*="text-xs_"],
+  [class*="text-sm_"]
+) {
+  color: var(--kim-muted) !important;
+  opacity: 1 !important;
+}
+
+/* Search, composer and related placeholder/empty-state text. */
+#app-mount :is(input, textarea)::placeholder {
+  color: #575147 !important;
+  opacity: 1 !important;
+}
+#app-mount [role="textbox"] {
+  color: var(--kim-ink) !important;
+  caret-color: var(--kim-deep);
+}
+
+/* IMPORTANT: preserve light foreground text on the dark teal title bars
+   we may add in a future version; and don't break colored control labels.
+   This patch intentionally does not style global buttons or SVG fills. */
+
+
+/* ===============================================================
+   KIM v0.3a / SQUARED ICONOGRAPHY
+   Discord masks many avatar images with circular SVG foreignObjects.
+   Removing that mask is what allows a visibly square crop;
+   border-radius on the image alone was not enough.
+   =============================================================== */
+
+/* Guild/server icons and home entry — classic square launcher tiles. */
+#app-mount [class*="guilds_"] :is(
+  [class*="icon_"],
+  [class*="childWrapper_"],
+  [class*="acronym_"],
+  [class*="wrapper_"] > [class*="icon_"]
+) {
+  border-radius: 2px !important;
+}
+#app-mount [class*="guilds_"] svg foreignObject {
+  mask: none !important;
+  -webkit-mask: none !important;
+  overflow: hidden !important;
+  border-radius: 2px !important;
+}
+
+/* Contact and member portraits: squared tile, narrow border. */
+#app-mount :is(
+  [class*="avatar_"] img,
+  img[class*="avatar_"],
+  [class*="avatar_"] [class*="image_"]
+) {
+  border-radius: 2px !important;
+  outline: 1px solid var(--kim-frame);
+  outline-offset: -1px;
+}
+#app-mount [class*="avatar_"] svg foreignObject {
+  mask: none !important;
+  -webkit-mask: none !important;
+  overflow: hidden !important;
+  border-radius: 2px !important;
+}
+
+/* SVG status indicators are separate from the photos and remain visible.
+   A gentle *simulated* low-color/old-monitor crunch; no destructive
+   8-bit conversion of real Discord images, no image downloads.
+   image-rendering only has an effect if an image is upscaled. */
+#app-mount :is(
+  [class*="avatar_"] img,
+  img[class*="avatar_"],
+  [class*="guilds_"] [class*="icon_"] img
+) {
+  image-rendering: pixelated;
+  filter: contrast(1.14) saturate(0.82);
+}
+
+/* Framing on avatar shells, avoiding borders on chat attachments. */
+#app-mount :is(
+  [class*="peopleListItem_"] [class*="avatar_"],
+  [class*="privateChannels_"] [class*="avatar_"],
+  [class*="membersWrap_"] [class*="avatar_"]
+) {
+  border-radius: 2px !important;
+}
+
+/* Accessibility: do not apply the filter to user-uploaded chat images,
+   GIFs, videos, emojis, embeds, or game screenshots. */
+
