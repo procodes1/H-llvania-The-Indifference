@@ -1,7 +1,7 @@
 /**
- * @name Höllvania KIM — v0.3d POPOUT + SETTINGS
+ * @name Höllvania KIM — v0.3e CREAM + READABILITY
  * @author Höllvania / The Indifference
- * @version 0.3.4-preview
+ * @version 0.3.5-preview
  * @description Aged IBM / KIM with readable profiles, squared portraits, toned-down personal colors and fewer activity cards.
  *
  * WARNING:
@@ -1041,3 +1041,179 @@
   opacity:1 !important;
   -webkit-text-fill-color:var(--kim-ink) !important;
 }
+
+/* ====================================================================
+ * KIM v0.3e / CREAM PROFILE HEADERS + SETTINGS READABILITY RECOVERY
+ * Screenshot reference: October 22 2026 settings and DM profile.
+ * User requested cream instead of dark teal banner, black settings text.
+ * ==================================================================== */
+
+/* 1. BANNERS: use the aged IBM cream as actual window chrome.
+ * These rules are placed LAST to override v0.3b/c/d's teal patches. */
+#app-mount :is(
+  .user-profile-modal-v2,
+  .user-profile-popout,
+  [class*="accountProfilePopout"],
+  [class*="userPopoutOuter"],
+  [class*="userProfileOuter"],
+  [class*="userPanelOuter"],
+  [class*="user-profile-sidebar"],
+  [class*="userProfileSidebar"],
+  [class*="profilePanel"]
+) :is(
+  [class*="banner"],
+  [class*="Banner"],
+  [class*="profileHeader"]
+) {
+  background-color: var(--kim-plastic) !important;
+  background-image: none !important;
+  border-radius: 0 !important;
+  border-bottom-color: var(--kim-frame) !important;
+  --profile-gradient-primary-color: var(--kim-plastic) !important;
+  --profile-gradient-secondary-color: var(--kim-paper) !important;
+  --profile-avatar-border-color: transparent !important;
+}
+/* Explicit selectors for known banner classes, even if a profile DOM
+ * nests them differently from our earlier assumptions. */
+#app-mount :is(
+  [class*="bannerSVGWrapper"],
+  [class*="profileHeaderBannerContainer"],
+  [class*="bannerContainer"]
+) {
+  --profile-gradient-primary-color: var(--kim-plastic);
+}
+
+/* Titlebar control icons on cream should be graphite, not white. */
+#app-mount :is(
+  .user-profile-modal-v2,
+  .user-profile-popout,
+  [class*="accountProfilePopout"],
+  [class*="userPanelOuter"],
+  [class*="user-profile-sidebar"]
+) :is([class*="banner"],[class*="Banner"]) :is(button,[role="button"],svg) {
+  color: var(--kim-ink) !important;
+}
+
+/* 2. SETTINGS: Previous patches only covered specific OLD generated
+ * class names. Apply a readable ink baseline to modern/old Settings
+ * content containers including their text child nodes. Only the
+ * Settings pane is targeted — never chat messages or user uploads. */
+#app-mount :is(
+  [class*="standardSidebarView"],
+  [class*="contentRegion"],
+  [class*="contentColumn"],
+  [class*="settingsContent"],
+  [class*="settingsPage"],
+  [class*="accountSettings"],
+  [class*="accountProfileCard"],
+  [class*="customColumn"],
+  [class*="settingsPageContent"]
+) {
+  --header-primary: var(--kim-ink) !important;
+  --header-secondary: var(--kim-muted) !important;
+  --text-primary: var(--kim-ink) !important;
+  --text-secondary: var(--kim-muted) !important;
+  --text-tertiary: var(--kim-muted) !important;
+  --text-normal: var(--kim-ink) !important;
+  --text-default: var(--kim-ink) !important;
+  --text-muted: var(--kim-muted) !important;
+  --interactive-normal: var(--kim-ink) !important;
+  --interactive-active: var(--kim-ink) !important;
+  --text-link: #20576a !important;
+  --text-brand: #20576a !important;
+  --text-positive: #246336 !important;
+  --text-warning: #80501b !important;
+  --text-danger: #983b30 !important;
+  --text-subtle: var(--kim-muted) !important;
+  --text-feedback-muted: var(--kim-muted) !important;
+  color: var(--kim-ink) !important;
+}
+
+/* A decisive fix for pale headings/labels from Discord's Dark
+ * appearance: explicit foreground on *text-bearing nodes*. We don't
+ * touch SVG/path or image pixels. Exclude warning/danger-specific
+ * text and links (restored below).
+ */
+#app-mount :is(
+  [class*="standardSidebarView"],
+  [class*="contentRegion"],
+  [class*="settingsContent"],
+  [class*="settingsPage"],
+  [class*="accountSettings"]
+) :is(
+  h1,h2,h3,h4,h5,h6,p,span,small,label,strong,
+  dt,dd,legend,[role="heading"],[data-text-variant],
+  [class*="heading"],[class*="title"],[class*="field"],
+  [class*="description"],[class*="label"],[class*="subText"],
+  [class*="text_"],[class*="colorHeader"],[class*="colorStandard"]
+):not([class*="colorDanger"]):not([class*="colorSuccess"]) {
+  color: var(--kim-ink) !important;
+  -webkit-text-fill-color: var(--kim-ink) !important;
+  opacity: 1 !important;
+}
+
+/* Extra-strong fallback: section headings and field labels sometimes
+ * live in plain divs without descriptive classnames. Apply ink to
+ * these settings divs, not global Discord divs. */
+#app-mount :is(
+  [class*="contentRegion"],[class*="settingsContent"],
+  [class*="settingsPage"],[class*="accountSettings"]
+) :is(
+  div[class*="heading"],div[class*="sectionTitle"],
+  div[class*="field"],div[class*="accountInfo"],
+  div[class*="formItem"],div[data-text-variant]
+) {
+  color: var(--kim-ink) !important;
+  -webkit-text-fill-color: var(--kim-ink) !important;
+  opacity: 1 !important;
+}
+
+/* Restore differentiated muted copy and links AFTER the dark baseline. */
+#app-mount :is(
+  [class*="standardSidebarView"],[class*="contentRegion"],
+  [class*="settingsContent"],[class*="settingsPage"]
+) :is(
+  [class*="description"],[class*="hint"],[class*="note"],
+  [class*="subText"],[class*="colorMuted"],[class*="text-muted"]
+) {
+  color: var(--kim-muted) !important;
+  -webkit-text-fill-color: var(--kim-muted) !important;
+}
+#app-mount :is(
+  [class*="standardSidebarView"],[class*="contentRegion"],
+  [class*="settingsContent"],[class*="settingsPage"]
+) :is(a,[role="link"]) {
+  color: #20576a !important;
+  -webkit-text-fill-color: #20576a !important;
+}
+/* Keep selected dark-teal button text white; otherwise cream 'Edit'
+ * buttons may use the new black text and remain perfectly legible. */
+#app-mount :is(
+  [class*="contentRegion"],[class*="settingsContent"],
+  [class*="settingsPage"]
+) :is(button,[role="button"])[class*="colorBrand"] {
+  color: var(--kim-white) !important;
+  -webkit-text-fill-color: var(--kim-white) !important;
+}
+/* Highlighted settings sidebar rows must not contain pale text. */
+#app-mount :is([class*="sidebarRegion"],[class*="settingsSidebar"])
+:is([role="tab"],[class*="item_"],[class*="selected"]) {
+  color: var(--kim-ink) !important;
+  -webkit-text-fill-color: var(--kim-ink) !important;
+}
+#app-mount :is([class*="sidebarRegion"],[class*="settingsSidebar"])
+:is([role="tab"],[class*="item_"],[class*="selected"]) :is(span,[class*="text_"]) {
+  color: var(--kim-ink) !important;
+  -webkit-text-fill-color: var(--kim-ink) !important;
+  opacity: 1 !important;
+}
+
+/* Settings text inputs on cream backgrounds. */
+#app-mount :is(
+  [class*="standardSidebarView"],[class*="contentRegion"],
+  [class*="settingsContent"],[class*="settingsPage"]
+) :is(input,textarea,[role="textbox"]) {
+  color: var(--kim-ink) !important;
+  caret-color: var(--kim-deep) !important;
+}
+/* This is purely cosmetic. No Discord user data or settings were altered. */
