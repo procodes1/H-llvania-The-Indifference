@@ -1,78 +1,211 @@
 /**
- * HÖLLVANIA // KIM
- * Experimental Vencord / Vesktop stylesheet.
+ * @name Höllvania KIM
+ * @author Höllvania — The Indifference
+ * @version 0.2.0
+ * @description Kinemantik-inspired retro messenger styling for Vesktop.
+ * @source https://github.com/procodes1/H-llvania-The-Indifference
  *
- * Design direction: retro communications terminal.
- * Does NOT change Discord functionality or access messages.
- * No official Warframe assets or fonts are included.
- * Discord's CSS class names can change without warning.
+ * An original fan-made CSS theme; no proprietary game textures or fonts.
+ * Requires Vencord / Vesktop. Discord may change its classnames.
+ * Experimental: structure, contrast and selectors need visual testing.
  */
 
-:root,
-.theme-dark {
-  --kim-bg: #121a17;
-  --kim-surface: #1b2923;
-  --kim-panel: #26372d;
-  --kim-text: #d9dec1;
-  --kim-muted: #91a48b;
-  --kim-green: #a4ce96;
-  --kim-amber: #e0b979;
-  --kim-border: #637e63;
-
-  --background-primary: var(--kim-bg);
-  --background-secondary: var(--kim-surface);
-  --background-secondary-alt: var(--kim-panel);
-  --background-tertiary: #101813;
-  --background-floating: var(--kim-panel);
-  --channeltextarea-background: var(--kim-panel);
-  --text-normal: var(--kim-text);
-  --text-muted: var(--kim-muted);
-  --header-primary: var(--kim-text);
-  --header-secondary: var(--kim-green);
-  --interactive-normal: var(--kim-muted);
-  --interactive-hover: var(--kim-text);
-  --interactive-active: var(--kim-green);
-  --brand-experiment: var(--kim-green);
-  --brand-500: var(--kim-green);
-  --scrollbar-thin-thumb: var(--kim-border);
-  --scrollbar-auto-thumb: var(--kim-border);
-  --scrollbar-auto-track: var(--kim-bg);
+/* ===== THE 1999 SYSTEM PALETTE ===== */
+:root {
+  --kim-desktop: #80998a;
+  --kim-chrome: #c5d0c6;
+  --kim-paper: #e8ece4;
+  --kim-paper-hi: #f4f6ee;
+  --kim-title: #39716d;
+  --kim-title-dark: #24534f;
+  --kim-ink: #202e2b;
+  --kim-muted: #536763;
+  --kim-border: #506960;
+  --kim-shadow: #8e9e94;
+  --kim-highlight: #ffffff;
+  --kim-active: #b3d1ba;
+  --kim-selection: #39716d;
+  --kim-bevel-raised:
+    inset 1px 1px 0 var(--kim-highlight),
+    inset -1px -1px 0 var(--kim-shadow);
+  --kim-bevel-inset:
+    inset 1px 1px 0 var(--kim-shadow),
+    inset -1px -1px 0 var(--kim-highlight);
 }
 
-.theme-dark {
-  font-family: "Liberation Mono", "DejaVu Sans Mono", monospace;
+/* Discord 2025/2026 visual-refresh tokens, plus legacy fallbacks.
+   Earlier theme only changed the legacy values — hence "green Discord." */
+:is(.theme-dark, .theme-darker, .theme-midnight, .theme-light, .visual-refresh),
+#app-mount {
+  color-scheme: light;
+
+  --background-base-lowest: var(--kim-desktop) !important;
+  --background-base-lower: var(--kim-chrome) !important;
+  --background-base-low: var(--kim-paper) !important;
+  --background-surface-high: var(--kim-paper) !important;
+  --background-surface-higher: var(--kim-paper-hi) !important;
+  --background-surface-highest: var(--kim-paper-hi) !important;
+  --bg-base-primary: var(--kim-paper) !important;
+  --bg-base-secondary: var(--kim-chrome) !important;
+  --bg-base-tertiary: var(--kim-desktop) !important;
+  --bg-surface-raised: var(--kim-paper-hi) !important;
+  --bg-surface-overlay: var(--kim-paper-hi) !important;
+  --app-frame-background: var(--kim-desktop) !important;
+
+  --background-primary: var(--kim-paper) !important;
+  --background-secondary: var(--kim-chrome) !important;
+  --background-secondary-alt: var(--kim-chrome) !important;
+  --background-tertiary: var(--kim-desktop) !important;
+  --background-floating: var(--kim-paper-hi) !important;
+  --background-nested-floating: var(--kim-paper-hi) !important;
+  --chat-background-default: var(--kim-paper) !important;
+  --home-background: var(--kim-paper) !important;
+  --channel-background-default: var(--kim-paper) !important;
+  --channeltextarea-background: var(--kim-paper-hi) !important;
+  --input-background: var(--kim-paper-hi) !important;
+  --modal-background: var(--kim-chrome) !important;
+  --card-primary-bg: var(--kim-paper-hi) !important;
+
+  --text-primary: var(--kim-ink) !important;
+  --text-default: var(--kim-ink) !important;
+  --text-secondary: #405952 !important;
+  --text-tertiary: var(--kim-muted) !important;
+  --text-normal: var(--kim-ink) !important;
+  --text-muted: var(--kim-muted) !important;
+  --header-primary: var(--kim-ink) !important;
+  --header-secondary: var(--kim-muted) !important;
+  --channels-default: var(--kim-muted) !important;
+  --interactive-normal: var(--kim-ink) !important;
+  --interactive-hover: var(--kim-title-dark) !important;
+  --interactive-active: var(--kim-title-dark) !important;
+  --text-link: #225f80 !important;
+
+  --background-mod-muted: rgba(50, 105, 78, .04) !important;
+  --background-mod-subtle: rgba(50, 105, 78, .09) !important;
+  --background-mod-normal: rgba(50, 105, 78, .15) !important;
+  --background-mod-strong: rgba(50, 105, 78, .25) !important;
+  --background-modifier-hover: rgba(50, 105, 78, .10) !important;
+  --background-modifier-selected: var(--kim-active) !important;
+
+  --border-faint: var(--kim-shadow) !important;
+  --border-subtle: var(--kim-shadow) !important;
+  --border-muted: var(--kim-border) !important;
+  --border-normal: var(--kim-border) !important;
+  --input-border: var(--kim-border) !important;
+  --app-frame-border: var(--kim-border) !important;
+
+  --radius-xs: 0px !important;
+  --radius-sm: 0px !important;
+  --radius-md: 0px !important;
+  --radius-lg: 1px !important;
+  --radius-xl: 1px !important;
+  --radius-xxl: 1px !important;
 }
 
-/* Squared 1999-era UI, without touching Discord's interaction logic. */
-[class*="sidebar_"],
-[class*="chat_"],
-[class*="membersWrap_"],
-[class*="panels_"],
-[class*="channelTextArea_"] {
+/* Win9x typography; content stays readable at modern resolutions. */
+#app-mount {
+  font-family: Tahoma, "Liberation Sans", Arial, sans-serif !important;
+  font-size: 14px;
+  color: var(--kim-ink);
+}
+
+/* Navigation resembles a directory panel, not a neon gaming sidebar. */
+#app-mount [class*="sidebar_"],
+#app-mount [class*="privateChannels_"] {
+  background: var(--kim-chrome) !important;
+  border-right: 2px solid var(--kim-border);
+}
+#app-mount [class*="guilds_"] {
+  background: var(--kim-desktop) !important;
+  border-right: 2px solid var(--kim-border);
+}
+#app-mount [class*="panels_"] {
+  background: var(--kim-chrome) !important;
+  border: 1px solid var(--kim-border);
+  box-shadow: var(--kim-bevel-raised);
+}
+
+/* Contact directory view: readable pale paper and period-style rows. */
+#app-mount [class*="peopleColumn_"] {
+  background: var(--kim-paper) !important;
+}
+#app-mount [class*="peopleList_"]::before {
+  content: "KIM // CONTACT DIRECTORY";
+  display: block;
+  margin: 8px 8px 6px;
+  padding: 7px 10px;
+  color: #f7fff4;
+  background: var(--kim-title);
+  border: 1px solid var(--kim-title-dark);
+  font: 700 12px/1.3 Tahoma, "Liberation Sans", sans-serif;
+  letter-spacing: .06em;
+}
+#app-mount [class*="peopleListItem_"] {
+  background: var(--kim-paper-hi) !important;
+  border: 1px solid var(--kim-border);
+  box-shadow: var(--kim-bevel-raised);
+  margin: 3px 8px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+#app-mount [class*="peopleListItem_"]:hover {
+  background: var(--kim-active) !important;
+}
+#app-mount [class*="nowPlayingColumn_"] {
+  background: var(--kim-chrome) !important;
+  border-left: 2px solid var(--kim-border);
+}
+#app-mount [class*="itemCard_"] {
+  background: var(--kim-paper-hi) !important;
+  border: 1px solid var(--kim-border) !important;
+  box-shadow: var(--kim-bevel-raised) !important;
+}
+
+/* Chat history window: inset transcript, ruled message separators. */
+#app-mount [class*="chatContent_"],
+#app-mount [class*="messagesWrapper_"] {
+  background: var(--kim-paper-hi) !important;
+}
+#app-mount [class*="messagesWrapper_"] {
+  margin: 7px;
+  border: 2px solid var(--kim-border);
+  box-shadow: var(--kim-bevel-inset);
+}
+#app-mount [class*="message_"]:hover {
+  background: rgba(57,113,109,.10) !important;
+}
+#app-mount [class*="channelTextArea_"],
+#app-mount [class*="scrollableContainer_"] {
+  background: var(--kim-paper-hi) !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--kim-border);
+  box-shadow: var(--kim-bevel-inset);
+}
+
+/* Dialogs, menus and input boxes remain functional. */
+#app-mount [role="dialog"],
+#app-mount [role="menu"] {
+  background: var(--kim-chrome);
+  border: 2px solid var(--kim-border);
+  border-radius: 0 !important;
+  box-shadow: 2px 2px 0 #52645a !important;
+}
+#app-mount input,
+#app-mount textarea {
   border-radius: 0 !important;
 }
-
-[class*="sidebar_"] {
-  border-right: 1px solid var(--kim-border);
+#app-mount :focus-visible {
+  outline: 2px dashed var(--kim-title) !important;
+  outline-offset: 1px;
+}
+#app-mount ::selection {
+  background: var(--kim-selection);
+  color: white;
 }
 
-[class*="chat_"] {
-  background: var(--kim-bg);
-}
+/* Preserve avatars as circles — people and servers must stay recognizable.
+   Don't alter destructive button colors or hide native controls. */
 
-[class*="channelTextArea_"] {
-  border: 1px solid var(--kim-border);
-  box-shadow: inset 0 0 0 1px rgba(164, 206, 150, 0.07);
-}
-
-[class*="message_"]:hover {
-  background-color: rgba(164, 206, 150, 0.055) !important;
-}
-
-::selection {
-  color: var(--kim-bg);
-  background: var(--kim-amber);
-}
-
-/* TODO: inspect live Discord DOM before adding structural layout rules. */
-/* TODO: responsive layouts, accessibility/contrast, voice UI and contacts. */
+/* TODO: chat-specific profile layout and header bar once DOM inspected. */
+/* TODO: KIM contacts split-pane; voice channels as transmissions. */
+/* TODO: accessibility pass, narrower windows, emoji colors. */
