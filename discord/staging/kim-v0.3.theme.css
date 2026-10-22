@@ -1,8 +1,8 @@
 /**
- * @name Höllvania KIM — v0.3a CONTRAST + ICONS
+ * @name Höllvania KIM — v0.3b PROFILE REFINEMENT
  * @author Höllvania / The Indifference
- * @version 0.3.1-preview
- * @description Cream IBM messenger with ink-black text and squared retro avatars. Experimental preview.
+ * @version 0.3.2-preview
+ * @description Aged IBM / KIM with readable profiles, squared portraits, toned-down personal colors and fewer activity cards.
  *
  * WARNING:
  *   This is a staged Vesktop/Vencord adaptation. It has not been fully tested in the
@@ -384,4 +384,224 @@
 
 /* Accessibility: do not apply the filter to user-uploaded chat images,
    GIFs, videos, emojis, embeds, or game screenshots. */
+
+
+
+/* =============================================================
+   KIM v0.3b // PROFILE SHELL RECOVERY
+   Account custom profile colors can be defined inline. These
+   profile-only variables override decorative user color palettes,
+   without editing anyone's real profile or bio.
+   ============================================================= */
+
+/* Use existing Discord profile containers / V2 modal markers.
+   Deliberately avoid recoloring ALL dialogs, attachments, or game cards. */
+#app-mount :is(
+  .user-profile-modal-v2,
+  [class*="userProfileModal"],
+  [class*="userProfileOuter"],
+  [class*="userPopoutOuter"],
+  [class*="userPanelOuter"],
+  [class*="profileColors"],
+  [class*="profileCustomization"],
+  [class*="customizationSection"]
+) {
+  --profile-gradient-primary-color: var(--kim-plastic) !important;
+  --profile-gradient-secondary-color: var(--kim-paper) !important;
+  --profile-gradient-overlay-color: var(--kim-paper) !important;
+  --profile-gradient-modal-background-color: var(--kim-plastic) !important;
+  --profile-body-background-color: var(--kim-paper) !important;
+  --profile-body-background-hover: var(--kim-warm-hover) !important;
+  --profile-avatar-border-color: transparent !important;
+  --profile-gradient-button-color: var(--kim-deep) !important;
+  --profile-gradient-button-text-color: var(--kim-white) !important;
+  --user-profile-overlay-background: var(--kim-paper) !important;
+  --user-profile-overlay-background-hover: var(--kim-warm-hover) !important;
+  --user-profile-border: var(--kim-frame) !important;
+  --user-profile-toolbar-background: var(--kim-plastic) !important;
+  --user-profile-toolbar-border: var(--kim-frame) !important;
+  --text-default: var(--kim-ink) !important;
+  --text-primary: var(--kim-ink) !important;
+  --text-secondary: var(--kim-muted) !important;
+  --text-muted: var(--kim-muted) !important;
+  --text-strong: var(--kim-ink) !important;
+  --header-primary: var(--kim-ink) !important;
+  --header-secondary: var(--kim-muted) !important;
+}
+
+/* Separate the outer profile window from the app: sharp 1999-era
+   frame instead of a floating cream slab. */
+#app-mount :is(
+  .user-profile-modal-v2,
+  [class*="userProfileOuter"],
+  [class*="userPopoutOuter"]
+) {
+  border: 2px solid var(--kim-frame) !important;
+  border-radius: 2px !important;
+  box-shadow:
+    inset 1px 1px 0 var(--kim-white),
+    inset -1px -1px 0 var(--kim-trim),
+    3px 3px 0 rgba(36,47,39,.35) !important;
+  background-color: var(--kim-plastic) !important;
+}
+
+/* Discord fills content sections using the user's personal profile
+   colors. Force the content surfaces to the workstation palette. */
+#app-mount :is(
+  .user-profile-modal-v2,
+  [class*="userProfileOuter"],
+  [class*="userPopoutOuter"]
+) :is(
+  [class*="profileBody"],
+  [class*="profileInner"],
+  [class*="profileHeader"],
+  [class*="overlayBackground"],
+  [class*="overlay_"],
+  [class*="bodyContainer"]
+) {
+  background-color: var(--kim-paper) !important;
+  border-color: var(--kim-frame) !important;
+  border-radius: 1px !important;
+}
+
+/* This also covers the modern V2 full-profile pane visible when
+   editing your own profile. Don't hide profile editor controls. */
+#app-mount .user-profile-modal-v2 :is(
+  [class*="profileBody"],
+  [class*="profileHeader"],
+  [class*="profile_"]
+) {
+  border: 1px solid var(--kim-frame) !important;
+}
+
+/* High contrast for biographies, friend names and About sections,
+   including themed profiles with unusual accent choices. */
+#app-mount :is(
+  .user-profile-modal-v2,
+  [class*="userProfileOuter"],
+  [class*="userPopoutOuter"]
+) :is(
+  [class*="username"],
+  [class*="displayName"],
+  [class*="nameTag"],
+  [class*="pronouns"],
+  [class*="bio"],
+  [class*="aboutMe"],
+  [class*="sectionTitle"],
+  [class*="memberSince"],
+  [class*="profileText"],
+  [class*="userTag"]
+) {
+  color: var(--kim-ink) !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: var(--kim-ink) !important;
+}
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"])
+  :is([class*="subText"],[class*="subtext"],[class*="mutual"],[class*="timestamp"]) {
+  color: var(--kim-muted) !important;
+  opacity: 1 !important;
+}
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"])
+  [class*="ColorGradient"] {
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  -webkit-text-fill-color: var(--kim-ink) !important;
+  color: var(--kim-ink) !important;
+  filter: none !important;
+}
+
+/* =============================================================
+   KIM v0.3b // TRUE SQUARE PROFILE AVATARS
+   v0.3a squared the bitmap, but Discord's larger profile wrapper
+   left a circular border/hole behind. Make both layers square.
+   ============================================================= */
+#app-mount :is(
+  .user-profile-modal-v2,
+  [class*="userProfileOuter"],
+  [class*="userPopoutOuter"],
+  [class*="profileCustomization"],
+  [class*="customizationSection"]
+) :is(
+  [class*="avatarWrapper"],
+  [class*="avatarContainer"],
+  [class*="avatar_"],
+  [class*="avatarHint"],
+  [class*="avatarInner"]
+) {
+  border-radius: 2px !important;
+  clip-path: none !important;
+  --profile-avatar-border-color: transparent !important;
+}
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"],
+  [class*="profileCustomization"],[class*="customizationSection"])
+  :is([class*="avatarWrapper"],[class*="avatarContainer"],[class*="avatar_"])
+  :is(img,svg,svg foreignObject) {
+  border-radius: 2px !important;
+  clip-path: none !important;
+}
+/* Large profile image gets a tactile IBM-style frame; ignore emoji,
+   attachments, badges and regular activity/game artwork. */
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"],
+  [class*="profileCustomization"],[class*="customizationSection"])
+  :is([class*="avatarWrapper"],[class*="avatarContainer"],[class*="avatar_"]) img {
+  outline: 2px solid var(--kim-frame) !important;
+  outline-offset: 1px;
+  box-shadow: 2px 2px 0 var(--kim-trim) !important;
+}
+
+/* Remove classic Discord round avatar cutout / ring backgrounds.
+   Don't remove online-status circles or SVG icons indiscriminately. */
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"])
+  :is([class*="avatarWrapper"],[class*="avatarContainer"]) svg > circle[fill="black"],
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"])
+  :is([class*="avatarWrapper"],[class*="avatarContainer"]) svg > rect[fill="black"] {
+  fill: transparent !important;
+  stroke: none !important;
+}
+#app-mount :is(.user-profile-modal-v2,[class*="userProfileOuter"],[class*="userPopoutOuter"])
+  :is([class*="avatarDecoration"],[class*="profileFrameContainer"],[class*="profileEffects"]) {
+  display: none !important; /* decorative layers only; avatar + status remain */
+}
+
+/* =============================================================
+   KIM v0.3b // DE-CLUTTER PROFILE ACTIVITIES
+   Hide game/recent-activity cards on full profiles only.
+   Does not change sharing preferences or delete activity history.
+   ============================================================= */
+#app-mount :is(
+  .user-profile-modal-v2,
+  [class*="userProfileOuter"],
+  [class*="userPopoutOuter"]
+) :is(
+  [class*="activityCards"],
+  [class*="activityCard"],
+  [class*="activityPanel"],
+  [class*="activitySection"],
+  [class*="gamesCollection"],
+  [class*="gameCollection"],
+  [class*="gameCard"],
+  [class*="favoriteGames"],
+  [class*="gameWidgets"]
+) {
+  display: none !important;
+}
+
+/* Use one cohesive 1999 framing style for remaining full-profile
+   cards/sections; never hide message, friend, voice or search buttons. */
+#app-mount .user-profile-modal-v2 :is(
+  [class*="profileBody"],
+  [class*="profileHeader"],
+  [class*="profileCard"],
+  [class*="section_"]
+) {
+  border-color: var(--kim-frame) !important;
+  border-radius: 1px !important;
+}
+
+/* Notes:
+   - Additional Discord experimental Activity/Wishlist structures may
+     use other class names; only confirmed selectors should be extended.
+   - Turning this theme off instantly restores hidden visual sections.
+   - Cosmetic hiding is NOT a privacy control for activity sharing.
+ */
 
