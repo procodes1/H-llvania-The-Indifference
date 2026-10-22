@@ -1655,9 +1655,11 @@ html, body, #app-mount { color-scheme: dark; }
   background-image:
     var(--vitruvian-sigil),
     linear-gradient(180deg,#293348 0%,#161d2c 100%) !important;
-  background-position:right 10px center,center center;
-  background-size:48px 24px,100% 100%;
-  background-repeat:no-repeat;
+  /* Base v0.4b used background: ... !important (which also
+     sets repeat/size). Override those subproperties at equal priority. */
+  background-position:right 10px center,center center !important;
+  background-size:48px 24px,100% 100% !important;
+  background-repeat:no-repeat,no-repeat !important;
   text-shadow:0 1px 0 rgba(0,0,0,.52);
   box-shadow:inset 0 1px rgba(224,191,112,.20);
 }
