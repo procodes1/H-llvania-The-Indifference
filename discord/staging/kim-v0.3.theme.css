@@ -1,7 +1,7 @@
 /**
  * @name Höllvania KIM — v0.3b PROFILE REFINEMENT
  * @author Höllvania / The Indifference
- * @version 0.3.2-preview
+ * @version 0.3.2.1-preview
  * @description Aged IBM / KIM with readable profiles, squared portraits, toned-down personal colors and fewer activity cards.
  *
  * WARNING:
@@ -605,3 +605,55 @@
    - Cosmetic hiding is NOT a privacy control for activity sharing.
  */
 
+
+
+/* =============================================================
+   KIM v0.3b.1 // PROFILE NOTCH AND ACTIVITY LAYOUT FOLLOW-UP
+   The profile's circular backing cut-out is not the avatar bitmap.
+   When present it comes from a banner/header decoration or mask.
+   ============================================================= */
+#app-mount .user-profile-modal-v2 [class*="profileHeaderBannerContainer"] {
+  background-color: var(--kim-deep) !important;
+  border-bottom: 2px solid #253f39 !important;
+  border-radius: 0 !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  clip-path: none !important;
+}
+/* Suppress the round cut-out backing on the large avatar, leaving the
+   user's image and online badge intact. Do not target :after controls. */
+#app-mount .user-profile-modal-v2 [class*="profileHeaderBannerContainer"]::before {
+  content: none !important;
+}
+#app-mount .user-profile-modal-v2 [class*="avatarWrapper"] {
+  background-color: transparent !important;
+  border: 0 !important;
+}
+#app-mount .user-profile-modal-v2 [class*="avatarWrapper"] > svg > circle[fill="black"] {
+  fill: transparent !important;
+}
+
+/* Prefer a single uninterrupted panel if this Discord version
+   exposes an explicit right activity column. Avoid affecting DMs. */
+#app-mount .user-profile-modal-v2 :is(
+  [class*="rightColumn"],
+  [class*="activityColumn"],
+  [class*="activityPane"]
+) {
+  display: none !important;
+}
+#app-mount .user-profile-modal-v2:has(> [class*="rightColumn"]),
+#app-mount .user-profile-modal-v2:has(> [class*="activityColumn"]),
+#app-mount .user-profile-modal-v2:has(> [class*="activityPane"]) {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+/* Profiles which keep the Activity tab outside an explicit column
+   may still show its tab label; hide only the Activity tab itself,
+   never the entire navigation set. */
+#app-mount .user-profile-modal-v2 :is(
+  [role="tab"][aria-label="Activity"],
+  [role="tab"][aria-label="Activities"]
+) {
+  display: none !important;
+}
