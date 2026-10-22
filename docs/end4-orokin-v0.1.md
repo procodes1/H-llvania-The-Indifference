@@ -2,7 +2,7 @@
 
 **Status:** Installed on CachyOS / end-4 illogical-impulse, 2026-10-22. The end-4 Quickshell `ii` family has been restarted successfully after applying the palette.
 
-This is a **non-destructive dark Orokin color layer**, not a fork of end-4. It leaves the user's functional dotfiles, workspace navigation, keybindings, Swedish keyboard, monitors, screenshots, KDE Plasma, Fastfetch and Vesktop themes in place.
+This is a **non-destructive dark Orokin color layer**, not a fork of end-4. It leaves the user's functional dotfiles, workspace navigation, keybindings, Swedish keyboard, monitors, screenshots, KDE Plasma and Vesktop themes in place. Later polish steps intentionally recolor Fastfetch and Kitty.
 
 ## Design
 
@@ -25,17 +25,17 @@ A deliberately restrained palette: panels stay navy, **gold is for hierarchy**, 
 - `profiles/end4-vitruvian/colors.json`: 53 validated Material/Quickshell colors. Installed into `~/.local/state/quickshell/user/generated/colors.json`, which `MaterialThemeLoader.qml` already reads.
 - `scripts/end4-orokin.py`: validates every color key against end-4's `Appearance.qml`, atomically installs/removes the palette, and appends/removes a **marked** gold border override in `~/.config/hypr/custom/general.lua`. This avoids editing upstream QML or end-4 keybindings.
 - The script sets only `appearance.wallpaperTheming.enableAppsAndShell=false` in `~/.config/illogical-impulse/config.json` to keep the hand-tuned theme from being replaced by wallpaper-derived colors. It stores just the previous boolean as a small restore marker; no old ML4W dotfiles backup is made.
-- No wallpaper image is installed or replaced. Terminal and KDE colors are not changed.
+- The base palette installer does not replace wallpaper images. A separate optional polish script changes **Kitty and Fastfetch only**; KDE colors remain unchanged.
 
 The Matugen setup on this installation still resolves to a **leftover ML4W configuration**, so the regular wallpaper color-generation script should not be used as the first choice for this fixed theme. The custom palette deliberately bypasses that pipeline.
 
-## Orokin Ivory Palace wallpaper v0.2 (current)
+## Original Orokin Ivory Palace wallpaper v0.2 (optional / historical)
 
-The user requested that the **wallpaper be visibly Orokin architecture**, while the **desktop chrome stays Vitruvian**. The first dark "Vitruvian Void" geometry wallpaper was retained as an alternative rather than overwritten.
+The user requested that the **wallpaper be visibly Orokin architecture**, while the **desktop chrome stays Vitruvian**. After previewing the stylized SVG they chose a **high-quality realistic generated image** instead, which is now the active background. Both original SVG versions remain optional, reversible art assets.
 
 - `wallpapers/orokin-ivory-palace-v0.2.svg` — editable original 4K vector concept: ivory marble, flowing gilded arches, ceremonial stairs, light-blue Void highlights, and a reflective floor. No baked-in bars, icons, clock, launcher or screenshots.
 - `scripts/end4-orokin-wallpaper.py` — renders the 3840×2160 WebP and updates only `background.wallpaperPath` in end-4's config (no Matugen).
-- Installed as `~/.local/share/hollvania/wallpapers/orokin-ivory-palace-v0.2.webp`. The earlier `vitruvian-void-v0.1.webp` remains on disk.
+- Stored as `~/.local/share/hollvania/wallpapers/orokin-ivory-palace-v0.2.webp`, no longer the active background. The earlier `vitruvian-void-v0.1.webp` also remains on disk.
 - Restore marker `~/.local/state/hollvania/end4-orokin-wallpaper-v0.2.json` records the **immediately prior wallpaper**, which was `vitruvian-void-v0.1.webp`.
 
 To switch back to the earlier darker wallpaper:
@@ -49,7 +49,7 @@ You can reapply the white-gold wallpaper later with `python3 scripts/end4-orokin
 
 ## Wallpaper: Vitruvian Void v0.1
 
-The first clean 4K dark Vitruvian-style wallpaper remains installed as a restore option; the current background is the brighter Orokin Ivory Palace v0.2 above.
+The first clean 4K dark Vitruvian-style wallpaper remains installed as an alternate wallpaper. The user currently has the more photorealistic Orokin palace PNG selected.
 
 - Source: `wallpapers/vitruvian-void-v0.1.svg` (editable original SVG vector art, 3840×2160; geometric portal, gilded filigree, Void lighting, temple arches, reflective floor).
 - Rendered locally using `rsvg-convert` and ImageMagick to `~/.local/share/hollvania/wallpapers/vitruvian-void-v0.1.webp`.
@@ -66,6 +66,37 @@ qs -c ii kill; qs -c ii -d                     # only if the live view did not r
 ```
 
 The installer stages its WebP in the destination directory before atomic replacement (because /tmp may be on another filesystem). The first successful rollout was checked with ImageMagick, Quickshell reload, and Hyprland 240Hz/144Hz monitor and Swedish-keyboard verifications.
+
+## Currently active wallpaper (user selected)
+
+As of October 22, 2026, end-4's actual `background.wallpaperPath` is `~/Downloads/Celestial Golden Temple Hall.png`, a high-quality **photorealistic generated Orokin hall** selected by the user. This image intentionally remains outside Git and has **not been uploaded or redistributed** by this theme project. Do not overwrite it when applying the palette or polishing the UI.
+
+## Fastfetch / Kitty / bar polish v0.1 (active)
+
+The user noticed the Arch-logo Fastfetch was still pink, because its custom labels embedded `{#34}`, while Kitty continued to load pinkish colors from the earlier ML4W theme. The new reversible pass was applied directly on the running workstation:
+
+- `scripts/end4-orokin-polish.py`: idempotent apply/status/restore, validates a temporary copy of Fastfetch before writing, captures only the affected small original config contents in `~/.local/state/hollvania/end4-orokin-polish-v0.1.json`, and refuses to overwrite manual post-install edits on restore.
+- Fastfetch's existing `~/.config/fastfetch/config.jsonc` retains the user's custom layout and displayed `arch` identity, but its Arch ASCII logo/keys now use **true-color gold** `#D8B96F`, box outlines brass `#947A50`, and output ivory `#EEE5D3`. On this system, `~/.config/fastfetch` still points to the old ML4W dotfiles directory.
+- `profiles/end4-vitruvian/kitty-orokin.conf`: installed as `~/.config/kitty/custom.conf`, loaded *last* by existing `kitty.conf`. Deep navy `#0B1120` at 87% opacity, blur 14, ivory text, Orokin gold cursor/tab borders, Void-blue hyperlinks and updated ANSI palette. No edits to Kitty's original base config or fonts. Kitty parsed the effective colors correctly.
+- Material `outline_variant` moved from muted `#6B5A3D` to a slightly brighter antique gold `#947A50`, affecting **real end-4 Quickshell separators and outlines** without editing upstream QML, workspace logic or the bar implementation.
+- Wallpaper and KDE remain untouched by this polish script; the optional cookie clock remains **disabled** as preferred by the user.
+
+```bash
+cd ~/Projects/Hollvania-The-Indifference
+python3 scripts/end4-orokin-polish.py status
+python3 scripts/end4-orokin-polish.py apply
+python3 scripts/end4-orokin-polish.py restore  # Reverts just this polish pass
+```
+
+For a visual refresh after apply or restore:
+
+```bash
+pkill -SIGUSR1 -x kitty   # Reload existing Kitty windows
+qs -c ii kill
+qs -c ii -d               # Restart the end-4 panels, not the desktop session
+```
+
+Validated: Fastfetch emitted RGB `216;185;111` (gold) and `238;229;211` (ivory) in a pseudo-terminal; Kitty's config parser yielded opacity `0.87`, blur `14`, correct colors; Quickshell relaunched with no palette or Hyprland config errors; Swedish keyboard and both 144/239.97 Hz monitors unchanged.
 
 ## Controls
 
