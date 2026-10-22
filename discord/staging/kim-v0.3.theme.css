@@ -1363,3 +1363,30 @@ body :is([role="menu"],[role="listbox"]) :is(
   color:var(--kim-white) !important;
   -webkit-text-fill-color:var(--kim-white) !important;
 }
+
+
+/* KIM v0.3f.2 — precedence fix for the FULL selected status row.
+   Use #app-mount ID specificity to supersede the earlier
+   #app-mount accountProfilePopout menuItem background-color rule.
+   The low-specificity "body [role=menu]" style was not winning. */
+#app-mount :is([role="menu"],[role="listbox"]) :is(
+  [role="menuitem"],[role="menuitemradio"],[role="option"]
+):is(
+  :hover,:focus-visible,[aria-selected="true"],[data-highlighted]
+) {
+  background:var(--kim-selection) !important;
+  background-color:var(--kim-selection) !important;
+  color:var(--kim-ink) !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  border-radius:1px !important;
+}
+#app-mount :is([role="menu"],[role="listbox"]) :is(
+  [role="menuitem"],[role="menuitemradio"],[role="option"]
+):is(:hover,:focus-visible,[aria-selected="true"],[data-highlighted])
+:is([class*="label"],[class*="name"],[class*="text"],span,small) {
+  background:transparent !important;
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
