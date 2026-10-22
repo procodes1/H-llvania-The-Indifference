@@ -29,6 +29,26 @@ A deliberately restrained palette: panels stay navy, **gold is for hierarchy**, 
 
 The Matugen setup on this installation still resolves to a **leftover ML4W configuration**, so the regular wallpaper color-generation script should not be used as the first choice for this fixed theme. The custom palette deliberately bypasses that pipeline.
 
+## Wallpaper: Vitruvian Void v0.1
+
+The first clean 4K Orokin-style wallpaper is installed and active in both end-4 backgrounds.
+
+- Source: `wallpapers/vitruvian-void-v0.1.svg` (editable original SVG vector art, 3840×2160; geometric portal, gilded filigree, Void lighting, temple arches, reflective floor).
+- Rendered locally using `rsvg-convert` and ImageMagick to `~/.local/share/hollvania/wallpapers/vitruvian-void-v0.1.webp`.
+- Changed **only** `background.wallpaperPath` in `~/.config/illogical-impulse/config.json`. No modifications to KDE wallpaper, Quickshell UI code, system-wide color schemes, Matugen, or shortcuts.
+- Previous background path recorded in `~/.local/state/hollvania/end4-wallpaper-v0.1.json` for quick restoration; not a backup of ML4W or system configuration.
+- No fake icons, clocks or UI graphics are baked into the actual wallpaper; widgets remain functional real end-4 components. The wallpaper is 16:9, suitable for both the 1440p OLED and 1080p AOC.
+
+```bash
+cd ~/Projects/Hollvania-The-Indifference
+python3 scripts/end4-wallpaper.py status
+python3 scripts/end4-wallpaper.py apply       # rerender/reapply
+python3 scripts/end4-wallpaper.py restore     # previous purple background
+qs -c ii kill; qs -c ii -d                     # only if the live view did not refresh
+```
+
+The installer stages its WebP in the destination directory before atomic replacement (because /tmp may be on another filesystem). The first successful rollout was checked with ImageMagick, Quickshell reload, and Hyprland 240Hz/144Hz monitor and Swedish-keyboard verifications.
+
 ## Controls
 
 From the Höllvania repo directory:
@@ -52,4 +72,4 @@ The first apply was verified with a clean `hyprctl reload`, no Hyprland configur
 
 ### Future work
 
-A true Orokin/Vitruvian wallpaper, subtle original sigils, and optional Quickshell-specific ornamentation can be added later without rewriting the UI. Keep **KIM Classic v0.4b** frozen and preserve the separate **KIM // Vitruvian** theme.
+The clean geometric wallpaper is now in place. Next refinements: tune the cookie-clock style and optional Quickshell-specific gold separators or ornate glyphs while preserving all keybindings and widgets. Keep **KIM Classic v0.4b** frozen and preserve the separate **KIM // Vitruvian** theme.
