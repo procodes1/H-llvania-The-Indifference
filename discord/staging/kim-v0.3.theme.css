@@ -19,7 +19,7 @@
   --kim-beige:#cfc7b4;
   --kim-trim:#a89f8c;
   --kim-ink:#2b2a26;
-  --kim-muted:#5b574e;
+  --kim-muted:#504b42; /* Extra contrast on beige navigation panels. */
   --kim-teal:#4f7a73;
   --kim-deep:#355c57;
   --kim-selection:#b7cfba;
