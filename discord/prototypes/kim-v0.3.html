@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KIM 1999 — Höllvania v0.3 prototype</title>
+<style>
+/* HÖLLVANIA KIM • v0.3 standalone mockup; no Discord connection, assets, trackers or network requests */
+:root {
+  --plastic:#ddd8c8; --paper:#e8e2d2; --highlight:#f9f6eb;
+  --beige:#cfc7b4; --trim:#a89f8c; --ink:#2b2a26;
+  --muted:#5b574e; --teal:#4f7a73; --deep:#355c57;
+  --selected:#b7cfba; --frame:#77847a; --amber:#a56032;
+  --border:#6e756c; --shadow:#263b34;
+  color-scheme:light; font-family:Tahoma,"Liberation Sans",Arial,sans-serif;
+  font-synthesis:none;
+}
+* { box-sizing:border-box; }
+body { margin:0; color:var(--ink); min-height:100vh; background:
+  repeating-linear-gradient(0deg,transparent 0 3px,rgba(25,50,32,.02) 3px 4px),
+  radial-gradient(ellipse at 70% 15%,#7d9382 0,transparent 53%),
+  radial-gradient(ellipse at 5% 90%,#526d5e 0,transparent 48%),#607d70; }
+button,input,textarea { font:inherit; }
+button { cursor:pointer; }
+button:focus-visible,input:focus-visible,textarea:focus-visible { outline:2px solid var(--deep); outline-offset:2px; }
+.shell { min-height:100vh; padding:26px clamp(12px,3vw,48px) 20px; display:flex; flex-direction:column; gap:14px; }
+.systembar { color:#f6f3e7; display:flex; justify-content:space-between; align-items:center; gap:16px; font:700 11px/1.3 "Liberation Mono",monospace; letter-spacing:.16em; text-shadow:0 1px 0 #2d463f; }
+.systembar .right { font-weight:400; letter-spacing:.1em; }
+.pulse { display:inline-block; width:7px;height:7px;background:#c6d6ad; border:1px solid #3c6947; margin-right:8px; box-shadow:0 0 6px #c6d6ad; }
+.desktop { width:min(1380px,100%); margin:auto; flex:1; display:grid; grid-template-columns:minmax(245px,290px) minmax(400px,1fr) 232px; align-items:stretch; gap:14px; min-height:650px; max-height:820px; }
+.window { background:var(--plastic); border:1px solid #303e36; box-shadow:1px 1px 0 #f5f2e5,3px 3px 0 #44594d,7px 9px 20px rgba(20,35,25,.35); min-width:0; min-height:0; display:flex; flex-direction:column; }
+.titlebar { height:37px; min-height:37px; display:flex; justify-content:space-between; gap:8px; align-items:center; padding:4px 6px 4px 11px; color:#faf7eb; background:linear-gradient(180deg,#547d74,#355c57); border-bottom:2px solid #233e39; font-size:12px; font-weight:700; letter-spacing:.07em; }
+.title-left { display:flex; align-items:center; min-width:0; gap:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.title-icon { border:1px solid #8ba79d; width:17px; height:16px; flex:none; display:grid;place-items:center;color:#f6f0d5;font:700 10px monospace;background:#254c46;box-shadow:inset 1px 1px #a2b2a3; }
+.chrome-buttons { display:flex;gap:3px; flex:none; }
+.chrome-buttons button { width:22px; height:21px; padding:0; color:#2c3730; background:var(--plastic);border:1px solid #172c25;box-shadow:inset 1px 1px #fff8e5,inset -1px -1px #8c9486; font:700 12px/1 monospace; }
+.chrome-buttons button:hover { background:#f5f0de; }
+.chrome-buttons button:active { box-shadow:inset 1px 1px #8c9486; }
+.chrome-buttons button:disabled { opacity:.55; cursor:default; }
+.menu-line { border-bottom:1px solid var(--trim); display:flex; gap:20px; padding:9px 12px 8px; height:34px; font-size:12px; background:var(--plastic); }
+.menu-line span::first-letter { text-decoration:underline; }
+.inset { border:2px solid; border-color:#849185 #faf6e9 #faf6e9 #849185; background:var(--highlight); }
+.outset { border:2px solid; border-color:#f8f4e5 #898f84 #898f84 #f8f4e5; background:var(--beige); }
+.control { color:var(--ink); background:var(--plastic); border:2px solid; border-color:#fbf8ed #838f83 #838f83 #fbf8ed; min-height:31px; padding:4px 11px; font-size:12px; }
+.control:active { border-color:#899487 #fbf8ed #fbf8ed #899487; }
+.control.active { background:var(--selected); color:#263b33;font-weight:700; }
+.control[aria-pressed="true"] { background:var(--selected); }
+.smallcaps { font:700 10px/1.4 "Liberation Mono",monospace;letter-spacing:.08em; }
+.muted { color:var(--muted); }
+.directory { margin:10px 10px 0; padding:8px 10px; border:1px solid #9b9f8e; background:#ece6d6; font-size:11px; display:flex; gap:8px; align-items:center; }
+.directory b { color:var(--deep); }
+.directory .led { width:8px;height:8px;border-radius:50%;background:#538b56;box-shadow:0 0 0 1px #35643f; }
+.nav-tabs { display:grid; grid-template-columns:repeat(3,1fr); padding:12px 10px 8px;gap:4px; }
+.nav-tabs button { min-width:0;padding-inline:4px; font-size:10px; }
+.search { margin:0 10px 9px; width:calc(100% - 20px); color:var(--ink);padding:9px;background:var(--highlight);font-size:12px; }
+.roster-caption { padding:8px 12px 5px; display:flex;justify-content:space-between;font:700 10px monospace;letter-spacing:.08em; color:#3f554b; }
+.roster { margin:0 10px; flex:1; min-height:180px; overflow:auto; }
+.contact { width:100%; min-height:58px; padding:7px 8px; display:flex; align-items:center;gap:10px;background:transparent;border:0;border-bottom:1px solid #b5b5a6;text-align:left;color:var(--ink); }
+.contact:hover { background:#e8e2d2; }
+.contact[aria-selected="true"] { background:var(--selected); outline:1px dotted var(--deep);outline-offset:-3px; }
+.avatar { display:grid; place-items:center; flex:none; width:35px;height:35px; background:var(--tone,#5b7568);border:2px solid #eae5d6;box-shadow:0 0 0 1px #667469;color:#fff8e7;font:700 14px Georgia,serif; }
+.contact strong { display:block;font-size:12px;line-height:1.2; }
+.contact small { display:block;color:var(--muted);font-size:10px;margin-top:3px; }
+.contact .info { overflow:hidden;flex:1;min-width:0; }
+.contact strong,.contact small { overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.status-led { width:8px;height:8px;border:1px solid #76816c;background:#7b8676; }
+.status-led.online { background:#62955a;border-color:#426d43; }
+.status-led.busy { background:#b7874f;border-color:#7b5932; }
+.nav-footer { padding:9px 10px 10px;display:flex;gap:6px;align-items:center; }
+.nav-footer .control { flex:1;font-size:11px; }
+.nav-status { border-top:1px solid #a4a694;padding:9px 12px 10px;color:#3e5045;font-size:10px;display:flex;justify-content:space-between;gap:8px; }
+.chat-window .titlebar { background:linear-gradient(180deg,#5c8a80,#355c57); }
+.chat-meta { background:var(--beige);border-bottom:1px solid #908e7c;padding:9px 12px; display:flex;align-items:center;gap:10px; }
+.chat-meta .chat-name { font-size:14px;font-weight:700;line-height:1.2; }
+.chat-meta .chat-sub { font-size:10px; color:#43594e; margin-top:2px; }
+.chat-meta .buttons { display:flex;gap:6px;margin-left:auto; }
+.chat-meta .buttons button { min-width:66px; }
+.chat-body { flex:1; margin:10px 10px 6px; padding:11px 15px 15px; overflow:auto; min-height:250px; }
+.chat-stamp { display:flex;align-items:center;gap:12px;color:#617364;font:700 10px monospace;letter-spacing:.1em;margin:9px 0 15px; }
+.chat-stamp::before,.chat-stamp::after { content:"";height:1px;flex:1;background:#b5baa9; }
+.message { padding:0 0 16px;line-height:1.55; font-size:13px; }
+.message-head { display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;margin-bottom:4px; }
+.message .author {font-weight:700;color:var(--deep);font-size:12px; }
+.message.self .author { color:#725126; }
+.message .time { color:var(--muted);font:10px monospace; }
+.message .body {white-space:pre-wrap; overflow-wrap:anywhere;}
+.message .body p { margin:0 0 4px; }
+.system-note { font:11px/1.5 monospace;color:#567060; background:#e0e9dc; border-left:3px solid var(--teal);padding:7px 10px;margin:2px 0 20px; }
+.composer { margin:0 10px 9px; padding:8px;background:var(--beige);display:grid;gap:7px; }
+.composer label { font:700 10px monospace;color:#465b4e; }
+.compose-row { display:flex;gap:7px;align-items:stretch; }
+.compose-row textarea {flex:1;min-width:0;resize:none;min-height:50px;max-height:130px;padding:9px 10px;font:13px/1.35 Tahoma,Arial,sans-serif;color:var(--ink);}
+.send { min-width:83px; font-weight:700; }
+.chat-status { background:var(--plastic);border-top:1px solid #a2a394;display:flex;justify-content:space-between;gap:8px;padding:9px 13px;font:10px monospace;color:#425c4f; }
+.blink {width:7px;height:7px;display:inline-block;background:#6b9766;border:1px solid #49764b;margin-right:5px;}
+.side-stack {display:flex;flex-direction:column;gap:14px;min-height:0;}
+.profile-window { flex:0 0 auto; }
+.profile-body {padding:12px 10px 9px;display:grid;gap:10px;}
+.profile-id {display:flex;align-items:center;gap:9px;padding:6px;background:#e7e1d0;border:1px solid #aaa997;}
+.profile-photo {background:#7c8e7f;width:54px;height:54px;display:grid;place-items:center;color:#fff5dd;font:700 22px Georgia,serif;border:3px ridge #e3deca;flex:none;}
+.profile-id strong {display:block;font-size:14px;}
+.profile-id small {display:block;color:var(--muted);font-size:10px;margin-top:5px;}
+.profile-list {border:1px solid var(--trim);background:var(--highlight);padding:8px;font-size:11px;line-height:1.7;}
+.profile-list div {display:flex;justify-content:space-between;gap:12px;}
+.profile-list strong {text-align:right;color:#324c41; }
+.note {font-size:11px;line-height:1.5;color:#46534c;margin:0;padding:6px 8px;border-left:2px solid var(--teal);background:#eee8d9;}
+.signal-window {flex:1;min-height:140px; }
+.signal-body {padding:12px;display:grid;gap:9px;align-content:start;}
+.signal-chart {height:50px;display:flex;gap:4px;align-items:end;padding:5px;background:#ece6d6;border:1px solid #9da597;}
+.signal-chart i {width:100%;height:var(--h);background:#557a6b;border:1px solid #3b5e4e; }
+.radio-line {font:11px/1.5 "Liberation Mono",monospace;display:flex;justify-content:space-between;gap:8px;}
+.ordis { border:0;background:transparent;color:var(--deep);text-decoration:underline;text-align:left;font:11px monospace;padding:4px 0; }
+.ordis-message {display:none;background:#efe9d9;border:1px solid #a69d83;padding:9px;font:11px/1.5 monospace;}
+.ordis-message.visible {display:block;}
+.taskline {display:flex;justify-content:space-between;gap:20px;color:#eef1e5;text-shadow:0 1px #30493f;font:11px/1.5 "Liberation Mono",monospace;padding:0 2px;flex-wrap:wrap; }
+.taskline b {color:#fff7d3;}
+.sr-only {position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;}
+@media (max-width:1150px) {
+  .desktop {grid-template-columns:minmax(210px,260px) minmax(350px,1fr);}
+  .side-stack {display:none;}
+}
+@media (max-width:700px) {
+  .shell {padding:12px 8px;}
+  .systembar .right {display:none;}
+  .desktop {grid-template-columns:1fr;grid-template-rows:220px minmax(470px,1fr);min-height:0;max-height:none;}
+  .roster {min-height:70px;}
+  .contact {min-height:47px;}
+  .roster-caption,.nav-footer,.directory,.menu-line {display:none;}
+  .nav-tabs {padding:5px;}.search {margin-bottom:5px;}
+  .window {box-shadow:2px 3px 0 #44594d;}
+  .chat-meta .buttons button {min-width:42px;padding:5px;}
+  .taskline {font-size:10px;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="systembar"><span><span class="pulse"></span>POM/2 WORKSTATION · KIM 2.14 · HÖLLVANIA</span><span class="right">LINK QUALITY 98% / TERMINAL NO. 0199</span></header>
+  <main class="desktop" aria-label="Offline fictional KIM theme prototype">
+    <section class="window" aria-label="Contact directory">
+      <div class="titlebar"><div class="title-left"><span class="title-icon">K</span> KIM — ADDRESS BOOK</div><div class="chrome-buttons" aria-hidden="true"><button tabindex="-1">_</button><button tabindex="-1">□</button><button tabindex="-1">×</button></div></div>
+      <div class="menu-line" aria-hidden="true"><span>File</span><span>Contacts</span><span>View</span><span>Help</span></div>
+      <div class="directory"><span class="led"></span><span><b>CONNECTED</b> — The network is available.</span></div>
+      <nav class="nav-tabs" aria-label="Directory type">
+        <button type="button" class="control active" data-tab="people" aria-pressed="true">PEOPLE</button>
+        <button type="button" class="control" data-tab="groups" aria-pressed="false">GROUPS</button>
+        <button type="button" class="control" data-tab="radio" aria-pressed="false">RADIO</button>
+      </nav>
+      <label for="roster-search" class="sr-only">Find a contact</label>
+      <input id="roster-search" class="search inset" type="search" placeholder="Find a conversation..." autocomplete="off">
+      <div class="roster-caption"><span id="roster-caption">CONTACTS [04]</span><span>STATUS</span></div>
+      <div id="roster" class="roster inset" role="listbox" aria-label="Conversation list"></div>
+      <div class="nav-footer"><button type="button" class="control" id="new-chat">+ NEW</button><button type="button" class="control" id="reset-demo">RESET DEMO</button></div>
+      <div class="nav-status"><span>■ ENCRYPTED LINK</span><span>LOCAL MOCKUP</span></div>
+    </section>
+    <section class="window chat-window" aria-label="Messenger">
+      <div class="titlebar"><div class="title-left"><span class="title-icon">✉</span><span id="window-title">KIM — TRANSMISSION: ASTER</span></div><div class="chrome-buttons" aria-hidden="true"><button tabindex="-1">_</button><button tabindex="-1">□</button><button tabindex="-1">×</button></div></div>
+      <div class="chat-meta">
+        <div><div class="chat-name" id="chat-name">Aster / Maintenance</div><div class="chat-sub" id="chat-sub">CONTACT ESTABLISHED · LINE 01 · 1999</div></div>
+        <div class="buttons"><button type="button" class="control" id="profile-toggle">PROFILE</button><button type="button" class="control" id="call-button">RADIO</button></div>
+      </div>
+      <div class="chat-body inset" id="chat-body" role="log" aria-label="Fictional chat messages" aria-live="polite">
+        <div class="chat-stamp">OCTOBER 22, 1999</div>
+        <div id="messages"></div>
+      </div>
+      <form id="composer" class="composer outset">
+        <label for="message-text">OUTGOING TRANSMISSION</label>
+        <div class="compose-row"><textarea id="message-text" class="inset" placeholder="Type a message... (demo only)" aria-label="Compose fake demo message"></textarea><button class="control send" type="submit">SEND &gt;</button></div>
+      </form>
+      <div class="chat-status"><span><span class="blink"></span>END-TO-END ENCRYPTION: SIMULATED</span><span>NO NETWORK REQUESTS</span></div>
+    </section>
+    <aside class="side-stack" aria-label="Additional panels">
+      <section class="window profile-window" id="profile-window">
+        <div class="titlebar"><div class="title-left"><span class="title-icon">i</span> KIM PROFILE</div><div class="chrome-buttons"><button type="button" id="close-profile" aria-label="Hide profile">×</button></div></div>
+        <div class="profile-body"><div class="profile-id"><span id="profile-photo" class="profile-photo">A</span><span><strong id="profile-name">Aster</strong><small id="profile-handle">@aster_99</small></span></div>
+          <div class="profile-list"><div><span>CONNECTION</span><strong id="profile-status">ONLINE</strong></div><div><span>CHANNEL</span><strong id="profile-channel">DIRECT</strong></div><div><span>LOCAL TIME</span><strong>22:10</strong></div></div>
+          <p class="note" id="profile-note">Someone keeps repairing the terminal with spare parts from a toaster.</p>
+        </div>
+      </section>
+      <section class="window signal-window">
+        <div class="titlebar"><div class="title-left"><span class="title-icon">▣</span> SIGNAL MONITOR</div></div>
+        <div class="signal-body">
+          <div class="smallcaps">TRANSMISSION INTEGRITY</div>
+          <div class="signal-chart" aria-hidden="true"><i style="--h:55%"></i><i style="--h:80%"></i><i style="--h:66%"></i><i style="--h:93%"></i><i style="--h:73%"></i><i style="--h:88%"></i><i style="--h:60%"></i><i style="--h:97%"></i><i style="--h:74%"></i><i style="--h:82%"></i></div>
+          <div class="radio-line"><span>FREQUENCY</span><b>88.9 FM</b></div>
+          <div class="radio-line"><span>PACKET LOSS</span><b>0.02%</b></div>
+          <div class="radio-line"><span>LATENCY</span><b>12 MS</b></div>
+          <button type="button" class="ordis" id="ordis">▷ ORDIS_DIAGNOSTIC.EXE</button>
+          <div id="ordis-message" class="ordis-message" role="status">Operator, I have a joke about construction, but I'm still working on it.</div>
+        </div>
+      </section>
+    </aside>
+  </main>
+  <footer class="taskline"><span><b>[KIM]</b> HÖLLVANIA / COMMUNICATIONS TERMINAL</span><span>FAN UI PROTOTYPE · FICTIONAL DATA ONLY · NOT CONNECTED TO DISCORD</span></footer>
+</div>
+<script>
+(() => {
+ "use strict";
+ const conversations = {
+  people: [
+   { id:"aster", name:"Aster", sub:"Maintenance • online", initials:"AS", tone:"#607f74", status:"ONLINE", channel:"DIRECT", handle:"@aster_99", note:"Keeps the old terminal alive with parts salvaged from a toaster.", messages:[["Aster","16:42","You still using that ancient workstation?"],["YOU","16:43","It has character. And a suspicious amount of beige."],["Aster","16:44","That thing was old when we found it in 1999."],["YOU","16:46","Perfect. I'm calling it a design feature."]] },
+   { id:"static", name:"Static", sub:"Signal analyst • online", initials:"ST", tone:"#846d56", status:"ONLINE", channel:"DIRECT", handle:"@static98", note:"Has strong opinions about radio antennas and coffee.", messages:[["Static","15:17","The transmission came through clean this time."],["YOU","15:19","So the ancient beige box lives another day."],["Static","15:20","Don't celebrate. The fan sounds like a lawnmower."]] },
+   { id:"rook", name:"Rook", sub:"Engineering • away", initials:"RK", tone:"#656b7f", status:"AWAY", channel:"DIRECT", handle:"@rookx", note:"Insists on documenting every loose screw in the building.", messages:[["Rook","11:04","Found the missing tool."],["YOU","11:05","Where was it?"],["Rook","11:06","Behind the other missing tools."]] },
+   { id:"ordis", name:"Ordis", sub:"Cephalon • monitoring", initials:"OR", tone:"#60818a", status:"ONLINE", channel:"DIAGNOSTIC", handle:"@ordis", note:"Excessive optimism. Questionable comedy. Limited patience for broken shortcuts.", messages:[["Ordis","09:01","Operator! All systems are nominal. That means nothing is broken, which is profoundly suspicious."],["YOU","09:02","Please don't jinx it."],["Ordis","09:03","Understood! I shall remain entirely - QUIET - helpful."]] }
+  ],
+  groups: [
+   { id:"workshop", name:"Workshop Crew", sub:"Group • 5 connected", initials:"WC", tone:"#6b7761", status:"ONLINE", channel:"GROUP", handle:"#workshop", note:"A fictional group chat for the UI prototype.", messages:[["Aster","14:05","Anyone seen the new drawing?"],["Rook","14:06","I already machined it."],["Static","14:06","Of course you did."]] },
+   { id:"directory", name:"Höllvania Network", sub:"Directory • 17 nodes", initials:"HN", tone:"#7a685b", status:"ONLINE", channel:"SERVER", handle:"#network", note:"This represents a Discord server in the future theme.", messages:[["SYSTEM","13:30","Welcome to the local communications directory."],["Aster","13:31","Signal strength is good today."]] }
+  ],
+  radio: [
+   { id:"freq88", name:"Frequency 88.9", sub:"Voice room • 3 connected", initials:"FM", tone:"#677c77", status:"ONLINE", channel:"VOICE", handle:"88.9 FM", note:"Visual stand-in for a Discord voice channel. No audio is transmitted.", messages:[["SYSTEM","18:00","RADIO CHANNEL ACTIVE"],["Static","18:01","Signal check. One, two."],["YOU","18:02","Readable. Loud and clear."]] },
+   { id:"freq96", name:"Frequency 96.4", sub:"Voice room • inactive", initials:"FM", tone:"#786c64", status:"AWAY", channel:"VOICE", handle:"96.4 FM", note:"Another stand-in radio channel.", messages:[["SYSTEM","18:00","NO ACTIVE TRANSMISSIONS"]] }
+  ]
+ };
+ const $ = id => document.getElementById(id);
+ let tab="people", active="aster";
+ const all = () => Object.values(conversations).flat();
+ const record = () => all().find(c=>c.id===active)||conversations.people[0];
+ const esc = t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+ function renderList() {
+  const list = conversations[tab].filter(c=>(c.name+" "+c.sub).toLowerCase().includes($("roster-search").value.toLowerCase()));
+  $("roster-caption").textContent=(tab==="people"?"CONTACTS":tab==="groups"?"DIRECTORIES":"RADIO LINKS")+" ["+String(list.length).padStart(2,"0")+"]";
+  $("roster").innerHTML = list.length ? list.map(c=>'<button type="button" class="contact" role="option" aria-selected="'+(c.id===active)+'" data-id="'+esc(c.id)+'"><span class="avatar" style="--tone:'+c.tone+'">'+esc(c.initials)+'</span><span class="info"><strong>'+esc(c.name)+'</strong><small>'+esc(c.sub)+'</small></span><span class="status-led '+(c.status==="ONLINE"?"online":"busy")+'" aria-label="'+esc(c.status)+'"></span></button>').join("") : '<p class="muted" style="padding:10px;font-size:12px">No results in this directory.</p>';
+  $("roster").querySelectorAll(".contact").forEach(b=>b.addEventListener("click",()=>select(b.dataset.id)));
+ }
+ function renderChat() {
+  const c=record();
+  $("window-title").textContent="KIM — "+(c.channel==="VOICE"?"RADIO":"TRANSMISSION")+": "+c.name.toUpperCase();
+  $("chat-name").textContent=c.name;
+  $("chat-sub").textContent=c.channel+" CHANNEL · "+c.status+" · HÖLLVANIA 1999";
+  $("messages").innerHTML=c.messages.map(([who,time,text])=>'<div class="message '+(who==="YOU"?"self":"")+'"><div class="message-head"><span class="author">'+esc(who)+'</span><span class="time">'+esc(time)+'</span></div><div class="body">'+esc(text)+'</div></div>').join("");
+  $("chat-body").scrollTop=$("chat-body").scrollHeight;
+  $("profile-name").textContent=c.name;
+  $("profile-handle").textContent=c.handle;
+  $("profile-photo").textContent=c.initials;
+  $("profile-photo").style.background=c.tone;
+  $("profile-status").textContent=c.status;
+  $("profile-channel").textContent=c.channel;
+  $("profile-note").textContent=c.note;
+ }
+ function select(id) { active=id; const c=record(); const category=Object.keys(conversations).find(k=>conversations[k].some(x=>x.id===c.id)); if(category && category!==tab) setTab(category); else renderList(); renderChat(); }
+ function setTab(next) { tab=next;$("roster-search").value=""; document.querySelectorAll("[data-tab]").forEach(b=>{const on=b.dataset.tab===tab;b.classList.toggle("active",on);b.setAttribute("aria-pressed",String(on));}); renderList(); }
+ document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{setTab(b.dataset.tab);if(!conversations[tab].some(c=>c.id===active))select(conversations[tab][0].id);}));
+ $("roster-search").addEventListener("input",renderList);
+ $("composer").addEventListener("submit",e=>{e.preventDefault();const textarea=$("message-text");const msg=textarea.value.trim();if(!msg)return;record().messages.push(["YOU","NOW",msg]);textarea.value="";renderChat();textarea.focus();});
+ $("message-text").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("composer").requestSubmit();}});
+ $("profile-toggle").addEventListener("click",()=>{const p=$("profile-window");p.hidden=!p.hidden;});
+ $("close-profile").addEventListener("click",()=>{$("profile-window").hidden=true;});
+ $("call-button").addEventListener("click",()=>select("freq88"));
+ $("new-chat").addEventListener("click",()=>{$("roster-search").focus();});
+ $("reset-demo").addEventListener("click",()=>location.reload());
+ $("ordis").addEventListener("click",()=>{$("ordis-message").classList.toggle("visible");});
+ renderList();renderChat();
+})();
+</script>
+</body>
+</html>
