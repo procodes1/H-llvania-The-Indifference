@@ -1,0 +1,40 @@
+/*
+ * KIM v0.3 | aged-IBM palette tokens
+ * PROTOTYPE INPUT — not a complete Vesktop theme and not auto-loaded.
+ * Carefully scoped design values for future HTML/CSS mockups.
+ */
+:root {
+  --kim-plastic: #ddd8c8;
+  --kim-paper: #e8e2d2;
+  --kim-paper-highlight: #f9f6eb;
+  --kim-smoked-beige: #cfc7b4;
+  --kim-aged-trim: #a89f8c;
+  --kim-ink: #2b2a26;
+  --kim-ink-muted: #5b574e;
+  --kim-teal: #4f7a73;
+  --kim-teal-deep: #355c57;
+  --kim-teal-selection: #b7cfba;
+  --kim-frame: #77847a;
+  --kim-amber: #a56032;
+
+  --kim-window-bg: var(--kim-plastic);
+  --kim-sidebar-bg: var(--kim-smoked-beige);
+  --kim-transcript-bg: var(--kim-paper);
+  --kim-input-bg: var(--kim-paper-highlight);
+  --kim-text-on-chrome: var(--kim-ink);
+  --kim-text-on-paper: var(--kim-ink);
+  --kim-text-secondary-on-paper: var(--kim-ink-muted);
+  --kim-text-on-teal-deep: var(--kim-paper-highlight);
+  --kim-focus-outline: var(--kim-teal-deep);
+  --kim-border-width: 1px;
+  --kim-radius: 1px;
+  --kim-font-ui: Tahoma, Arial, "Liberation Sans", sans-serif;
+  --kim-font-chat: Arial, "Liberation Sans", sans-serif;
+}
+
+/*
+ * Keep title text on --kim-teal-deep, not --kim-teal:
+ * near-white/standard teal has only ~4.45:1 contrast.
+ * Keep text on --kim-smoked-beige as --kim-ink, not --kim-ink-muted:
+ * muted ink/beige is ~4.28:1.
+ */ 
