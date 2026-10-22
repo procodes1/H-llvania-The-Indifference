@@ -7,15 +7,15 @@ Fan-made project, not affiliated with Digital Extremes or Discord.
 ## The two profiles
 
 - **Höllvania 1999:** Warm, aged IBM-beige plastic; retro teal window chrome; compact instant messaging; tactile beveled panels.
-- **Voidtouched:** Dark Void blues, worn Orokin ivory/gold, and optional subtle Wally Easter eggs. This profile is planned, not yet implemented.
+- **Voidtouched:** Midnight navy, Orokin archive gold, warm ivory and restrained Void-blue details. **End-4 Vitruvian v0.1** is now implemented for Quickshell and Hyprland.
 
-Both profiles will ultimately share the same functional Hyprland core, while swapping visual components.
+The current desktop foundation is **end-4's illogical-impulse dotfiles** on Hyprland 0.56.2. This project overlays colors and styling rather than replacing its established bindings, workspaces, or Quickshell features.
 
-## Current milestone: Vitruvian v0.2 live; Classic safely frozen
+## Current milestone: End-4 Orokin desktop v0.1 + KIM Vitruvian v0.2
 
 **KIM Classic v0.4b remains the approved fallback.** Vitruvian v0.1 was tested in live Vesktop; the new **Vitruvian v0.2** is now enabled as an experimental refinement, awaiting a fresh screenshot. It uses a unified navy sidebar, gilded trim, a compact native chat heading, and subtle profile ornamentation. The user's reference art is used for color/style direction only, not redistributed.
 
-Original palette/installation notes: [KIM // Vitruvian v0.1](docs/kim-vitruvian-v0.1.md). Workspace/game-window diagnosis: [Hyprland workspace and Warframe setup](docs/hyprland-warframe-workspaces.md).
+**Desktop:** [End-4 Orokin v0.1 deployment and rollback](docs/end4-orokin-v0.1.md). The 53-token Material palette is installed in the end-4 Quickshell theme, with gilded window borders. User hardware preferences are preserved (Swedish keyboard, AOC left 144Hz, Lenovo OLED right 239.97Hz). Original Discord palette notes: [KIM // Vitruvian v0.1](docs/kim-vitruvian-v0.1.md). The older [ML4W scratchpad/Warframe troubleshooting guide](docs/hyprland-warframe-workspaces.md) is retained as historical context, **not** as the current end-4 configuration.
 
 ## KIM Classic archive
 
@@ -43,6 +43,9 @@ The prototype includes People / Groups / Radio directory tabs, contact switching
 
 | Component | Status |
 |---|---|
+| `profiles/end4-vitruvian/colors.json` | **Active end-4 Orokin Material palette** (midnight/navy, ivory, gold, Void-blue) |
+| `scripts/end4-orokin.py` | Reversible theme installation, palette validation and gold Hyprland chrome |
+| `docs/end4-orokin-v0.1.md` | Installed scope, color tokens, reapply and restore commands |
 | `docs/kim-v0.3-design-brief.md` | Approved design direction, accessibility and color rules |
 | `discord/prototypes/kim-v0.3.html` | Standalone preview, tested at desktop and narrow sizes |
 | `discord/prototypes/kim-v0.3.tokens.css` | Reusable palette tokens |
