@@ -1,0 +1,14 @@
+# Secrets and machine-local overrides
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets/
+local/
+private/
+*.log
+*.bak
+*.swp
+*~
+.DS_Store
