@@ -1,7 +1,7 @@
 /**
- * @name Höllvania KIM — v0.3c ACCOUNT REFINEMENT
+ * @name Höllvania KIM — v0.3d POPOUT + SETTINGS
  * @author Höllvania / The Indifference
- * @version 0.3.3-preview
+ * @version 0.3.4-preview
  * @description Aged IBM / KIM with readable profiles, squared portraits, toned-down personal colors and fewer activity cards.
  *
  * WARNING:
@@ -807,3 +807,194 @@
 )::after {
   content: none !important;
 }
+
+
+/* ======================================================================
+   KIM v0.3d — CURRENT ACCOUNT POPOUT + SETTINGS RECOVERY
+   Unlike previous guesses matching ONLY "userPopoutOuter", contemporary
+   Discord also uses accountProfilePopout and user-profile-popout.
+   Restore readability without changing account data or message images.
+   ====================================================================== */
+
+/* Own account popout, a DIFFERENT component from the full profile modal. */
+#app-mount :is(
+  [class*="accountProfilePopout"],
+  .user-profile-popout,
+  [class*="userPopoutOuter"],
+  [class*="userPopoutInner"]
+) {
+  --profile-gradient-primary-color:var(--kim-paper) !important;
+  --profile-gradient-secondary-color:var(--kim-plastic) !important;
+  --profile-gradient-modal-background-color:var(--kim-plastic) !important;
+  --profile-gradient-overlay-color:var(--kim-paper) !important;
+  --profile-body-background-color:var(--kim-paper) !important;
+  --user-profile-overlay-background:var(--kim-paper) !important;
+  --text-primary:var(--kim-ink) !important;
+  --text-secondary:var(--kim-muted) !important;
+  --text-normal:var(--kim-ink) !important;
+  --header-primary:var(--kim-ink) !important;
+  --header-secondary:var(--kim-muted) !important;
+  --interactive-normal:var(--kim-ink) !important;
+  color:var(--kim-ink) !important;
+  background-color:var(--kim-plastic) !important;
+  border-color:var(--kim-frame) !important;
+}
+
+/* The menu in the supplied screenshot was a set of almost-black
+   action GROUPS, not necessarily role=menu. Recolor both layers. */
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout)
+:is(
+  [class*="menu"],[class*="menuContent"],[class*="menuItems"],
+  [class*="actionGroup"],[class*="accountMenu"],[class*="group_"],
+  [class*="section_"],[class*="scroller_"]
+) {
+  background-color:var(--kim-plastic) !important;
+  border-color:var(--kim-frame) !important;
+  color:var(--kim-ink) !important;
+}
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout)
+:is([role="menuitem"],[class*="menuItem"],[class*="item_"],[class*="actionButton"]) {
+  color:var(--kim-ink) !important;
+  background-color:var(--kim-paper) !important;
+  border-color:var(--kim-trim) !important;
+  border-radius:1px !important;
+}
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout)
+:is([role="menuitem"],[class*="menuItem"],[class*="item_"],[class*="actionButton"]):hover {
+  background-color:var(--kim-selection) !important;
+}
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout)
+:is([class*="label"],[class*="username"],[class*="name"],[class*="description"],
+    [class*="text"],[class*="subtitle"]) {
+  color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout)
+:is([class*="headerBanner"],[class*="profileBanner"],[class*="banner_"],
+    [class*="bannerContainer"],[class*="bannerSVGWrapper"]) {
+  background:var(--kim-deep) !important;
+  border-radius:0 !important;
+}
+
+/* Profile/DM panels in the latest Discord use different container
+   names from the older userPanelOuter selector. Match just side-profile
+   roots; do NOT override arbitrary nested chat or media elements. */
+#app-mount :is(
+  [class*="user-profile-sidebar"],
+  [class*="userProfileSidebar"],
+  [class*="userPanelOuter"],
+  [class*="userPanelInner"],
+  [class*="profilePanel"]
+) {
+  --profile-gradient-primary-color:var(--kim-paper) !important;
+  --profile-gradient-secondary-color:var(--kim-plastic) !important;
+  --profile-gradient-overlay-color:var(--kim-paper) !important;
+  --profile-gradient-modal-background-color:var(--kim-plastic) !important;
+  --profile-body-background-color:var(--kim-paper) !important;
+  --text-primary:var(--kim-ink) !important;
+  --text-muted:var(--kim-muted) !important;
+  background-color:var(--kim-paper) !important;
+  color:var(--kim-ink) !important;
+}
+#app-mount :is([class*="user-profile-sidebar"],[class*="userProfileSidebar"],
+              [class*="userPanelOuter"],[class*="profilePanel"])
+:is([class*="banner_"],[class*="bannerContainer"],[class*="profileBanner"],
+    [class*="bannerSVGWrapper"]) {
+  background:var(--kim-deep) !important;
+  background-image:none !important;
+}
+
+/* Profile avatar frames: remove the old circular backing decoration.
+   Only targeted profile roots: SVG status badges and message attachments
+   are intentionally left alone. */
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout,
+              [class*="user-profile-sidebar"],[class*="userProfileSidebar"])
+:is([class*="avatarWrapper"],[class*="avatarPosition"],[class*="avatarContainer"]) {
+  border-radius:2px !important;
+  background-color:transparent !important;
+  clip-path:none !important;
+  mask-image:none !important;
+  -webkit-mask-image:none !important;
+}
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout,
+              [class*="user-profile-sidebar"],[class*="userProfileSidebar"])
+:is([class*="avatarWrapper"],[class*="avatarPosition"],[class*="avatarContainer"])
+:is(img,svg foreignObject) {
+  border-radius:2px !important;
+}
+#app-mount :is([class*="accountProfilePopout"],.user-profile-popout,
+              [class*="user-profile-sidebar"],[class*="userProfileSidebar"])
+:is([class*="avatarWrapper"],[class*="avatarPosition"],[class*="avatarContainer"])::before {
+  content:none !important;
+}
+
+/* ================================================================
+   DISCORD / VENCORD SETTINGS — readable ink on warm cream
+   The screenshots exposed pale headers and labels from the dark
+   native theme, even though backgrounds had already been recolored.
+   ================================================================ */
+#app-mount :is(
+  [class*="standardSidebarView"],[class*="sidebarRegion"],
+  [class*="contentRegion"],[class*="contentColumn"],
+  [class*="contentRegionScroller"]
+) {
+  --header-primary:var(--kim-ink) !important;
+  --header-secondary:var(--kim-muted) !important;
+  --text-primary:var(--kim-ink) !important;
+  --text-secondary:var(--kim-muted) !important;
+  --text-tertiary:var(--kim-muted) !important;
+  --text-normal:var(--kim-ink) !important;
+  --text-muted:var(--kim-muted) !important;
+  --interactive-normal:var(--kim-ink) !important;
+  --interactive-hover:var(--kim-deep) !important;
+  --interactive-active:var(--kim-ink) !important;
+  --channels-default:var(--kim-ink) !important;
+  --text-positive:#285f38 !important;
+  --text-warning:#81501f !important;
+  --text-danger:#983a32 !important;
+  color:var(--kim-ink) !important;
+}
+#app-mount :is([class*="contentRegion"],[class*="contentColumn"]) :is(
+  h1,h2,h3,h4,h5,
+  [class*="title"],[class*="heading"],[class*="header"],
+  [class*="fieldTitle"],[class*="fieldLabel"],
+  [class*="label"],[class*="colorHeaderPrimary"],
+  [class*="colorHeaderSecondary"],[data-text-variant]
+):not(button):not([role="button"]) {
+  color:var(--kim-ink) !important;
+  -webkit-text-fill-color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+#app-mount :is([class*="contentRegion"],[class*="contentColumn"]) :is(
+  [class*="description"],[class*="subText"],[class*="colorMuted"],
+  [class*="text-muted"],[class*="hint"]
+):not(button):not([role="button"]) {
+  color:var(--kim-muted) !important;
+  -webkit-text-fill-color:var(--kim-muted) !important;
+  opacity:1 !important;
+}
+/* Row labels and inner text widgets can have their own inherited
+   dark-mode foreground color; protect captions outside buttons. */
+#app-mount :is([class*="contentRegion"],[class*="contentColumn"])
+:is([class*="formItem"],[class*="field"],[class*="accountInfo"])
+:is([class*="text"],[class*="label"],span:not([class])):not(button) {
+  color:var(--kim-ink) !important;
+  opacity:1 !important;
+}
+#app-mount [class*="sidebarRegion"] {
+  border-right:2px solid var(--kim-frame) !important;
+}
+#app-mount [class*="sidebarRegion"] :is([role="tab"],[class*="item_"]) {
+  color:var(--kim-ink) !important;
+}
+#app-mount :is([class*="contentRegion"],[class*="contentColumn"])
+:is(input,textarea)::placeholder {
+  color:var(--kim-muted) !important;
+  opacity:1 !important;
+}
+
+/* Remaining known limitations:
+   - Discord CSS classes can change, so real screenshots are the release gate.
+   - Restyling does not delete/hide account data from other users.
+   - Message attachment images and emoji are deliberately not filtered.
+ */
