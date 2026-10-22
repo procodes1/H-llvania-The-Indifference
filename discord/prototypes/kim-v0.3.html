@@ -95,6 +95,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible { outline:2px so
 .blink {width:7px;height:7px;display:inline-block;background:#6b9766;border:1px solid #49764b;margin-right:5px;}
 .side-stack {display:flex;flex-direction:column;gap:14px;min-height:0;}
 .profile-window { flex:0 0 auto; }
+#profile-window[hidden] {display:none!important;}
 .profile-body {padding:12px 10px 9px;display:grid;gap:10px;}
 .profile-id {display:flex;align-items:center;gap:9px;padding:6px;background:#e7e1d0;border:1px solid #aaa997;}
 .profile-photo {background:#7c8e7f;width:54px;height:54px;display:grid;place-items:center;color:#fff5dd;font:700 22px Georgia,serif;border:3px ridge #e3deca;flex:none;}
@@ -118,6 +119,8 @@ button:focus-visible,input:focus-visible,textarea:focus-visible { outline:2px so
 @media (max-width:1150px) {
   .desktop {grid-template-columns:minmax(210px,260px) minmax(350px,1fr);}
   .side-stack {display:none;}
+  .side-stack.profile-open {display:flex;position:fixed;z-index:20;right:16px;top:65px;width:min(280px,calc(100vw - 32px));height:auto;max-height:calc(100vh - 90px);}
+  .side-stack.profile-open .signal-window {display:none;}
 }
 @media (max-width:700px) {
   .shell {padding:12px 8px;}
@@ -244,8 +247,21 @@ button:focus-visible,input:focus-visible,textarea:focus-visible { outline:2px so
  $("roster-search").addEventListener("input",renderList);
  $("composer").addEventListener("submit",e=>{e.preventDefault();const textarea=$("message-text");const msg=textarea.value.trim();if(!msg)return;record().messages.push(["YOU","NOW",msg]);textarea.value="";renderChat();textarea.focus();});
  $("message-text").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("composer").requestSubmit();}});
- $("profile-toggle").addEventListener("click",()=>{const p=$("profile-window");p.hidden=!p.hidden;});
- $("close-profile").addEventListener("click",()=>{$("profile-window").hidden=true;});
+ const profileStack=document.querySelector(".side-stack");
+ $("profile-toggle").addEventListener("click",()=>{
+   const narrow=window.matchMedia("(max-width:1150px)").matches;
+   if(narrow) {
+     const willOpen=!profileStack.classList.contains("profile-open");
+     $("profile-window").hidden=false;
+     profileStack.classList.toggle("profile-open",willOpen);
+   } else {
+     $("profile-window").hidden=!$("profile-window").hidden;
+   }
+ });
+ $("close-profile").addEventListener("click",()=>{
+   $("profile-window").hidden=true;
+   profileStack.classList.remove("profile-open");
+ });
  $("call-button").addEventListener("click",()=>select("freq88"));
  $("new-chat").addEventListener("click",()=>{$("roster-search").focus();});
  $("reset-demo").addEventListener("click",()=>location.reload());
